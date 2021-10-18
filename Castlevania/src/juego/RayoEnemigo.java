@@ -5,7 +5,7 @@ public class RayoEnemigo {
 	private double x;
 	private double y;
 	
-	private double tamaño;
+	private double tamanio;
 	private double ancho;
 	private double alto;
 	

@@ -8,39 +8,36 @@ import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego {
 
+	
+	private Background fondo;
+	private Enviroment enviroment;
+	
+	
 	private Entorno entorno;
 	private Personaje personaje;
 	private Enemigo enemigo;
 	private Rayo rayo;
 	private RayoEnemigo rayoEnemigo;
-	private Mapa mapa;
-	
-	private Image fondo; 
+	//private Mapa mapa;
 
 	
 	public Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Prueba del Entorno", 800, 600);
 		
-		personaje = new Personaje(entorno.ancho()-775,entorno.alto()-40, 2.5);
+		enviroment = new Enviroment(entorno.ancho()/2,entorno.alto()/2); //Creamos todo el ambiente.
+		
+		personaje = new Personaje(entorno.ancho()-775,entorno.alto()-40, 2.5); //Creamos el personaje.
 		//enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
-		fondo = Herramientas.cargarImagen("fondo.jfif");
-	
-
-		// Inicia el juego!
+		
+			// Inicia el juego!
 		this.entorno.iniciar();
 	}
 
-	/**
-	 * Durante el juego, el método tick() será ejecutado en cada instante y 
-	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
-	 * actualizar el estado interno del juego para simular el paso del tiempo 
-	 * (ver el enunciado del TP para mayor detalle).
-	 */
 	public void tick() {
 		
-		entorno.dibujarImagen(fondo, entorno.ancho()/2, entorno.alto()/2, 0);
-		
+	    enviroment.dibujar(entorno); //Dibujamos todo el ambiente.
+		    
 		//movimiento del personaje
 		if (entorno.estaPresionada('w') || personaje.isEstaSaltando()) {
 			personaje.saltar(entorno);
