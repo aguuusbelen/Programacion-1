@@ -47,7 +47,7 @@ public class Juego extends InterfaceJuego {
 		} else if (entorno.estaPresionada('d')) {
 			personaje.moverHaciaDerecha(entorno);
 		} else if (entorno.estaPresionada('s')) {
-			//personaje.agacharse(entorno);
+			personaje.agacharse(entorno);
 		} else {
 			personaje.dibujar(entorno);  //para que no se superponga y dibuje constantemente la imagen sin movimiento
 		}
