@@ -18,7 +18,7 @@ public class Juego extends InterfaceJuego {
 	private Enemigo enemigo;
 	private Rayo rayo;
 	private RayoEnemigo rayoEnemigo;
-	//private Mapa mapa;
+	
 
 	
 	public Juego() {
@@ -27,7 +27,7 @@ public class Juego extends InterfaceJuego {
 		
 		enviroment = new Enviroment(entorno.ancho()/2,entorno.alto()/2); //Creamos todo el ambiente.
 		
-		personaje = new Personaje(entorno.ancho()-775,entorno.alto()-40, 2.5); //Creamos el personaje.
+		personaje = new Personaje(entorno.ancho()-775,entorno.alto()-90, 2.5); //Creamos el personaje.
 		//enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
 		
 			// Inicia el juego!
@@ -46,6 +46,8 @@ public class Juego extends InterfaceJuego {
 			personaje.moverHaciaIzquierda(entorno);
 		} else if (entorno.estaPresionada('d')) {
 			personaje.moverHaciaDerecha(entorno);
+		} else if (entorno.estaPresionada('s')) {
+			//personaje.agacharse(entorno);
 		} else {
 			personaje.dibujar(entorno);  //para que no se superponga y dibuje constantemente la imagen sin movimiento
 		}

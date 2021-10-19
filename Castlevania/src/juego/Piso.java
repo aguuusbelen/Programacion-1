@@ -6,7 +6,7 @@ import java.awt.Image;
 import entorno.Entorno;
 import entorno.Herramientas;
 
-public class Pisos {
+public class Piso {
 
 	private double x;
 	private double y;
@@ -14,7 +14,7 @@ public class Pisos {
 	private int ancho;
 	private int alto;
 	
-	public Pisos(double x, double y, String img) {
+	public Piso(double x, double y, String img) {
 		this.x = x;
 		this.y = y;
 		this.img = Herramientas.cargarImagen(img);
