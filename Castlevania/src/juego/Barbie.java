@@ -6,7 +6,7 @@ import java.awt.Image;
 import entorno.Entorno;
 import entorno.Herramientas;
 
-public class Personaje {
+public class Barbie {
 	// posición
 	private double x;
 	private double y;
@@ -24,7 +24,7 @@ public class Personaje {
 	private boolean caminaDerecha;
 	
 
-	public Personaje(double x, double y, double velocidad) {
+	public Barbie(double x, double y, double velocidad) {
 
 		this.x = x;
 		this.y = y;

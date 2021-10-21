@@ -14,9 +14,9 @@ public class Juego extends InterfaceJuego {
 	
 	
 	private Entorno entorno;
-	private Personaje personaje;
+	private Barbie personaje;
 	private Enemigo enemigo;
-	private Rayo rayo;
+	private RayoBarbie rayo;
 	private RayoEnemigo rayoEnemigo;
 	
 
@@ -27,7 +27,7 @@ public class Juego extends InterfaceJuego {
 		
 		enviroment = new Enviroment(entorno.ancho()/2,entorno.alto()/2); //Creamos todo el ambiente.
 		
-		personaje = new Personaje(entorno.ancho()-775,entorno.alto()-90, 2.5); //Creamos el personaje.
+		personaje = new Barbie(entorno.ancho()-775,entorno.alto()-90, 2.5); //Creamos el personaje.
 		//enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
 		
 			// Inicia el juego!

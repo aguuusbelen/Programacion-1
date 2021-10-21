@@ -1,6 +1,6 @@
 package juego;
 
-public class Rayo {
+public class RayoBarbie {
 	
 	private double x;
 	private double y;
@@ -11,7 +11,7 @@ public class Rayo {
 	
 	private double velocidad;
 
-	public Rayo(double x, double y, double velocidad) {
+	public RayoBarbie(double x, double y, double velocidad) {
 		
 		this.x = x;
 		this.y = y;
