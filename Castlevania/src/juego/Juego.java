@@ -39,8 +39,8 @@ public class Juego extends InterfaceJuego {
 		compu.dibujar(entorno);
 
 		//DONDE ESTA EL PERSONAJE???????????
-		if (personaje.estaSobreElPiso(enviroment.getColisiones())) {
-			System.out.println("Esta en el piso");
+		if (personaje.estaSobreElPiso(enviroment.getColisiones()) && !personaje.getEstaSaltando()) {
+		
 			// Puede moverse...
 			if (entorno.estaPresionada('w')) {
 				//personaje.saltar(entorno , enviroment.getColisiones() );
@@ -52,14 +52,19 @@ public class Juego extends InterfaceJuego {
 			} else if (entorno.estaPresionada('s')) {
 				//personaje.agacharse(entorno);
 			} else {
-				//personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
+				personaje.dibujar(entorno, "PersonajeQuieto().png"); // para que no se superponga y dibuje constantemente la imagen sin movimiento
 			
 			}
 		}else {
-			//Esta callendo.... o esta saltando....
+			//Esta cayendo.... o esta saltando....
 			if (personaje.getEstaSaltando()) {
+				//System.out.println("Esta en el AIRE");
 				 personaje.saltar(entorno);
 				 
+				 if(personaje.getEstaSaltando() && personaje.estaSobreElPiso(enviroment.getColisiones())){
+					 personaje.rebotar(entorno);
+	
+				 }
 				
 				if(entorno.estaPresionada('a')) {
 					personaje.moverHaciaIzquierda(entorno);
@@ -67,7 +72,9 @@ public class Juego extends InterfaceJuego {
 					personaje.moverHaciaDerecha(entorno);
 				}
 			}else {
-				personaje.caer(entorno);				
+				 if(personaje.getEstaCayendo() && !personaje.estaSobreElPiso(enviroment.getColisiones())){
+					 personaje.caer(entorno);									 
+				 }
 			}
 		}
 		

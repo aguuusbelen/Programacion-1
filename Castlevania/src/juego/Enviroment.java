@@ -25,6 +25,7 @@ public class Enviroment {
 		pisos[2] = new Piso(x + 164, y + 40, "pisoSuperiores.png","2");
 		pisos[3] = new Piso(x - 164, y - 60, "pisoSuperiores.png","3");
 		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png","4");
+		//pisos[5] = new Piso(x - 164, y - 300, "pisoSuperiores.png","5");
 
 	}
 

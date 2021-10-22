@@ -22,7 +22,8 @@ public class Barbie {
 
 	// salto (para esquivar disparo)
 	private boolean estaSaltando;
-	private boolean estaCallendo;
+	private boolean estaCayendo;
+	
 	
 	private boolean estaAgachado;
 	private int contSaltoInicial;
@@ -44,6 +45,7 @@ public class Barbie {
 		this.contSaltoInicial = 0;
 		this.contSaltoFinal = 20;
 		this.caminaDerecha = true;
+		this.estaCayendo = true;
 
 	}
 	
@@ -92,8 +94,8 @@ public class Barbie {
 					 return true;
 				 }
 				// ------------------------------------------------------- COLISION CON LA PARTE DE ARRIBA DE LOS PISOS-------------------------------------------	
-			}
-			if ( y + (alto/2) == colision.getPosColision()[3]) { // 3 es la posicion en Y de arriba de los pisos
+			}else if ( y + (alto/2) == colision.getPosColision()[3] ) { // 3 es la posicion en Y de arriba de los pisos
+				contSaltoInicial = 0;
 				if(x-ancho/2 >= colision.getPosColision()[0] && x-ancho/2 <= colision.getPosColision()[1] || x+ancho/2 <= colision.getPosColision()[0] && x+ancho/2 >= colision.getPosColision()[1] ) {
 					 return true;
 				 }else if(x-ancho/2 <= colision.getPosColision()[0] && x-ancho/2 >= colision.getPosColision()[1] || x+ancho/2 >= colision.getPosColision()[0] && x+ancho/2 <= colision.getPosColision()[1] ) {
@@ -116,7 +118,12 @@ public class Barbie {
 	}
 	
 	
-	
+	public void rebotar(Entorno e) {
+		System.out.println("REINICIADO");
+		estaSaltando = false;
+		contSaltoInicial = 0;
+		caer(e);
+	}
 /**	
 	public void saltar(Entorno e, Piso[] pisos) {
 		if(isColisionando(pisos)) {
@@ -131,23 +138,33 @@ public class Barbie {
 	
 	public void saltar(Entorno e) {			
 		
-		if (estaSaltando && contSaltoInicial <= alto/2) {
+		if (estaSaltando && contSaltoInicial <= alto  ) {
 			dibujar(e, "Personaje_esquivarArribaDer.png");
 			y = y - 2;
 			contSaltoInicial++;
-			System.out.println(contSaltoInicial);
-		}else if (estaSaltando && contSaltoInicial > alto/2) {
-			dibujar(e, "Personaje_esquivarArribaDer.png");
-			y = y + 2;
-			contSaltoInicial++;			
-		}else {
-			estaSaltando = true;
+			//System.out.println(contSaltoInicial);
+		}else if (estaSaltando && contSaltoInicial > alto  ) {
+			//dibujar(e, "Personaje_esquivarArribaDer.png");
+			//estaSaltando = false;
+			caer(e);
+			contSaltoInicial++;		
+		
+		}
+		System.out.println(contSaltoInicial);
+		if (contSaltoInicial == 50) {
+			System.out.println("REINICIADO");
+				estaSaltando = false;
+		
+				contSaltoInicial = 0;
+			
+		}else{
+			if(contSaltoInicial == 0) {
+				
+				estaSaltando = true;
+			}
 		}
 		
-		if (contSaltoInicial == 63) {
-			estaSaltando = false;
-			contSaltoInicial = 0;
-		}
+		
 		
 			
 			
@@ -159,11 +176,19 @@ public class Barbie {
 
 	public void caer(Entorno e) {
 		y = y + 2;
+		estaCayendo = true;
+		estaSaltando = false;
+		//System.out.println("Esta cayendo");
+		dibujar(e,"PersonajeQuieto.png");
 	}
 	  
 	
 	public boolean getEstaSaltando() {
 		return estaSaltando;
+	}
+	
+	public boolean getEstaCayendo() {
+		return estaCayendo;
 	}
 	
 	//----------------------------TEST ----------------------------------
