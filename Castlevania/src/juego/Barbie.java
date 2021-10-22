@@ -7,7 +7,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Barbie {
-	// posición
+	// posiciï¿½n
 	private double x;
 	private double y;
 
@@ -22,11 +22,15 @@ public class Barbie {
 
 	// salto (para esquivar disparo)
 	private boolean estaSaltando;
+	private boolean estaCallendo;
+	
 	private boolean estaAgachado;
-	private int contSalto;
-	private int contSaltoPiso;
+	private int contSaltoInicial;
+	private int contSaltoFinal;
 	private boolean caminaDerecha;
 
+
+	
 	public Barbie(double x, double y, double velocidad) {
 
 		this.x = x;
@@ -37,139 +41,144 @@ public class Barbie {
 		this.velocidad = velocidad;
 		this.estaSaltando = false;
 		this.estaAgachado = false;
-		this.contSalto = 0;
-		this.contSaltoPiso = 0;
+		this.contSaltoInicial = 0;
+		this.contSaltoFinal = 20;
 		this.caminaDerecha = true;
+
+	}
+	
+	// {Xinicial, Xfinal, Ybase, Ytop}
+
+	
+
+	public void dibujar(Entorno e, String img) {
+		e.dibujarImagen(Herramientas.cargarImagen(img), x, y, 0, 1);
 	}
 
-	public void dibujar(Entorno e) {
-		if (estaAgachado) {
-			revertir();
-		}
-		if (!estaSaltando) { // para que no se superpongan las imagenes, solo dibujo si NO esta
-								// saltando
-			e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.75);
-			e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-		}
-	}
-
-	public void dibujarIzquierda(Entorno e) {
-		e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
-		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-		return;
-	}
-
+	
+	
+	//--------------------TECLA A -- MOVER A LA IZQUIERDA-----------------------
 	public void moverHaciaIzquierda(Entorno e) {
-		if (estaAgachado) {
-			revertir();
-		}
-		caminaDerecha = false;
 		if (x > ancho / 2) {
 			x -= velocidad;
-		}
-		if (!estaSaltando) {
-			dibujarIzquierda(e);
+			dibujar(e,"PersonajeIzq().png");
 		}
 	}
-
-	public void dibujarDerecha(Entorno e) {
-		e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.75);
-		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-		return;
-	}
-
+	//--------------------TECLA D -- MOVER A LA DERECHA-----------------------
 	public void moverHaciaDerecha(Entorno e) {
-		if (estaAgachado) {
-			revertir();
-		}
-		caminaDerecha = true;
 		if (x < e.ancho() - ancho / 2) {
 			x += velocidad;
-		}
-		if (!estaSaltando) {
-			dibujarDerecha(e);
+			dibujar(e, "PersonajeDer().png");
 		}
 	}
-
-	public void saltar(Entorno e) {
-		if (estaSaltando == true && contSalto <= alto / 2) {
-			if (caminaDerecha == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+	
+	
+	
+	private boolean isColisionando(Piso[] pisos) {
+			//for (Piso colision : pisos) {
+		
+		//	System.out.println(colision.getName());
+			
+	//	}
+		
+		
+		
+		for (Piso colision : pisos) {
+			// ------------------------------------------------------- COLISION CON LA PARTE DE ABAJO DE LOS PISOS-------------------------------------------
+			if (y - (alto/2) == colision.getPosColision()[2]) {  // 2 es la posicion en Y de abajo de los pisos
+				 if(x-ancho/2 >= colision.getPosColision()[0] && x-ancho/2 <= colision.getPosColision()[1] || x+ancho/2 <= colision.getPosColision()[0] && x+ancho/2 >= colision.getPosColision()[1] ) {
+					 return true;
+				 }else if(x-ancho/2 <= colision.getPosColision()[0] && x-ancho/2 >= colision.getPosColision()[1] || x+ancho/2 >= colision.getPosColision()[0] && x+ancho/2 <= colision.getPosColision()[1] ) {
+					 return true;
+				 }
+				// ------------------------------------------------------- COLISION CON LA PARTE DE ARRIBA DE LOS PISOS-------------------------------------------	
 			}
+			if ( y + (alto/2) == colision.getPosColision()[3]) { // 3 es la posicion en Y de arriba de los pisos
+				if(x-ancho/2 >= colision.getPosColision()[0] && x-ancho/2 <= colision.getPosColision()[1] || x+ancho/2 <= colision.getPosColision()[0] && x+ancho/2 >= colision.getPosColision()[1] ) {
+					 return true;
+				 }else if(x-ancho/2 <= colision.getPosColision()[0] && x-ancho/2 >= colision.getPosColision()[1] || x+ancho/2 >= colision.getPosColision()[0] && x+ancho/2 <= colision.getPosColision()[1] ) {
+					 return true;
+				 }
+			}
+			
+			
+			
+			
+		}
+		return false;		
+	}
+	
+	
+	
+	public boolean estaSobreElPiso(Piso[] pisos) {
+
+		return isColisionando(pisos);
+	}
+	
+	
+	
+/**	
+	public void saltar(Entorno e, Piso[] pisos) {
+		if(isColisionando(pisos)) {
+			System.out.println("SI");
+		}else {			
 			y = y - 2;
-			contSalto++;
-		} else if (estaSaltando == true && contSalto > alto / 2) {
-			if (caminaDerecha == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			}
-			y = y + 2;
-			contSalto++;
-			if (contSalto == 62) {
-				estaSaltando = false;
-				contSalto = 0;
-			}
-		} else {
-			if (estaAgachado) {
-				revertir();
-			}
-			estaSaltando = true;
 
 		}
-
+		//if(alto )
 	}
+	**/
+	
+	public void saltar(Entorno e) {			
+		
+		if (estaSaltando && contSaltoInicial <= alto/2) {
+			dibujar(e, "Personaje_esquivarArribaDer.png");
+			y = y - 2;
+			contSaltoInicial++;
+			System.out.println(contSaltoInicial);
+		}else if (estaSaltando && contSaltoInicial > alto/2) {
+			dibujar(e, "Personaje_esquivarArribaDer.png");
+			y = y + 2;
+			contSaltoInicial++;			
+		}else {
+			estaSaltando = true;
+		}
+		
+		if (contSaltoInicial == 63) {
+			estaSaltando = false;
+			contSaltoInicial = 0;
+		}
+		
+			
+			
+			
 
-	public boolean EstaSaltando() {
+		
+	}
+	
+
+	public void caer(Entorno e) {
+		y = y + 2;
+	}
+	  
+	
+	public boolean getEstaSaltando() {
 		return estaSaltando;
 	}
-
-	public void agacharse(Entorno e) {
-		if (estaSaltando == false) {
-			estaAgachado = true;
-			alto = 40;
-			y = aux + 10;
-			if (caminaDerecha == false) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			}
-		}
+	
+	//----------------------------TEST ----------------------------------
+	
+	public void dibujarColision(Entorno e) {
+		e.dibujarRectangulo(x, y - (alto/2), ancho, 2, 0, Color.GREEN);	//yTOP --  y - (alto/2)
+		e.dibujarRectangulo(x, y + (alto/2), ancho, 2, 0, Color.GREEN);	//yBASE --  y + (alto/2)
+		e.dibujarRectangulo(x-ancho/2, y , 2, alto, 0, Color.GREEN);	//xINICIAL --  x-ancho/2
+		e.dibujarRectangulo(x+ancho/2, y , 2, alto, 0, Color.GREEN);	//xINICIAL --  x+ancho/2
+		
+	//	e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+		
+		
+		
 	}
 
-	public boolean EstaAgachado() {
-		return estaAgachado;
-	}
 
-	public void revertir() {
-		estaAgachado = false;
-		alto = 60;
-		y = aux;
-	}
-
-//	public void subirUnPiso(Entorno e) {
-//		alto = 60;
-//		if (contSaltoPiso <= 70) {
-//			if (caminaDerecha == true) {
-//				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-//				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-//				x = x + 2;
-//			} else {
-//				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
-//				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-//				x = x - 2;
-//			}
-//			y = y - 2;
-//			contSaltoPiso++;
-//		}
-
-//	}
 }

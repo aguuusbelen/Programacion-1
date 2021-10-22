@@ -20,11 +20,11 @@ public class Enviroment {
 	}
 
 	private void generarPisos() {
-		pisos[0] = new Piso(x, y + 240, "piso.png");
-		pisos[1] = new Piso(x- 164, y + 140, "pisoSuperiores.png");
-		pisos[2] = new Piso(x + 164, y + 40, "pisoSuperiores.png");
-		pisos[3] = new Piso(x - 164, y - 60, "pisoSuperiores.png");
-		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png");
+		pisos[0] = new Piso(x, y + 240, "piso.png","0");
+		pisos[1] = new Piso(x- 164, y + 140, "pisoSuperiores.png","1");
+		pisos[2] = new Piso(x + 164, y + 40, "pisoSuperiores.png","2");
+		pisos[3] = new Piso(x - 164, y - 60, "pisoSuperiores.png","3");
+		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png","4");
 
 	}
 
@@ -35,4 +35,17 @@ public class Enviroment {
 		}
 	}
 
+	public void dibujarColisiones(Entorno e) {
+		for (Piso colision : pisos) {
+			colision.dibujarColision(e);
+		}
+	}
+	
+	public Piso[] getColisiones() {
+		return pisos;
+	}
+	
+	
+	
+	
 }

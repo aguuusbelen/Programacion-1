@@ -8,7 +8,7 @@ import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego {
 
-	private Background fondo;
+	//private Background fondo;
 	private Enviroment enviroment;
 
 	private Entorno entorno;
@@ -24,7 +24,7 @@ public class Juego extends InterfaceJuego {
 
 		enviroment = new Enviroment(entorno.ancho() / 2, entorno.alto() / 2); // Creamos todo el ambiente.
 
-		personaje = new Barbie(entorno.ancho() - 775, entorno.alto() - 100, 2.5); // Creamos el personaje.
+		personaje = new Barbie(entorno.ancho() - 775, 0, 2.5); // Creamos el personaje.
 		compu = new Computadora(entorno.ancho()/2+15,entorno.alto()-500);
 		// enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
 
@@ -35,25 +35,50 @@ public class Juego extends InterfaceJuego {
 
 	public void tick() {
 
-		enviroment.dibujar(entorno); // Dibujamos todo el ambiente.
+		enviroment.dibujar(entorno); // Dibujamos todo el ambiente.	
 		compu.dibujar(entorno);
 
+		//DONDE ESTA EL PERSONAJE???????????
+		if (personaje.estaSobreElPiso(enviroment.getColisiones())) {
+			System.out.println("Esta en el piso");
+			// Puede moverse...
+			if (entorno.estaPresionada('w')) {
+				//personaje.saltar(entorno , enviroment.getColisiones() );
+				personaje.saltar(entorno);
+			}else if(entorno.estaPresionada('a')) {
+				personaje.moverHaciaIzquierda(entorno);
+			} else if (entorno.estaPresionada('d')) {
+				personaje.moverHaciaDerecha(entorno);
+			} else if (entorno.estaPresionada('s')) {
+				//personaje.agacharse(entorno);
+			} else {
+				//personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
+			
+			}
+		}else {
+			//Esta callendo.... o esta saltando....
+			if (personaje.getEstaSaltando()) {
+				 personaje.saltar(entorno);
+				 
+				
+				if(entorno.estaPresionada('a')) {
+					personaje.moverHaciaIzquierda(entorno);
+				} else if (entorno.estaPresionada('d')) {
+					personaje.moverHaciaDerecha(entorno);
+				}
+			}else {
+				personaje.caer(entorno);				
+			}
+		}
+		
+		
 		// movimiento del personaje
-		if (entorno.estaPresionada('w') || personaje.EstaSaltando()) {
-			personaje.saltar(entorno);
-		}
-		//if (entorno.estaPresionada('u')) {
-			//personaje.subirUnPiso(entorno);
-		//}
-		if (entorno.estaPresionada('a')) {
-			personaje.moverHaciaIzquierda(entorno);
-		} else if (entorno.estaPresionada('d')) {
-			personaje.moverHaciaDerecha(entorno);
-		} else if (entorno.estaPresionada('s')) {
-			personaje.agacharse(entorno);
-		} else {
-			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
-		}
+		
+		
+		
+		//--------------------------------TEST------------------------------------
+		enviroment.dibujarColisiones(entorno);
+		personaje.dibujarColision(entorno);
 
 	}
 
