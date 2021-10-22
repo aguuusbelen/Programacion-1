@@ -27,6 +27,7 @@ public class Juego extends InterfaceJuego {
 		personaje = new Barbie(entorno.ancho() - 775, 0, 2.5); // Creamos el personaje.
 		compu = new Computadora(entorno.ancho()/2+15,entorno.alto()-500);
 		// enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
+		rayo = null;
 
 		// Inicia el juego!
 
@@ -37,6 +38,24 @@ public class Juego extends InterfaceJuego {
 
 		enviroment.dibujar(entorno); // Dibujamos todo el ambiente.	
 		compu.dibujar(entorno);
+
+		
+		 if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayo == null) {
+			if (personaje.isCaminaDerecha()){
+				rayo = new RayoBarbie(personaje.getX() + personaje.getAncho() / 2, personaje.getY(), 2,
+						personaje.isCaminaDerecha());
+			} else {
+				rayo = new RayoBarbie(personaje.getX() - personaje.getAncho() / 2, personaje.getY(), 2,
+						personaje.isCaminaDerecha());
+			}
+		}
+		
+		if (rayo != null) {
+			rayo.avanzar(entorno);
+			if (rayo.getX() > entorno.ancho() || rayo.getX() < 0) {
+				rayo = null;
+			}
+		}
 
 		//DONDE ESTA EL PERSONAJE???????????
 		if (personaje.estaSobreElPiso(enviroment.getColisiones()) && !personaje.getEstaSaltando()) {

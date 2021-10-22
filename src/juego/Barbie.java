@@ -31,7 +31,6 @@ public class Barbie {
 	private boolean caminaDerecha;
 
 
-	
 	public Barbie(double x, double y, double velocidad) {
 
 		this.x = x;
@@ -65,6 +64,7 @@ public class Barbie {
 			x -= velocidad;
 			dibujar(e,"PersonajeIzq().png");
 		}
+		caminaDerecha = false;
 	}
 	//--------------------TECLA D -- MOVER A LA DERECHA-----------------------
 	public void moverHaciaDerecha(Entorno e) {
@@ -72,6 +72,7 @@ public class Barbie {
 			x += velocidad;
 			dibujar(e, "PersonajeDer().png");
 		}
+		caminaDerecha = true;
 	}
 	
 	
@@ -201,8 +202,46 @@ public class Barbie {
 		
 	//	e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 		
-		
-		
+	}
+	
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getAncho() {
+		return ancho;
+	}
+
+	public void setAncho(double ancho) {
+		this.ancho = ancho;
+	}
+
+	public double getAlto() {
+		return alto;
+	}
+
+	public void setAlto(double alto) {
+		this.alto = alto;
+	}
+
+	public void setCaminaDerecha(boolean caminaDerecha) {
+		this.caminaDerecha = caminaDerecha;
+	}
+
+	public boolean isCaminaDerecha() {
+		return caminaDerecha;
 	}
 
 
