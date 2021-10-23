@@ -8,7 +8,7 @@ import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego {
 
-	//private Background fondo;
+	private Background fondo;
 	private Enviroment enviroment;
 
 	private Entorno entorno;
@@ -24,68 +24,56 @@ public class Juego extends InterfaceJuego {
 
 		enviroment = new Enviroment(entorno.ancho() / 2, entorno.alto() / 2); // Creamos todo el ambiente.
 
-		personaje = new Barbie(entorno.ancho() - 775, 0, 2.5); // Creamos el personaje.
-		compu = new Computadora(entorno.ancho()/2+15,entorno.alto()-500);
+		personaje = new Barbie(entorno.ancho() - 775, entorno.alto() - 100, 2.5); // Creamos el personaje.
+		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
+
 		// enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
 
 		// Inicia el juego!
-
 		this.entorno.iniciar();
 	}
 
 	public void tick() {
 
-		enviroment.dibujar(entorno); // Dibujamos todo el ambiente.	
+		enviroment.dibujar(entorno); // Dibujamos todo el ambiente.
 		compu.dibujar(entorno);
 
-		//DONDE ESTA EL PERSONAJE???????????
-		if (personaje.estaSobreElPiso(enviroment.getColisiones()) && !personaje.getEstaSaltando()) {
-		
-			// Puede moverse...
-			if (entorno.estaPresionada('w')) {
-				//personaje.saltar(entorno , enviroment.getColisiones() );
-				personaje.saltar(entorno);
-			}else if(entorno.estaPresionada('a')) {
-				personaje.moverHaciaIzquierda(entorno);
-			} else if (entorno.estaPresionada('d')) {
-				personaje.moverHaciaDerecha(entorno);
-			} else if (entorno.estaPresionada('s')) {
-				//personaje.agacharse(entorno);
-			} else {
-				personaje.dibujar(entorno, "PersonajeQuieto().png"); // para que no se superponga y dibuje constantemente la imagen sin movimiento
-			
-			}
-		}else {
-			//Esta cayendo.... o esta saltando....
-			if (personaje.getEstaSaltando()) {
-				//System.out.println("Esta en el AIRE");
-				 personaje.saltar(entorno);
-				 
-				 if(personaje.getEstaSaltando() && personaje.estaSobreElPiso(enviroment.getColisiones())){
-					 personaje.rebotar(entorno);
-	
-				 }
+		// movimiento del personaje
+		if (entorno.estaPresionada('w') || personaje.EstaSaltando()) {
+			personaje.saltar(entorno);
+
+		}
+
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayo == null) {
+			if (personaje.isCaminaDerecha()) {
+				rayo = new RayoBarbie(personaje.getX() + personaje.getAncho() / 2, personaje.getY(), 2,
+						personaje.isCaminaDerecha());
 				
-				if(entorno.estaPresionada('a')) {
-					personaje.moverHaciaIzquierda(entorno);
-				} else if (entorno.estaPresionada('d')) {
-					personaje.moverHaciaDerecha(entorno);
-				}
-			}else {
-				 if(personaje.getEstaCayendo() && !personaje.estaSobreElPiso(enviroment.getColisiones())){
-					 personaje.caer(entorno);									 
-				 }
+			} else {
+				rayo = new RayoBarbie(personaje.getX() - personaje.getAncho() / 2, personaje.getY(), 2,
+						personaje.isCaminaDerecha());
+				
+			}
+			
+		}
+		if (rayo != null) {
+			rayo.avanzar(entorno);
+			if (rayo.getX() > entorno.ancho() || rayo.getX()<0) {
+				rayo = null;
 			}
 		}
-		
-		
-		// movimiento del personaje
-		
-		
-		
-		//--------------------------------TEST------------------------------------
-		enviroment.dibujarColisiones(entorno);
-		personaje.dibujarColision(entorno);
+		if (entorno.estaPresionada('u')) {
+			personaje.subirUnPiso(entorno);
+		}
+		if (entorno.estaPresionada('a')) {
+			personaje.moverHaciaIzquierda(entorno);
+		} else if (entorno.estaPresionada('d')) {
+			personaje.moverHaciaDerecha(entorno);
+		} else if (entorno.estaPresionada('s')) {
+			personaje.agacharse(entorno);
+		} else {
+			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
+		}
 
 	}
 

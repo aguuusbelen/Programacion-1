@@ -2,13 +2,14 @@ package juego;
 
 public class Enemigo {
 
-	// posición
+	// posiciï¿½n
 	private double x;
 	private double y;
 
 	// dimensiones
 	private double ancho;
 	private double alto;
+	//
 
 	private double velocidad;
 
