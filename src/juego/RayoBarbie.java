@@ -27,19 +27,6 @@ public class RayoBarbie {
 		this.alto = 3;
 	}
 
-	public double getX() {
-		return x;
-	}
-
-	public void avanzar(Entorno e) {
-		if (estaMirandoDerecha == true) {
-			x = x + velocidad;
-		} else {
-			x = x - velocidad;
-		}
-		e.dibujarRectangulo(x, y, ancho, alto, alto, Color.GREEN);
-	}
-
 	public void avanzar(Entorno e) {
 		if (estaMirandoDerecha) {
 			x += velocidad;

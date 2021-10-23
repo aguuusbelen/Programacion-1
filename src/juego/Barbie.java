@@ -107,7 +107,8 @@ public class Barbie {
 	public void moverHaciaDerechaSaltando(Entorno e) {
 		if (x < e.ancho() - ancho / 2) {
 			x += velocidad;
-			dibujar(e, "Personaje_esquivarArribaDer.png");
+			//dibujar(e, "Personaje_esquivarArribaDer.png");
+			e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
 		}
 		caminaDerecha = true;
 	}
