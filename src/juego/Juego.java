@@ -24,7 +24,7 @@ public class Juego extends InterfaceJuego {
 
 		enviroment = new Enviroment(entorno.ancho() / 2, entorno.alto() / 2); // Creamos todo el ambiente.
 
-		personaje = new Barbie(entorno.ancho() - 775, 0, 2.5); // Creamos el personaje.
+		personaje = new Barbie(entorno.ancho() - 775, entorno.alto() - 100, 2.5); // Creamos el personaje.
 		compu = new Computadora(entorno.ancho()/2+15,entorno.alto()-500);
 		// enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
 		rayo = null;
@@ -86,13 +86,18 @@ public class Juego extends InterfaceJuego {
 				 }
 				
 				if(entorno.estaPresionada('a')) {
-					personaje.moverHaciaIzquierda(entorno);
+					personaje.moverHaciaIzquierdaSaltando(entorno);
 				} else if (entorno.estaPresionada('d')) {
-					personaje.moverHaciaDerecha(entorno);
+					personaje.moverHaciaDerechaSaltando(entorno);
 				}
 			}else {
 				 if(personaje.getEstaCayendo() && !personaje.estaSobreElPiso(enviroment.getColisiones())){
-					 personaje.caer(entorno);									 
+					 personaje.caer(entorno);		
+					 if(entorno.estaPresionada('a')) {
+							personaje.moverHaciaIzquierdaSaltando(entorno);
+						} else if (entorno.estaPresionada('d')) {
+							personaje.moverHaciaDerechaSaltando(entorno);
+						}
 				 }
 			}
 		}

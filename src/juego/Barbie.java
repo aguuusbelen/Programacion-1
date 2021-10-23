@@ -36,8 +36,8 @@ public class Barbie {
 		this.x = x;
 		this.y = y;
 		this.aux = y;
-		this.ancho = 36;
-		this.alto = 60;
+		this.ancho = 30;
+		this.alto = 44;
 		this.velocidad = velocidad;
 		this.estaSaltando = false;
 		this.estaAgachado = false;
@@ -53,7 +53,7 @@ public class Barbie {
 	
 
 	public void dibujar(Entorno e, String img) {
-		e.dibujarImagen(Herramientas.cargarImagen(img), x, y, 0, 1);
+		e.dibujarImagen(Herramientas.cargarImagen(img), x, y, 0, .6);
 	}
 
 	
@@ -66,11 +66,26 @@ public class Barbie {
 		}
 		caminaDerecha = false;
 	}
+	
+	public void moverHaciaIzquierdaSaltando(Entorno e) {
+		if (x > ancho / 2) {
+			x -= velocidad;
+			dibujar(e,"Personaje_esquivarArribaIzq.png");
+		}
+		caminaDerecha = false;
+	}
 	//--------------------TECLA D -- MOVER A LA DERECHA-----------------------
 	public void moverHaciaDerecha(Entorno e) {
 		if (x < e.ancho() - ancho / 2) {
 			x += velocidad;
 			dibujar(e, "PersonajeDer().png");
+		}
+		caminaDerecha = true;
+	}
+	public void moverHaciaDerechaSaltando(Entorno e) {
+		if (x < e.ancho() - ancho / 2) {
+			x += velocidad;
+			dibujar(e, "Personaje_esquivarArribaDer.png");
 		}
 		caminaDerecha = true;
 	}
@@ -80,7 +95,7 @@ public class Barbie {
 	private boolean isColisionando(Piso[] pisos) {
 			//for (Piso colision : pisos) {
 		
-		//	System.out.println(colision.getName());
+			System.out.println(y);
 			
 	//	}
 		
@@ -139,14 +154,15 @@ public class Barbie {
 	
 	public void saltar(Entorno e) {			
 		
-		if (estaSaltando && contSaltoInicial <= alto  ) {
-			dibujar(e, "Personaje_esquivarArribaDer.png");
+		if (estaSaltando && contSaltoInicial <= 22  ) {
+			//dibujar(e, "Personaje_esquivarArribaDer.png");
 			y = y - 2;
 			contSaltoInicial++;
 			//System.out.println(contSaltoInicial);
-		}else if (estaSaltando && contSaltoInicial > alto  ) {
+		}else if (estaSaltando && contSaltoInicial > 22  ) {
 			//dibujar(e, "Personaje_esquivarArribaDer.png");
 			//estaSaltando = false;
+			estaCayendo = true;
 			caer(e);
 			contSaltoInicial++;		
 		
@@ -180,7 +196,7 @@ public class Barbie {
 		estaCayendo = true;
 		estaSaltando = false;
 		//System.out.println("Esta cayendo");
-		dibujar(e,"PersonajeQuieto.png");
+		//dibujar(e,"PersonajeQuieto.png");
 	}
 	  
 	
@@ -208,37 +224,22 @@ public class Barbie {
 		return x;
 	}
 
-	public void setX(double x) {
-		this.x = x;
-	}
+
 
 	public double getY() {
 		return y;
 	}
 
-	public void setY(double y) {
-		this.y = y;
-	}
 
 	public double getAncho() {
 		return ancho;
-	}
-
-	public void setAncho(double ancho) {
-		this.ancho = ancho;
 	}
 
 	public double getAlto() {
 		return alto;
 	}
 
-	public void setAlto(double alto) {
-		this.alto = alto;
-	}
 
-	public void setCaminaDerecha(boolean caminaDerecha) {
-		this.caminaDerecha = caminaDerecha;
-	}
 
 	public boolean isCaminaDerecha() {
 		return caminaDerecha;
