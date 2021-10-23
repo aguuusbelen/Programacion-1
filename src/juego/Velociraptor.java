@@ -1,6 +1,6 @@
 package juego;
 
-public class Enemigo {
+public class Velociraptor {
 
 	// posici�n
 	private double x;
@@ -13,7 +13,7 @@ public class Enemigo {
 
 	private double velocidad;
 
-	public Enemigo(double x, double y, double velocidad) {
+	public Velociraptor(double x, double y, double velocidad) {
 
 		this.x = x;
 		this.y = y;

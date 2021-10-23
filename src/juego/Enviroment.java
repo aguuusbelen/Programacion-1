@@ -14,7 +14,7 @@ public class Enviroment {
 		this.x = x;
 		this.y = y;
 		this.pisos = new Piso[5];
-		this.fondo = new Background(x, y, "imagenes/fondo.png"); // Imagen del fondo
+		this.fondo = new Background(x, y, "imagenes/fondo.png"); 
 
 		generarPisos();
 	}

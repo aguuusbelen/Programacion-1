@@ -23,8 +23,8 @@ public class RayoBarbie {
 
 		this.velocidad = velocidad;
 		this.estaMirandoDerecha = estaMirandoDerecha;
-		this.ancho = 10;
-		this.alto = 3;
+		this.ancho = 50;
+		this.alto = 30;
 	}
 
 	public void avanzar(Entorno e) {

@@ -13,7 +13,7 @@ public class Juego extends InterfaceJuego {
 
 	private Entorno entorno;
 	private Barbie personaje;
-	private Enemigo enemigo;
+	private Velociraptor raptor;
 	private RayoBarbie rayo;
 	private RayoEnemigo rayoEnemigo;
 	private Computadora compu;
@@ -22,9 +22,9 @@ public class Juego extends InterfaceJuego {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Prueba del Entorno", 800, 600);
 
-		enviroment = new Enviroment(entorno.ancho() / 2, entorno.alto() / 2); // Creamos todo el ambiente.
+		enviroment = new Enviroment(entorno.ancho() / 2, entorno.alto() / 2);
 
-		personaje = new Barbie(entorno.ancho() - 775, entorno.alto() - 100, 2.5); // Creamos el personaje.
+		personaje = new Barbie(entorno.ancho() - 775, entorno.alto() - 90, 2.5); 
 
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 
@@ -37,11 +37,11 @@ public class Juego extends InterfaceJuego {
 
 	public void tick() {
 
-		enviroment.dibujar(entorno); // Dibujamos todo el ambiente.
+		enviroment.dibujar(entorno); 
 		compu.dibujar(entorno);
 
 		// movimiento del personaje
-		if (entorno.estaPresionada('w') || personaje.EstaSaltando()) {
+		if (entorno.estaPresionada('w') || personaje.estaSaltando()) {
 			personaje.saltar(entorno);
 
 		}
