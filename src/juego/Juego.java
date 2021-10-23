@@ -37,7 +37,9 @@ public class Juego extends InterfaceJuego {
 
 		enviroment.dibujar(entorno); 
 		compu.dibujar(entorno);
-		raptor.dibujar(entorno);
+		if (raptor != null) {
+			raptor.dibujar(entorno);
+		}
 
 		// movimiento del personaje
 		if (entorno.estaPresionada('w') || personaje.estaSaltando()) {
@@ -64,9 +66,10 @@ public class Juego extends InterfaceJuego {
 		}
 			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
 		
-//		if (personaje.getRayo().chocasteConVelociraptor(raptor)) {
-//			raptor = null;
-//		}
+		if (personaje.getRayo() != null && raptor != null && personaje.getRayo().chocasteConVelociraptor(raptor)) {
+			raptor = null;
+			personaje.destruirRayo();
+		}
 	}
 
 	@SuppressWarnings("unused")

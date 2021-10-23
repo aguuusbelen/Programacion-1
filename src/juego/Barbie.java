@@ -218,7 +218,9 @@ public class Barbie {
 			}
 		}
 	}
-	
+	public void destruirRayo() {
+		rayo = null;
+	}
 	public RayoBarbie getRayo() {
 		return rayo;
 	}
