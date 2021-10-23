@@ -17,6 +17,8 @@ public class Barbie {
 	private double velocidad;
 	private boolean caminaHaciaLaDerecha;
 
+	private RayoBarbie rayo;
+
 	// salto (para esquivar disparo)
 	private boolean estaSaltando;
 	private int contSalto;
@@ -48,6 +50,7 @@ public class Barbie {
 		this.contSalto = 0;
 		this.contSaltoPiso = 0;
 		this.caminaHaciaLaDerecha = true;
+		this.rayo = null;
 	}
 
 	public void dibujar(Entorno e) {
@@ -66,8 +69,33 @@ public class Barbie {
 				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 			}
 		}
+		
+		if (rayo != null) {
+			rayo.dibujarRayo(e);
+		}
+		
 		if (estaAgachado) {
 			revertirAgachar();
+		}
+	}
+
+	public void avanzarDisparo() {
+		if (rayo != null) {
+			rayo.avanzar();
+			if (rayo.getX() > 800 || rayo.getX() < 0) {
+				rayo = null;
+			}
+		}
+	}
+
+	public void dispararRayo(Entorno e) {
+
+		if (rayo == null) {
+			if (caminaHaciaLaDerecha) {
+				rayo = new RayoBarbie(x + ancho / 2, y, 4, caminaHaciaLaDerecha);
+			} else {
+				rayo = new RayoBarbie(x - ancho / 2, y, 4, caminaHaciaLaDerecha);
+			}
 		}
 	}
 

@@ -14,7 +14,6 @@ public class Juego extends InterfaceJuego {
 	private Entorno entorno;
 	private Barbie personaje;
 	private Velociraptor raptor;
-	private RayoBarbie rayo;
 	private RayoEnemigo rayoEnemigo;
 	private Computadora compu;
 
@@ -29,7 +28,6 @@ public class Juego extends InterfaceJuego {
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 
 		// enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
-		rayo = null;
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -45,27 +43,14 @@ public class Juego extends InterfaceJuego {
 			personaje.saltar(entorno);
 
 		}
+		personaje.avanzarDisparo();
 
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayo == null) {
-			if (personaje.isCaminaDerecha()) {
-				rayo = new RayoBarbie(personaje.getX() + personaje.getAncho() / 2, personaje.getY(), 2,
-						personaje.isCaminaDerecha());
-				
+		if(entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
+			personaje.dispararRayo(entorno);
+		}
+		
 
-			} else {
-				rayo = new RayoBarbie(personaje.getX() - personaje.getAncho() / 2, personaje.getY(), 2,
-						personaje.isCaminaDerecha());
-				
-
-			}
 			
-		}
-		if (rayo != null) {
-			rayo.avanzar(entorno);
-			if (rayo.getX() > entorno.ancho() || rayo.getX()<0) {
-				rayo = null;
-			}
-		}
 		if (entorno.estaPresionada('u')) {
 			personaje.subirUnPiso(entorno);
 		}
@@ -75,9 +60,8 @@ public class Juego extends InterfaceJuego {
 			personaje.moverHaciaDerecha(entorno);
 		} else if (entorno.estaPresionada('s')) {
 			personaje.agacharse(entorno);
-		} else {
-			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
 		}
+			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
 
 	}
 

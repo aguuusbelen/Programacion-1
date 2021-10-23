@@ -27,12 +27,15 @@ public class RayoBarbie {
 		this.alto = 30;
 	}
 
-	public void avanzar(Entorno e) {
+	public void avanzar() {
 		if (estaMirandoDerecha) {
 			x += velocidad;
 		} else {
 			x += -velocidad;
 		}
+	}
+	
+	public void dibujarRayo(Entorno e) {
 		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
 	}
 
