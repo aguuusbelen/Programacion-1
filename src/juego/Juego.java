@@ -27,7 +27,7 @@ public class Juego extends InterfaceJuego {
 
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 
-		// enemigo = new Enemigo(entorno.ancho() / 2, entorno.alto() - 15, 3);
+		raptor = new Velociraptor(entorno.ancho() - 400, entorno.alto() - 90, 2.5);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -37,6 +37,7 @@ public class Juego extends InterfaceJuego {
 
 		enviroment.dibujar(entorno); 
 		compu.dibujar(entorno);
+		raptor.dibujar(entorno);
 
 		// movimiento del personaje
 		if (entorno.estaPresionada('w') || personaje.estaSaltando()) {

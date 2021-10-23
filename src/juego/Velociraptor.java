@@ -1,5 +1,9 @@
 package juego;
 
+import java.awt.Color;
+
+import entorno.Entorno;
+
 public class Velociraptor {
 
 	// posici�n
@@ -21,6 +25,10 @@ public class Velociraptor {
 		this.alto = 20;
 		this.velocidad = velocidad;
 
+	}
+	
+	public void dibujar(Entorno e) {
+		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 	}
 
 	public double getX() {
