@@ -218,6 +218,10 @@ public class Barbie {
 			}
 		}
 	}
+	
+	public RayoBarbie getRayo() {
+		return rayo;
+	}
 
 	public boolean estaAgachado() {
 		return estaAgachado;

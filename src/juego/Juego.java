@@ -62,7 +62,10 @@ public class Juego extends InterfaceJuego {
 			personaje.agacharse(entorno);
 		}
 			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
-
+		
+//		if (personaje.getRayo().chocasteConVelociraptor(raptor)) {
+//			raptor = null;
+//		}
 	}
 
 	@SuppressWarnings("unused")

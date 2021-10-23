@@ -23,4 +23,12 @@ public class Velociraptor {
 
 	}
 
+	public double getX() {
+		return x;
+	}
+
+	public double getAncho() {
+		return ancho;
+	}
+
 }

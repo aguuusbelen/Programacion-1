@@ -38,6 +38,10 @@ public class RayoBarbie {
 	public void dibujarRayo(Entorno e) {
 		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
 	}
+	
+	public boolean chocasteConVelociraptor(Velociraptor raptor) {
+		return x > raptor.getX() + raptor.getAncho()/2;
+	}
 
 	public double getX() {
 		return x;
