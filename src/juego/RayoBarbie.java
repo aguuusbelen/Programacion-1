@@ -17,8 +17,10 @@ public class RayoBarbie {
 
 	public RayoBarbie(double x, double y, double velocidad, boolean estaMirandoDerecha) {
 
+
 		this.x = x;
 		this.y = y;
+
 		this.velocidad = velocidad;
 		this.estaMirandoDerecha = estaMirandoDerecha;
 		this.ancho = 10;
@@ -38,4 +40,18 @@ public class RayoBarbie {
 		e.dibujarRectangulo(x, y, ancho, alto, alto, Color.GREEN);
 	}
 
+	public void avanzar(Entorno e) {
+		if (estaMirandoDerecha) {
+			x += velocidad;
+		} else {
+			x += -velocidad;
+		}
+		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	
 }

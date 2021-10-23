@@ -23,6 +23,7 @@ public class Barbie {
 	
 	//agacharse
 	private boolean estaAgachado;
+
 	private int altoAgachado;
 	private int altoOriginal;
 	private double auxPosY;
@@ -30,15 +31,18 @@ public class Barbie {
 	//saltopiso
 	private int contSaltoPiso;
 
+
 	public Barbie(double x, double y, double velocidad) {
 
 		this.x = x;
 		this.y = y;
+
 		this.auxPosY = y;
 		this.ancho = 36;
 		this.alto = 60;
 		this.altoOriginal = 60;
 		this.altoAgachado = 40;
+
 		this.velocidad = velocidad;
 		this.estaSaltando = false;
 		this.estaAgachado = false;
@@ -58,10 +62,12 @@ public class Barbie {
 		}
 	}
 
+
 	public void dibujarIzquierda(Entorno e) {
 		e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
 		//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 		return;
+
 	}
 
 	public void moverHaciaIzquierda(Entorno e) {
@@ -72,6 +78,7 @@ public class Barbie {
 		if (x > ancho / 2) {
 			x -= velocidad;
 		}
+
 		if (!estaSaltando) {
 			dibujarIzquierda(e);
 		}
@@ -81,6 +88,7 @@ public class Barbie {
 		e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.75);
 		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 		return;
+
 	}
 
 	public void moverHaciaDerecha(Entorno e) {
@@ -94,7 +102,16 @@ public class Barbie {
 		if (!estaSaltando) {
 			dibujarDerecha(e);
 		}
+		caminaDerecha = true;
 	}
+	public void moverHaciaDerechaSaltando(Entorno e) {
+		if (x < e.ancho() - ancho / 2) {
+			x += velocidad;
+			dibujar(e, "Personaje_esquivarArribaDer.png");
+		}
+		caminaDerecha = true;
+	}
+
 
 	public void saltar(Entorno e) {
 		if (estaSaltando == true && contSalto <= alto / 2) {
@@ -104,6 +121,7 @@ public class Barbie {
 			} else {
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
 				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+
 			}
 			y = y - 2;
 			contSalto++;
@@ -146,6 +164,7 @@ public class Barbie {
 		}
 	}
 
+
 	public void revertirAgachar() {
 		estaAgachado = false;
 		alto = altoOriginal;
@@ -164,12 +183,16 @@ public class Barbie {
 				x = x - 0.5;
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
 				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+
+		
 			}
 		}
 	}
 
+
 	public boolean EstaAgachado() {
 		return estaAgachado;
+
 	}
 
 	public boolean EstaSaltando() {
@@ -180,8 +203,10 @@ public class Barbie {
 		return caminaDerecha;
 	}
 
+
 	public double getX() {
 		return x;
+
 	}
 
 	public double getY() {
