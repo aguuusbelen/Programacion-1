@@ -44,16 +44,10 @@ public class Juego extends InterfaceJuego {
 		// movimiento del personaje
 		if (entorno.estaPresionada('w') || personaje.estaSaltando()) {
 			personaje.saltar();
-
 		}
-		personaje.avanzarDisparo();
-
 		if(entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
 			personaje.dispararRayo();
-		}
-		
-
-			
+		}	
 		if (entorno.estaPresionada('u')) {
 			personaje.subirUnPiso(entorno);
 		}
@@ -63,13 +57,16 @@ public class Juego extends InterfaceJuego {
 			personaje.moverHaciaDerecha(entorno);
 		} else if (entorno.estaPresionada('s')) {
 			personaje.agacharse();
+		} else {
+			personaje.estaQuieto();
 		}
-			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
+			personaje.dibujar(entorno);
 		
 		if (personaje.getRayo() != null && raptor != null && personaje.getRayo().chocasteConVelociraptor(raptor)) {
 			raptor = null;
 			personaje.destruirRayo();
 		}
+		personaje.avanzarDisparo();
 	}
 
 	@SuppressWarnings("unused")

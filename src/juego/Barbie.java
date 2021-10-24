@@ -57,12 +57,7 @@ public class Barbie {
 
 	public void dibujar(Entorno e) {
 		if (!estaSaltando) { 
-			if (caminaHaciaLaDerecha == false && meEstoyMoviendo == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
-				// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			} else if (caminaHaciaLaDerecha == true && meEstoyMoviendo == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.75);
-			} else if (estaAgachado == true) {
+			if (estaAgachado == true) {
 				if (caminaHaciaLaDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.75);
 					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
@@ -70,6 +65,11 @@ public class Barbie {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.75);
 					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 				}
+			} else if (caminaHaciaLaDerecha == false && meEstoyMoviendo == true) {
+				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
+				// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+			} else if (caminaHaciaLaDerecha == true && meEstoyMoviendo == true) {
+				e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.75);
 			} else {
 				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.75);
 				// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
@@ -81,15 +81,9 @@ public class Barbie {
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
 			}
 		}
-		
 		if (rayo != null) {
 			rayo.dibujarRayo(e);
 		}
-		
-		if (estaAgachado) {
-			revertirAgachar();
-		}
-		meEstoyMoviendo = false;
 	}
 
 	public void avanzarDisparo() {
@@ -132,6 +126,13 @@ public class Barbie {
 		}
 		caminaHaciaLaDerecha = true;
 		meEstoyMoviendo = true;
+	}
+	
+	public void estaQuieto () {
+		meEstoyMoviendo = false;
+		if (estaAgachado) {
+			revertirAgachar();
+		}
 	}
 
 	public void saltar() {
