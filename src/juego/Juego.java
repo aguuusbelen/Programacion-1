@@ -43,13 +43,13 @@ public class Juego extends InterfaceJuego {
 
 		// movimiento del personaje
 		if (entorno.estaPresionada('w') || personaje.estaSaltando()) {
-			personaje.saltar(entorno);
+			personaje.saltar();
 
 		}
 		personaje.avanzarDisparo();
 
 		if(entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-			personaje.dispararRayo(entorno);
+			personaje.dispararRayo();
 		}
 		
 
@@ -62,7 +62,7 @@ public class Juego extends InterfaceJuego {
 		} else if (entorno.estaPresionada('d')) {
 			personaje.moverHaciaDerecha(entorno);
 		} else if (entorno.estaPresionada('s')) {
-			personaje.agacharse(entorno);
+			personaje.agacharse();
 		}
 			personaje.dibujar(entorno); // para que no se superponga y dibuje constantemente la imagen sin movimiento
 		

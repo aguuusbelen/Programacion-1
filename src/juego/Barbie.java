@@ -16,6 +16,7 @@ public class Barbie {
 
 	private double velocidad;
 	private boolean caminaHaciaLaDerecha;
+	private boolean meEstoyMoviendo;
 
 	private RayoBarbie rayo;
 
@@ -51,22 +52,33 @@ public class Barbie {
 		this.contSaltoPiso = 0;
 		this.caminaHaciaLaDerecha = true;
 		this.rayo = null;
+		this.meEstoyMoviendo = false;
 	}
 
 	public void dibujar(Entorno e) {
-
-		if (!estaSaltando) { // para que no se superpongan las imagenes, solo dibujo si NO esta
-								// saltando
-			e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.75);
-			// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-		}
-		if (estaAgachado == true) {
-			if (caminaHaciaLaDerecha == false) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+		if (!estaSaltando) { 
+			if (caminaHaciaLaDerecha == false && meEstoyMoviendo == true) {
+				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
+				// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+			} else if (caminaHaciaLaDerecha == true && meEstoyMoviendo == true) {
+				e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.75);
+			} else if (estaAgachado == true) {
+				if (caminaHaciaLaDerecha == false) {
+					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.75);
+					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+				} else {
+					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.75);
+					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+				}
 			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.75);
+				// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+			}
+		} else {
+			if(caminaHaciaLaDerecha == true) {
+				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
+			} else {
+				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
 			}
 		}
 		
@@ -77,6 +89,7 @@ public class Barbie {
 		if (estaAgachado) {
 			revertirAgachar();
 		}
+		meEstoyMoviendo = false;
 	}
 
 	public void avanzarDisparo() {
@@ -88,7 +101,7 @@ public class Barbie {
 		}
 	}
 
-	public void dispararRayo(Entorno e) {
+	public void dispararRayo() {
 
 		if (rayo == null) {
 			if (caminaHaciaLaDerecha) {
@@ -99,78 +112,34 @@ public class Barbie {
 		}
 	}
 
-	public void dibujarIzquierda(Entorno e) {
-		e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
-		// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-		return;
-
-	}
-
 	public void moverHaciaIzquierda(Entorno e) {
 		if (estaAgachado) {
 			revertirAgachar();
 		}
-		caminaHaciaLaDerecha = false;
 		if (x > ancho / 2) {
 			x -= velocidad;
 		}
-
-		if (!estaSaltando) {
-			dibujarIzquierda(e);
-		}
-	}
-
-	public void dibujarDerecha(Entorno e) {
-		e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.75);
-		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-		return;
-
+		caminaHaciaLaDerecha = false;
+		meEstoyMoviendo = true;
 	}
 
 	public void moverHaciaDerecha(Entorno e) {
 		if (estaAgachado) {
 			revertirAgachar();
 		}
-		caminaHaciaLaDerecha = true;
 		if (x < e.ancho() - ancho / 2) {
 			x += velocidad;
 		}
-		if (!estaSaltando) {
-			dibujarDerecha(e);
-		}
 		caminaHaciaLaDerecha = true;
+		meEstoyMoviendo = true;
 	}
 
-	public void moverHaciaDerechaSaltando(Entorno e) {
-		if (x < e.ancho() - ancho / 2) {
-			x += velocidad;
-			// dibujar(e, "Personaje_esquivarArribaDer.png");
-			e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-		}
-		caminaHaciaLaDerecha = true;
-	}
-
-	public void saltar(Entorno e) {
+	public void saltar() {
 		alto = 60;
 		if (estaSaltando == true && contSalto <= alto / 2) {
-			if (caminaHaciaLaDerecha == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-
-			}
 			y = y - 2;
 			contSalto++;
 		} else if (estaSaltando == true && contSalto > alto / 2) {
-			if (caminaHaciaLaDerecha == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
-				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			}
 			y = y + 2;
 			contSalto++;
 			if (contSalto == alto + 2) {
@@ -187,12 +156,11 @@ public class Barbie {
 
 	}
 
-	public void agacharse(Entorno e) {
+	public void agacharse() {
 		if (estaSaltando == false) {
 			estaAgachado = true;
 			alto = 40;
 			y = auxPosY + 10;
-			dibujar(e);
 		}
 	}
 
