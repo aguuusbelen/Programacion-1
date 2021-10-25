@@ -5,37 +5,35 @@ import java.awt.Color;
 import entorno.Entorno;
 import entorno.Herramientas;
 
-public class Barbarianna {
-	// posicin
+public class Barbarianna{
+
 	private double x;
 	private double y;
 
-	// dimensiones
 	private double ancho;
 	private double alto;
 
 	private double velocidad;
-	private boolean caminaHaciaLaDerecha;
+	private boolean caminaHaciaLaDerecha; //estaCaminandoHaciaLaDerecha
 	private boolean meEstoyMoviendo;
 
-	private RayoBarbie rayo;
+//	private RayoBarbie rayo;
 
 	// salto (para esquivar disparo)
-	private boolean estaSaltando;
-	private int contSalto;
+	private boolean estaSaltando; // fijense el nombre
+	private int contSalto; // distanciaDelPisoALosSaltos???
 
 	// agacharse
-	private boolean estaAgachado;
+	private boolean estaAgachado; // ella, indentidad de género
 
-	private int altoAgachada;
+	private int altoAgachada; // alturaCuandoEstáAgachada
 	private int altoOriginal;
-	private double auxPosY;
+	private double auxPosY; //??
 
 	// saltopiso
 	private int contSaltoPiso;
 
 	public Barbarianna(double x, double y, double velocidad) {
-
 		this.x = x;
 		this.y = y;
 
@@ -51,7 +49,7 @@ public class Barbarianna {
 		this.contSalto = 0;
 		this.contSaltoPiso = 0;
 		this.caminaHaciaLaDerecha = true;
-		this.rayo = null;
+//		this.rayo = null;
 		this.meEstoyMoviendo = false;
 	}
 
@@ -60,10 +58,10 @@ public class Barbarianna {
 			if (estaAgachado == true) {
 				if (caminaHaciaLaDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.75);
-					//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+//					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 				} else {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.75);
-					//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+//					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 				}
 			} else if (caminaHaciaLaDerecha == false && meEstoyMoviendo == true) {
 				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
@@ -81,29 +79,31 @@ public class Barbarianna {
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
 			}
 		}
-		if (rayo != null) {
-			rayo.dibujarRayo(e);
-		}
+//		if (rayo != null) {
+//			rayo.dibujarRayo(e);
+//		}
 	}
 
-	public void avanzarDisparo() {
-		if (rayo != null) {
-			rayo.avanzar();
-			if (rayo.getX() > 800 || rayo.getX() < 0) {
-				rayo = null;
-			}
-		}
-	}
+//	public void avanzarDisparo() {
+//		if (rayo != null) {
+//			rayo.avanzar();
+//			if (rayo.getX() > 800 || rayo.getX() < 0) {
+//				rayo = null;
+//			}
+//		}
+//	}
 
+	// está encaminado, pero tienen que repensarlo
 	public void dispararRayo() {
 
-		if (rayo == null) {
-			if (caminaHaciaLaDerecha) {
-				rayo = new RayoBarbie(x + ancho / 2, y, 3.5, caminaHaciaLaDerecha);
-			} else {
-				rayo = new RayoBarbie(x - ancho / 2, y, 3.5, caminaHaciaLaDerecha);
-			}
-		}
+//		if (rayo == null) {
+//			if (caminaHaciaLaDerecha) {
+//				rayo = new RayoBarbie(x + ancho / 2, y, 4, caminaHaciaLaDerecha);
+//			} else {
+//				rayo = new RayoBarbie(x - ancho / 2, y, 4, caminaHaciaLaDerecha);
+//			}
+//		}
+		
 	}
 
 	public void moverHaciaIzquierda(Entorno e) {
@@ -152,12 +152,11 @@ public class Barbarianna {
 				revertirAgachar();
 			}
 			estaSaltando = true;
-
 		}
 
 	}
 
-	public void agacharse() {
+	public void agacharse() { // agachar()
 		if (estaSaltando == false) {
 			estaAgachado = true;
 			alto = 40;
@@ -165,12 +164,14 @@ public class Barbarianna {
 		}
 	}
 
-	public void revertirAgachar() {
+	public void revertirAgachar() { // levantar() pararseDerecho()
 		estaAgachado = false;
 		alto = altoOriginal;
 		y = auxPosY;
 	}
 
+	// FIXME
+	// subirUnPiso(Piso[] pisos)
 	public void subirUnPiso(Entorno e) {
 		if (contSaltoPiso <= 70) {
 			y = y - 2;
@@ -187,40 +188,42 @@ public class Barbarianna {
 			}
 		}
 	}
-	public void destruirRayo() {
-		rayo = null;
-	}
-	public RayoBarbie getRayo() {
-		return rayo;
-	}
+	
+//	public void destruirRayo() {
+//		rayo = null;
+//	}
+	
+//	public RayoBarbie getRayo() {
+//		return rayo;
+//	}
 
-	public boolean estaAgachado() {
-		return estaAgachado;
-
-	}
-
-	public boolean estaSaltando() {
+//	public boolean estaAgachado() {
+//		return estaAgachado;
+//
+//	}
+//
+	public boolean estaEnElAire() {
 		return estaSaltando;
 	}
-
-	public boolean isCaminaDerecha() {
-		return caminaHaciaLaDerecha;
-	}
-
-	public double getX() {
-		return x;
-
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public double getAncho() {
-		return ancho;
-	}
-
-	public double getAlto() {
-		return alto;
-	}
+//
+//	public boolean isCaminaDerecha() {
+//		return caminaHaciaLaDerecha;
+//	}
+//
+//	public double getX() {
+//		return x;
+//
+//	}
+//
+//	public double getY() {
+//		return y;
+//	}
+//
+//	public double getAncho() {
+//		return ancho;
+//	}
+//
+//	public double getAlto() {
+//		return alto;
+//	}
 }

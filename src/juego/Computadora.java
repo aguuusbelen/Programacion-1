@@ -15,21 +15,17 @@ public class Computadora {
 	private Color color;
 	private Image img;
 
-
 	public Computadora(double x, double y) {
-		
 		this.x = x;
 		this.y = y;
 		this.ancho = 60;
 		this.alto = 60;
 		this.img = Herramientas.cargarImagen("compu.png");
-		
 	}
 
-	public void dibujar (Entorno e) {
-		e.dibujarRectangulo(x,y,ancho,alto,0,color.CYAN);
+	public void dibujar(Entorno e) {
+		e.dibujarRectangulo(x, y, ancho, alto, 0, color.CYAN);
 		e.dibujarImagen(img, x, y, 0, 0.15);
-	
 
-}
+	}
 }

@@ -18,7 +18,6 @@ public class Velociraptor {
 	private boolean caminaHaciaLaDerecha;
 
 	public Velociraptor(double x, double y, double velocidad) {
-
 		this.x = x;
 		this.y = y;
 		this.ancho = 50;

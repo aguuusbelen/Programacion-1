@@ -10,10 +10,14 @@ public class Piso {
 
 	private double x;
 	private double y;
+	
 	private Image img;
+	
 	private int ancho;
 	private int alto;
-	private String name;
+	
+	private int numero; // no sé si lo necesitan
+//	private String name;
 
 	public Piso(double x, double y, String img , String name) {
 		this.x = x;
@@ -21,19 +25,19 @@ public class Piso {
 		this.img = Herramientas.cargarImagen("pisoSuperiores.png");
 		this.alto = 24;
 		this.ancho = 800;
-		this.name = name;
+//		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
+//	public String getName() {
+//		return name;
+//	}
 	
 	
 	public void dibujar(Entorno e) {
 		e.dibujarImagen(img, x, y, 0, 1.26);
 	}
 
-	public void dibujarColision(Entorno e) {
+	public void dibujarColision(Entorno e) { // dibujarDebugging()
 		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.BLUE);
 	}
 
@@ -60,7 +64,7 @@ public class Piso {
 		return y + (alto/2);
 	}
 	
-	public double[] getPosColision() {
+	public double[] getPosColision() { // superposicion()
 		double [] posColision = {x - ancho / 2,x + ancho / 2,(y + (alto/2)),y - (alto/2)}; 
 		return posColision;  // {Xinicial, Xfinal, Ybase, Ytop}
 	}
