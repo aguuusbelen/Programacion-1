@@ -23,7 +23,7 @@ public class Juego extends InterfaceJuego {
 
 		enviroment = new Enviroment(entorno.ancho() / 2, entorno.alto() / 2);
 
-		personaje = new Barbie(entorno.ancho() - 775, entorno.alto() - 90, 2.5); 
+		personaje = new Barbie(entorno.ancho() - 775, entorno.alto() - 90, 2.5);
 
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 
@@ -35,7 +35,7 @@ public class Juego extends InterfaceJuego {
 
 	public void tick() {
 
-		enviroment.dibujar(entorno); 
+		enviroment.dibujar(entorno);
 		compu.dibujar(entorno);
 		if (raptor != null) {
 			raptor.dibujar(entorno);
@@ -45,9 +45,9 @@ public class Juego extends InterfaceJuego {
 		if (entorno.estaPresionada('w') || personaje.estaSaltando()) {
 			personaje.saltar();
 		}
-		if(entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
 			personaje.dispararRayo();
-		}	
+		}
 		if (entorno.estaPresionada('u')) {
 			personaje.subirUnPiso(entorno);
 		}
@@ -60,13 +60,16 @@ public class Juego extends InterfaceJuego {
 		} else {
 			personaje.estaQuieto();
 		}
-			personaje.dibujar(entorno);
-		
+		personaje.dibujar(entorno);
+
 		if (personaje.getRayo() != null && raptor != null && personaje.getRayo().chocasteConVelociraptor(raptor)) {
 			raptor = null;
 			personaje.destruirRayo();
 		}
 		personaje.avanzarDisparo();
+		if (raptor != null) {
+			raptor.avanzarDisparo();
+		}
 	}
 
 	@SuppressWarnings("unused")

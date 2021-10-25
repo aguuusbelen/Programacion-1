@@ -5,7 +5,7 @@ import java.awt.Color;
 import entorno.Entorno;
 import entorno.Herramientas;
 
-public class Barbie {
+public class Barbarianna {
 	// posicin
 	private double x;
 	private double y;
@@ -34,7 +34,7 @@ public class Barbie {
 	// saltopiso
 	private int contSaltoPiso;
 
-	public Barbie(double x, double y, double velocidad) {
+	public Barbarianna(double x, double y, double velocidad) {
 
 		this.x = x;
 		this.y = y;
@@ -60,10 +60,10 @@ public class Barbie {
 			if (estaAgachado == true) {
 				if (caminaHaciaLaDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.75);
-					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+					//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 				} else {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.75);
-					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+					//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 				}
 			} else if (caminaHaciaLaDerecha == false && meEstoyMoviendo == true) {
 				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
@@ -99,9 +99,9 @@ public class Barbie {
 
 		if (rayo == null) {
 			if (caminaHaciaLaDerecha) {
-				rayo = new RayoBarbie(x + ancho / 2, y, 4, caminaHaciaLaDerecha);
+				rayo = new RayoBarbie(x + ancho / 2, y, 3.5, caminaHaciaLaDerecha);
 			} else {
-				rayo = new RayoBarbie(x - ancho / 2, y, 4, caminaHaciaLaDerecha);
+				rayo = new RayoBarbie(x - ancho / 2, y, 3.5, caminaHaciaLaDerecha);
 			}
 		}
 	}

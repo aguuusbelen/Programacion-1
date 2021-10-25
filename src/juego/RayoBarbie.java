@@ -40,7 +40,7 @@ public class RayoBarbie {
 	}
 	
 	public boolean chocasteConVelociraptor(Velociraptor raptor) {
-		return x > raptor.getX() + raptor.getAncho()/2;
+		return x > raptor.getX() - raptor.getAncho();
 	}
 
 	public double getX() {
