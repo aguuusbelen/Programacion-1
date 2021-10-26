@@ -21,9 +21,9 @@ public class Juego extends InterfaceJuego {
 	public Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
-		this.fondo = Herramientas.cargarImagen("imagenes/fondo.png");
+		this.fondo = Herramientas.cargarImagen("fondo.png");
 
-		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 90, 2.5);
+		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
 
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 
@@ -45,6 +45,7 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
 
+		
 		for (Piso p : pisos) {
 			p.dibujar(entorno);
 		}
@@ -56,24 +57,44 @@ public class Juego extends InterfaceJuego {
 		}
 
 		// movimiento del personaje
-		if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
-			barbarianna.saltar();
+		if(entorno.estaPresionada('w') || barbarianna.estaEnElAire()){
+			barbarianna.saltar(pisos);
+//			barbarianna.subirUnPiso(entorno,pisos);
+			
+//		}else if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
 		}
+		
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
 			barbarianna.dispararRayo();
 		}
-		if (entorno.estaPresionada('u')) {
-			barbarianna.subirUnPiso(entorno);
-		}
+//		if (entorno.estaPresionada('u') ||  barbarianna.estaSubiendo()) {
+//			barbarianna.subirUnPiso(entorno,pisos);
+//		}
 
 		if (entorno.estaPresionada('a')) {
-			barbarianna.moverHaciaIzquierda(entorno);
-		} else if (entorno.estaPresionada('d')) {
-			barbarianna.moverHaciaDerecha(entorno);
+			barbarianna.moverHaciaIzquierda(entorno, pisos);
+		} else if (entorno.estaPresionada('d') && barbarianna.tocandoElPiso(pisos) ) {
+		//	if(!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
+			//	barbarianna.caer(pisos);
+			//}else {
+				
+				barbarianna.moverHaciaDerecha(entorno, pisos);				
+	//		}
+		}else if(entorno.estaPresionada('d') && !barbarianna.tocandoElPiso(pisos) &&  !barbarianna.estaEnElAire()) {
+			
+			barbarianna.caer(pisos);
+				
+		}else if(entorno.estaPresionada('d') && barbarianna.estaEnElAire() ) {
+			barbarianna.moverHaciaDerecha(entorno, pisos);				
 		} else if (entorno.estaPresionada('s')) {
 			barbarianna.agacharse();
 		} else {
-			barbarianna.estaQuieto();
+			
+			if(!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
+				barbarianna.caer(pisos);
+			}else {
+				barbarianna.estaQuieto();				
+			}
 		}
 
 		barbarianna.dibujar(entorno);

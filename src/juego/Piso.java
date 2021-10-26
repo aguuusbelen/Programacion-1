@@ -65,7 +65,7 @@ public class Piso {
 	}
 	
 	public double[] getPosColision() { // superposicion()
-		double [] posColision = {x - ancho / 2,x + ancho / 2,(y + (alto/2)),y - (alto/2)}; 
+		double [] posColision = {x - ancho / 2,x + ancho / 2,y - (alto/2),(y + (alto/2))}; 
 		return posColision;  // {Xinicial, Xfinal, Ybase, Ytop}
 	}
 	
