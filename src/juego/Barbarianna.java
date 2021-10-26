@@ -41,6 +41,7 @@ public class Barbarianna{
 	private int alturaSalto;
 	private int contSaltoFinal;
 	private boolean subiendo;
+	private boolean estaSaltando2;
 	
 	private boolean tocTecho;
 	private boolean cayendo;
@@ -61,7 +62,7 @@ public class Barbarianna{
 		this.contSaltoPiso = 0;
 		this.contSaltoFinal = 0;
 		
-		
+		this.estaSaltando2 = false;
 		
 		this.caminaHaciaLaDerecha = true;
 //		this.rayo = null;
@@ -163,13 +164,7 @@ public class Barbarianna{
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
+
 		
 	}
 	
@@ -181,20 +176,20 @@ public class Barbarianna{
 	}
 
 	public void saltar(Piso [] pisos) {
-		alturaSalto = 60;
+	
 		//if (estaSaltando == true && contSalto <= alto / 2) {
-		if (estaSaltando == true && !tocandoElTecho(pisos) &&  !cayendo)  {
+		if ((estaSaltando == true &&  !cayendo)  && (!tocandoElTecho(pisos) && contSalto <= 25)  ){
 			
 	
 				y = y - 2;
 				contSalto++;				
+				System.out.println(contSalto);
 			
-			
-		}else if(estaSaltando == true && tocandoElTecho(pisos) ) {
-			System.out.println("TOQUEEE");
+		}else if(estaSaltando == true && (tocandoElTecho(pisos)|| contSalto == 26 )){
+			contSalto++;
 			y = y + 2;
 			cayendo = true;
-			contSaltoFinal = contSalto;
+//			contSaltoFinal = contSalto;
 	
 		//	contSaltoFinal = contSalto;
 			
@@ -202,7 +197,7 @@ public class Barbarianna{
 			
 		} else if(estaSaltando && cayendo) {
 			y = y + 2;
-			contSalto--;
+//			contSalto--;
 			if ( tocandoElPiso(pisos) ) {
 				estaSaltando = false;
 				cayendo = false;
@@ -221,6 +216,50 @@ public class Barbarianna{
 
 	}
 
+	
+	public void saltar2(Piso [] pisos) {
+		
+		//if (estaSaltando == true && contSalto <= alto / 2) {
+		if (estaSaltando2 == true &&  !cayendo && !tocandoElTecho(pisos)  ){
+			
+	
+				y = y - 2;
+				contSalto++;				
+				
+			
+		}else if(estaSaltando2 == true && tocandoElTecho(pisos)){
+			contSalto++;
+			y = y + 2;
+			cayendo = true;
+//			contSaltoFinal = contSalto;
+	
+		//	contSaltoFinal = contSalto;
+			
+			
+			
+		} else if(estaSaltando2 && cayendo) {
+			y = y + 2;
+//			contSalto--;
+			if ( tocandoElPiso(pisos) ) {
+				estaSaltando2 = false;
+				estaSaltando = false;
+				cayendo = false;
+				contSalto = 0;
+			}
+		}
+		
+		
+		
+		else{
+			if (estaAgachado) {
+				revertirAgachar();
+			}
+			estaSaltando2 = true;
+			
+		}
+
+	}
+	
 	public void agacharse() { // agachar()
 		if (estaSaltando == false) {
 			estaAgachado = true;
@@ -304,29 +343,29 @@ public class Barbarianna{
 	
 	
 	
-	// FIXME
-	// subirUnPiso(Piso[] pisos)
-	public void subirUnPiso(Entorno e, Piso[] pisos) {
-
-//		if(subiendo == false) {
-//			if(tocandoElPiso(pisos)) {
-//				subiendo = true;
-//				
-//			}			
-//		}else 
-			if(estaSaltando || subiendo) {
-			y -= velocidad; 
-			alturaSalto = 90; 
-			if (tocandoElPiso(pisos)) {
-				alturaSalto = 60; 
-				subiendo = false;
-				estaSaltando = false;
-				return;
-			}
-		
-		}
-	
-		}
+//	// FIXME
+//	// subirUnPiso(Piso[] pisos)
+//	public void subirUnPiso(Entorno e, Piso[] pisos) {
+//
+////		if(subiendo == false) {
+////			if(tocandoElPiso(pisos)) {
+////				subiendo = true;
+////				
+////			}			
+////		}else 
+//			if(estaSaltando || subiendo) {
+//			y -= velocidad; 
+//			alturaSalto = 90; 
+//			if (tocandoElPiso(pisos)) {
+//				alturaSalto = 60; 
+//				subiendo = false;
+//				estaSaltando = false;
+//				return;
+//			}
+//		
+//		}
+//	
+//		}
 		
 		
 //		if (contSaltoPiso <= 70) {
@@ -376,6 +415,9 @@ public class Barbarianna{
 //
 	public boolean estaEnElAire() {
 		return estaSaltando;
+	}
+	public boolean estaEnElAire2() {
+		return estaSaltando2;
 	}
 	public boolean estaSubiendo() {
 		return subiendo;
