@@ -24,8 +24,24 @@ public class Computadora {
 	}
 
 	public void dibujar(Entorno e) {
-		e.dibujarRectangulo(x, y, ancho, alto, 0, color.CYAN);
-		e.dibujarImagen(img, x, y, 0, 0.15);
+		e.dibujarRectangulo(x, y, ancho, alto, 0, color.RED);
+	//	e.dibujarImagen(img, x, y, 0, 0.15);
 
+	}
+	
+	
+	
+	
+	public double getX() {
+		return x;
+	}
+	public double getY() {
+		return y;
+	}
+	public double getAncho() {
+		return ancho;
+	}
+	public double getAlto() {
+		return alto;
 	}
 }

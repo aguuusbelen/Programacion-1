@@ -78,6 +78,18 @@ public class Juego extends InterfaceJuego {
 			
 			// --------------------BARBARIANNA----------------------
 			barbarianna.dibujar(entorno);
+			
+			if(barbarianna.tocaLaPC(compu)) {
+				
+				entorno.dibujarImagen(Herramientas.cargarImagen("win.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
+				entorno.cambiarFont("sans", 24, Color.GREEN);
+				entorno.escribirTexto("points: " + (points + 100) , entorno.ancho() / 2 -150, entorno.alto() /2 + 150);
+				entorno.escribirTexto("kills: " + kills ,entorno.ancho()-220, entorno.alto() /2 + 150);
+				
+				return;
+			}
+			
+			
 		//	barbarianna.dibujarColision(entorno);
 			if ((barbarianna.estaEnElAire() && entorno.estaPresionada('u')) || barbarianna.estaEnElAireSuperSaltando()) {
 				barbarianna.saltar2(pisos);

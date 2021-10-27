@@ -233,6 +233,12 @@ public class Barbarianna {
 			y = y + 2;
 		}
 	}
+	
+	
+	public boolean tocaLaPC(Computadora compu) {
+		return (x > compu.getX() && (y > compu.getY() - compu.getAncho() / 2 && y < compu.getY() + compu.getAncho() / 2  ) );
+	}
+	
 
 	public boolean tocandoElPiso(Piso[] pisos) {
 		for (int i = 0; i < pisos.length; i++) {
