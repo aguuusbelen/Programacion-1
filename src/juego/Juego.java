@@ -44,12 +44,13 @@ public class Juego extends InterfaceJuego {
 
 	public void tick() {
 		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
-
+	
 		
 		for (Piso p : pisos) {
 			p.dibujar(entorno);
 		}
-
+		barbarianna.dibujar(entorno);
+		barbarianna.dibujarColision(entorno);
 //		enviroment.dibujar(entorno);
 		compu.dibujar(entorno);
 		if (raptor != null) {
@@ -57,14 +58,26 @@ public class Juego extends InterfaceJuego {
 		}
 
 		// movimiento del personaje
-		if((entorno.estaPresionada('w') && entorno.estaPresionada('u')) || barbarianna.estaEnElAire2() ) {
+		
+		if((barbarianna.estaEnElAire() && entorno.estaPresionada('u')) || barbarianna.estaEnElAireSuperSaltando() ) {
 			barbarianna.saltar2(pisos); 
-		}else if(entorno.estaPresionada('w') || barbarianna.estaEnElAire()){
+		}else if((entorno.estaPresionada('w')  || barbarianna.estaEnElAire())&&  !barbarianna.estaEnElAireSuperSaltando() ) {
 			barbarianna.saltar(pisos);
+		}else {
+			barbarianna.estaQuieto(); 
+		}
+		
+
+		
+//		
+//		if((entorno.estaPresionada('w') && entorno.estaPresionada('u')) || barbarianna.estaEnElAire2() ) {
+//			barbarianna.saltar2(pisos); 
+//		}else if(entorno.estaPresionada('w') || barbarianna.estaEnElAire()){
+//			barbarianna.saltar(pisos);
 //			barbarianna.subirUnPiso(entorno,pisos);
 			
 //		}else if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
-		}
+		
 		
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
 			barbarianna.dispararRayo();
@@ -93,18 +106,19 @@ public class Juego extends InterfaceJuego {
 				
 		}else if(entorno.estaPresionada('d') && barbarianna.estaEnElAire() ) {
 			barbarianna.moverHaciaDerecha(entorno, pisos);				
-		} else if (entorno.estaPresionada('s')) {
+		} else if (entorno.estaPresionada('s') && barbarianna.tocandoElPiso(pisos)) {
 			barbarianna.agacharse();
 		} else {
 			
 			if(!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
 				barbarianna.caer(pisos);
-			}else {
-				barbarianna.estaQuieto();				
+			}else if(barbarianna.estaAgachada()){
+				barbarianna.levantar();
 			}
 		}
 
-		barbarianna.dibujar(entorno);
+
+
 
 //		if (personaje.getRayo() != null && raptor != null && personaje.getRayo().chocasteConVelociraptor(raptor)) {
 //			raptor = null;

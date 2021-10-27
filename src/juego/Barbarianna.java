@@ -5,7 +5,7 @@ import java.awt.Color;
 import entorno.Entorno;
 import entorno.Herramientas;
 
-public class Barbarianna{
+public class Barbarianna {
 
 	private double x;
 	private double y;
@@ -14,14 +14,9 @@ public class Barbarianna{
 	private double alto;
 
 	private double velocidad;
-	private boolean caminaHaciaLaDerecha; //estaCaminandoHaciaLaDerecha
+	private boolean caminaHaciaLaDerecha; // estaCaminandoHaciaLaDerecha
 	private boolean meEstoyMoviendo;
 
-	
-	private int x0;
-	private int x1;
-	private int y0;
-	private int y1;
 //	private RayoBarbie rayo;
 
 	// salto (para esquivar disparo)
@@ -31,83 +26,70 @@ public class Barbarianna{
 	// agacharse
 	private boolean estaAgachado; // ella, indentidad de género
 
-	private int altoAgachada; // alturaCuandoEstáAgachada
 	private int altoOriginal;
-	private double auxPosY; //??
-
-	// saltopiso
-	private int contSaltoPiso;
-
-	private int alturaSalto;
-	private int contSaltoFinal;
 	private boolean subiendo;
-	private boolean estaSaltando2;
-	
-	private boolean tocTecho;
+	private boolean estaSuperSaltando;
+
 	private boolean cayendo;
+
+	private double ultimaPosY1;
+
 	public Barbarianna(double x, double y, double velocidad) {
 		this.x = x;
 		this.y = y;
 
-		this.auxPosY = y;
 		this.ancho = 36;
 		this.alto = 60;
 		this.altoOriginal = 60;
-		this.altoAgachada = 40;
 
 		this.velocidad = velocidad;
 		this.estaSaltando = false;
 		this.estaAgachado = false;
 		this.contSalto = 0;
-		this.contSaltoPiso = 0;
-		this.contSaltoFinal = 0;
-		
-		this.estaSaltando2 = false;
-		
+
+		this.estaSuperSaltando = false;
+
 		this.caminaHaciaLaDerecha = true;
 //		this.rayo = null;
 		this.meEstoyMoviendo = false;
 		this.subiendo = false;
-		
-		this.alturaSalto = 60;
-		
-		this.tocTecho = false;
+
 		this.cayendo = false;
-		
+		this.ultimaPosY1 = 0;
 
 	}
 
 	public void dibujar(Entorno e) {
-		if (!estaSaltando) { 
-			if (estaAgachado == true) {
-				if (caminaHaciaLaDerecha == false) {
-					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.75);
-//					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+		if (!estaSaltando) {
+			if (estaAgachado) {
+				if (caminaHaciaLaDerecha) {
+					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y - 20, 0, 0.75);
 				} else {
-					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.75);
-//					e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y - 20, 0, 0.75);
 				}
-			} else if (caminaHaciaLaDerecha == false && meEstoyMoviendo == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.75);
-				// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-			} else if (caminaHaciaLaDerecha == true && meEstoyMoviendo == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.75);
+				return;
+			}
+			if (meEstoyMoviendo) {
+				if (caminaHaciaLaDerecha) {
+					e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.75);
+				} else {
+					e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y - 5, 0, 0.75);
+				}
 			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.75);
-				// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y - 5, 0, 0.75);
 			}
 		} else {
-			if(caminaHaciaLaDerecha == true) {
+			if (caminaHaciaLaDerecha) {
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
 			} else {
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
 			}
 		}
-//		if (rayo != null) {
-//			rayo.dibujarRayo(e);
-//		}
 	}
 
+	public void dibujarColision(Entorno e) {
+		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
+	}
 //	public void avanzarDisparo() {
 //		if (rayo != null) {
 //			rayo.avanzar();
@@ -127,33 +109,28 @@ public class Barbarianna{
 //				rayo = new RayoBarbie(x - ancho / 2, y, 4, caminaHaciaLaDerecha);
 //			}
 //		}
-		
+
 	}
 
-	public void moverHaciaIzquierda(Entorno e, Piso [] pisos) {
+	public void moverHaciaIzquierda(Entorno e, Piso[] pisos) {
 		if (estaAgachado) {
-			revertirAgachar();
+			levantar();
 		}
-		
-		if(tocandoElCostado(pisos)) {
-			System.out.println("RETURNNN");
+		if (tocandoElCostado(pisos)) {
 			return;
 		}
-		
-		if (x > ancho / 2)  {
+		if (x > ancho / 2) {
 			x -= velocidad;
 		}
 		caminaHaciaLaDerecha = false;
 		meEstoyMoviendo = true;
 	}
 
-	public void moverHaciaDerecha(Entorno e, Piso [] pisos) {
+	public void moverHaciaDerecha(Entorno e, Piso[] pisos) {
 		if (estaAgachado) {
-			revertirAgachar();
+			levantar();
 		}
-
-		if(tocandoElCostado(pisos)) {
-			System.out.println("RETURNNN");
+		if (tocandoElCostado(pisos)) {
 			return;
 		}
 		if (x < e.ancho() - ancho / 2) {
@@ -161,287 +138,150 @@ public class Barbarianna{
 		}
 		caminaHaciaLaDerecha = true;
 		meEstoyMoviendo = true;
-		
-		
-		
-
-		
 	}
-	
-	public void estaQuieto () {
+
+	public void estaQuieto() {
 		meEstoyMoviendo = false;
-		if (estaAgachado) {
-			revertirAgachar();
-		}
 	}
 
-	public void saltar(Piso [] pisos) {
-	
-		//if (estaSaltando == true && contSalto <= alto / 2) {
-		if ((estaSaltando == true &&  !cayendo)  && (!tocandoElTecho(pisos) && contSalto <= 25)  ){
-			
-	
-				y = y - 2;
-				contSalto++;				
-				System.out.println(contSalto);
-			
-		}else if(estaSaltando == true && (tocandoElTecho(pisos)|| contSalto == 26 )){
+	public void saltar(Piso[] pisos) {
+		if ((estaSaltando == true && !cayendo) && (!tocandoElTecho(pisos) && contSalto <= 25)) {
+			y = y - 2;
+			contSalto++;
+		} else if (estaSaltando == true && (tocandoElTecho(pisos) || contSalto == 26)) {
 			contSalto++;
 			y = y + 2;
 			cayendo = true;
-//			contSaltoFinal = contSalto;
-	
-		//	contSaltoFinal = contSalto;
-			
-			
-			
-		} else if(estaSaltando && cayendo) {
+		} else if (estaSaltando && cayendo) {
 			y = y + 2;
-//			contSalto--;
-			if ( tocandoElPiso(pisos) ) {
+			if (tocandoElPiso(pisos)) {
 				estaSaltando = false;
 				cayendo = false;
 				contSalto = 0;
 			}
-		}
-		
-		
-		
-		else{
+		} else {
 			if (estaAgachado) {
-				revertirAgachar();
+				levantar();
 			}
 			estaSaltando = true;
 		}
 
 	}
 
-	
-	public void saltar2(Piso [] pisos) {
-		
-		//if (estaSaltando == true && contSalto <= alto / 2) {
-		if (estaSaltando2 == true &&  !cayendo && !tocandoElTecho(pisos)  ){
-			
-	
-				y = y - 2;
-				contSalto++;				
-				
-			
-		}else if(estaSaltando2 == true && tocandoElTecho(pisos)){
+	public void saltar2(Piso[] pisos) {
+		if ((estaSuperSaltando == true && !cayendo) && (!tocandoElTecho(pisos) && contSalto <= 55)) {
+			y = y - 2;
+			contSalto++;
+		} else if (estaSuperSaltando == true && (tocandoElTecho(pisos) || contSalto == 56)) {
 			contSalto++;
 			y = y + 2;
 			cayendo = true;
-//			contSaltoFinal = contSalto;
-	
-		//	contSaltoFinal = contSalto;
-			
-			
-			
-		} else if(estaSaltando2 && cayendo) {
+		} else if (estaSuperSaltando && cayendo) {
 			y = y + 2;
-//			contSalto--;
-			if ( tocandoElPiso(pisos) ) {
-				estaSaltando2 = false;
+			if (tocandoElPiso(pisos)) {
+				estaSuperSaltando = false;
 				estaSaltando = false;
 				cayendo = false;
 				contSalto = 0;
 			}
-		}
-		
-		
-		
-		else{
+		} else {
 			if (estaAgachado) {
-				revertirAgachar();
+				levantar();
 			}
-			estaSaltando2 = true;
-			
+			estaSuperSaltando = true;
 		}
-
 	}
-	
+
 	public void agacharse() { // agachar()
-		if (estaSaltando == false) {
+		if (!estaSaltando && estaAgachado == false) {
+
+			ultimaPosY1 = (y + alto / 2);
+
+			alto = alto / 2;
+			// y = y - alto /2;
+			y = y + alto / 2;
 			estaAgachado = true;
-			alto = 40;
-			y = auxPosY + 10;
+
 		}
 	}
 
-	public void revertirAgachar() { // levantar() pararseDerecho()
+	public void levantar() { // levantar() pararseDerecho()
 		estaAgachado = false;
+		y = ultimaPosY1 - alto;
 		alto = altoOriginal;
-		y = auxPosY;
 	}
-	
-	public void caer(Piso [] pisos) {
-		if(!tocandoElPiso(pisos)) {
-			y = y +2;
-		}
-	}
-	
-	
-	public boolean tocandoElPiso(Piso [] pisos) {
-		for(int i = 0 ; i <  pisos.length ; i++) {
 
-//			if((((x - ancho / 2) >= pisos[i].getPosColision()[0] && ((x + ancho / 2) <= pisos[i].getPosColision()[1])) || ((x + ancho / 2) >= pisos[i].getPosColision()[0]) && (x + ancho / 2) <= pisos[i].getPosColision()[1]  ) && (y + alto / 2) == pisos[i].getPosColision()[2] ){
-			if((((x - ancho / 2) >= pisos[i].getPosColision()[0] && (x <= pisos[i].getPosColision()[1])) || (x>= pisos[i].getPosColision()[0]) && (x + ancho / 2) <= pisos[i].getPosColision()[1]  ) && (y + alto / 2) == pisos[i].getPosColision()[2] ){
+	public void caer(Piso[] pisos) {
+		if (!tocandoElPiso(pisos) && tocandoElCostado(pisos)) {
+			if (caminaHaciaLaDerecha) {
+				x = x + 1;
+			} else {
+				x = x - 1;
+			}
+			y = y + 2;
+		} else {
+			y = y + 2;
+		}
+	}
+
+	public boolean tocandoElPiso(Piso[] pisos) {
+		for (int i = 0; i < pisos.length; i++) {
+			if ((((x - ancho / 2) >= pisos[i].getPosColision()[0] && (x <= pisos[i].getPosColision()[1]))
+					|| (x >= pisos[i].getPosColision()[0]) && (x + ancho / 2) <= pisos[i].getPosColision()[1])
+					&& (y + alto / 2) == pisos[i].getPosColision()[2]) {
 				return true;
 			}
-			
 		}
 		return false;
 	}
-//	x0 = (x - ancho / 2)
-//	x1 = (x + ancho / 2)
-//	y0 = (y - alto / 2)
-//	y1 = (y + alto / 2)
-	private boolean tocandoElTecho(Piso [] pisos) {
-		for(int i = 0 ; i <  pisos.length ; i++) {
-			
-			if(((((x - ancho / 2)>= pisos[i].getPosColision()[0] && ((x - ancho / 2) <= pisos[i].getPosColision()[1])) || ((x + ancho / 2) >=pisos[i].getPosColision()[0] && (x + ancho / 2) <= pisos[i].getPosColision()[1] ) ) && (y - alto / 2) == pisos[i].getPosColision()[3]) || ((y - alto / 2) <= 0) ){
-				//System.out.println("");
+
+	private boolean tocandoElTecho(Piso[] pisos) {
+		for (int i = 0; i < pisos.length; i++) {
+			if (((((x - ancho / 2) >= pisos[i].getPosColision()[0] && ((x - ancho / 2) <= pisos[i].getPosColision()[1]))
+					|| ((x + ancho / 2) >= pisos[i].getPosColision()[0]
+							&& (x + ancho / 2) <= pisos[i].getPosColision()[1]))
+					&& (y - alto / 2) == pisos[i].getPosColision()[3]) || ((y - alto / 2) <= 0)) {
 				return true;
 			}
-			
 		}
 		return false;
 	}
-	
-//	x0 = (x - ancho / 2)
-//	x1 = (x + ancho / 2)
-//	y0 = (y - alto / 2)
-//	y1 = (y + alto / 2)
-	private boolean tocandoElCostado(Piso [] pisos) {
-	//	System.out.println(x);
-		//System.out.println(pisos[1].getPosColision()[1]);
-		for(int i = 0 ; i <  pisos.length ; i++) {
-		
+
+	private boolean tocandoElCostado(Piso[] pisos) {
+		for (int i = 0; i < pisos.length; i++) {
 			if (i != pisos.length - 1) {
-				if((((x - ancho / 2) <= pisos[i+1].getPosColision()[1] && (x + ancho / 2) >= pisos[i+1].getPosColision()[1]) || ((x + ancho / 2) >= pisos[i+1].getPosColision()[0] && (x - ancho / 2) <= pisos[i+1].getPosColision()[0]))  && (((y - alto / 2) <  pisos[i+1].getPosColision()[3] && (y + alto / 2) >  pisos[i+1].getPosColision()[3]) ||  ((y + alto / 2) >  pisos[i+1].getPosColision()[2] && (y - alto / 2) <  pisos[i+1].getPosColision()[2]))){
-					System.out.println("IGUAL");
-				//	return true;
-					
-					//(((y - alto / 2) <  pisos[i+1].getPosColision()[3] && (y + alto / 2) >  pisos[i+1].getPosColision()[3]) ||  ((y + alto / 2) >  pisos[i+1].getPosColision()[2] && (y - alto / 2) >  pisos[i+1].getPosColision()[2]))
-					
-					//((x - ancho / 2) == pisos[i+1].getPosColision()[1] || (x + ancho / 2)  == pisos[i+1].getPosColision()[0])
-					
-					//((y + alto / 2) >pisos[i+1].getPosColision()[2] && (y + alto / 2) >pisos[i+1].getPosColision()[3])
-					
-					//((y - alto / 2) >pisos[i+1].getPosColision()[2] && (y - alto / 2) <pisos[i+1].getPosColision()[3])
+				if ((((x - ancho / 2) <= pisos[i + 1].getPosColision()[1]
+						&& (x + ancho / 2) >= pisos[i + 1].getPosColision()[1])
+						|| ((x + ancho / 2) >= pisos[i + 1].getPosColision()[0]
+								&& (x - ancho / 2) <= pisos[i + 1].getPosColision()[0]))
+						&& (((y - alto / 2) < pisos[i + 1].getPosColision()[3]
+								&& (y + alto / 2) > pisos[i + 1].getPosColision()[3])
+								|| ((y + alto / 2) > pisos[i + 1].getPosColision()[2]
+										&& (y - alto / 2) < pisos[i + 1].getPosColision()[2]))) {
 					return true;
-					
-				}			
+				}
 			}
-			
-			
 		}
 		return false;
 	}
-	
-	
-	
-	
-	
-//	// FIXME
-//	// subirUnPiso(Piso[] pisos)
-//	public void subirUnPiso(Entorno e, Piso[] pisos) {
-//
-////		if(subiendo == false) {
-////			if(tocandoElPiso(pisos)) {
-////				subiendo = true;
-////				
-////			}			
-////		}else 
-//			if(estaSaltando || subiendo) {
-//			y -= velocidad; 
-//			alturaSalto = 90; 
-//			if (tocandoElPiso(pisos)) {
-//				alturaSalto = 60; 
-//				subiendo = false;
-//				estaSaltando = false;
-//				return;
-//			}
-//		
-//		}
-//	
-//		}
-		
-		
-//		if (contSaltoPiso <= 70) {
-//			y = y - 2;
-//			contSaltoPiso++;
-//			if (caminaHaciaLaDerecha == true) {
-//				x = x + 0.5;
-//				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-//				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-//			} else {
-//				x = x - 0.5;
-//				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
-//				e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
-//
-//			}
-//		}
-		
-//		x0 = (x - ancho / 2)
-//		x1 = (x + ancho / 2)
-//		y0 = (y - alto / 2)
-//		y1 = (y + alto / 2)
-		//System.out.println(pisos[0].getPosColision()[2]);
-		//System.out.println(y + alto / 2);
-		//System.out.println(y + alto / 2);
-		//System.out.println( pisos[1].getPosColision()[2]);
-	
-		
-		
-	
-		
-		
-		
-	//}
-	
-//	public void destruirRayo() {
-//		rayo = null;
-//	}
-	
-//	public RayoBarbie getRayo() {
-//		return rayo;
-//	}
 
-//	public boolean estaAgachado() {
-//		return estaAgachado;
-//
-//	}
-//
 	public boolean estaEnElAire() {
 		return estaSaltando;
 	}
-	public boolean estaEnElAire2() {
-		return estaSaltando2;
+
+	public boolean estaEnElAireSuperSaltando() {
+		return estaSuperSaltando;
 	}
+
 	public boolean estaSubiendo() {
 		return subiendo;
 	}
-	
 
-//	public boolean isCaminaDerecha() {
-//		return caminaHaciaLaDerecha;
-//	}
-//
-//	public double getX() {
-//		return x;
-//
-//	}
-//
-//	public double getY() {
-//		return y;
-//	}
-//
-//	public double getAncho() {
-//		return ancho;
-//	}
-//
-//	public double getAlto() {
-//		return alto;
-//	}
+	public boolean estaAgachada() {
+		return estaAgachado;
+	}
 }
+//x0 = (x - ancho / 2)  
+//x1 = (x + ancho / 2)
+//y0 = (y - alto / 2)
+//y1 = (y + alto / 2)
