@@ -10,9 +10,6 @@ public class Rayo {
 	private double x;
 	private double y;
 
-	private double ancho;
-	private double alto;
-
 	private double velocidad;
 	private boolean estaMirandoDerecha;
 
@@ -24,8 +21,7 @@ public class Rayo {
 
 		this.velocidad = velocidad;
 		this.estaMirandoDerecha = estaMirandoDerecha;
-		this.ancho = 50;
-		this.alto = 20;
+
 		this.disparado = false;
 	}
 
