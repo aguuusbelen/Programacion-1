@@ -26,8 +26,8 @@ public class Barbarianna {
 	public Barbarianna(double x, double y, double velocidad) {
 		this.x = x;
 		this.y = y;
-		this.ancho = 36;
-		this.alto = 60;
+		this.ancho = 30;
+		this.alto = 48;
 		this.velocidad = velocidad;
 
 		this.estaCaminandoHaciaLaDerecha = true;
@@ -38,7 +38,7 @@ public class Barbarianna {
 		this.estaDisparando = false;
 		this.estaCayendo = false;
 		this.distanciaDelPisoCuandoSalta = 0;
-		this.altoOriginal = 60; 
+		this.altoOriginal = 48; 
 		this.pisoActual = 0;
 		this.ultimaPosY1 = 0;
 	}
@@ -47,26 +47,26 @@ public class Barbarianna {
 		if (!estaEnElAire) {
 			if (estaAgachada) {
 				if (estaCaminandoHaciaLaDerecha) {
-					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y - 20, 0, 0.75);
+					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y - 15, 0, 0.65);
 				} else {
-					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y - 20, 0, 0.75);
+					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y - 15, 0, 0.65);
 				}
 				return;
 			}
 			if (estaEnMovimiento) {
 				if (estaCaminandoHaciaLaDerecha) {
-					e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.75);
+					e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.65);
 				} else {
-					e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y - 5, 0, 0.75);
+					e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y - 5, 0, 0.65);
 				}
 			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y - 5, 0, 0.75);
+				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y - 5, 0, 0.65);
 			}
 		} else {
 			if (estaCaminandoHaciaLaDerecha) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
+				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.65);
 			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
+				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.65);
 			}
 		}
 	}

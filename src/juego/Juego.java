@@ -22,7 +22,8 @@ public class Juego extends InterfaceJuego {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
 
-		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
+//		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
+		barbarianna = new Barbarianna(180, 30, 2.5);
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 		raptor = new Velociraptor(entorno.ancho() - 100, 90, 2);
 		
@@ -151,18 +152,17 @@ public class Juego extends InterfaceJuego {
 				}
 				if (barbarianna != null) {
 					if(raptor.tocaPersonaje(barbarianna)) {
-						//System.out.println("TOCO");
 						barbarianna = null;
 					}else if (raptor.getPisoDondeEstaParado() == barbarianna.getPisoDondeEstaParado()) {
 						if ((raptor.getX() > barbarianna.getX()) && !raptor.getDireccion()) {
 							if (!raptor.getDisparando()) {
-								rayoDeVelociraptor = new Rayo(raptor.getX(), raptor.getY() - 15, 5,
+								rayoDeVelociraptor = new Rayo(raptor.getX(), raptor.getY() , 5,
 										raptor.getDireccion());
 								raptor.dispararRayo();
 							}
 						} else if ((raptor.getX() < barbarianna.getX()) && raptor.getDireccion()) {
 							if (!raptor.getDisparando()) {
-								rayoDeVelociraptor = new Rayo(raptor.getX(), raptor.getY() - 15, 5,
+								rayoDeVelociraptor = new Rayo(raptor.getX(), raptor.getY() , 5,
 										raptor.getDireccion());
 								raptor.dispararRayo();
 							}
