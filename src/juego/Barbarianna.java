@@ -14,7 +14,7 @@ public class Barbarianna {
 	private double alto;
 
 	private double velocidad;
-	private boolean caminaHaciaLaDerecha; // estaCaminandoHaciaLaDerecha
+	private boolean estaCaminandoHaciaLaDerecha; // estaCaminandoHaciaLaDerecha
 	private boolean meEstoyMoviendo;
 
 //	private RayoBarbie rayo;
@@ -53,7 +53,7 @@ public class Barbarianna {
 
 		this.estaSuperSaltando = false;
 
-		this.caminaHaciaLaDerecha = true;
+		this.estaCaminandoHaciaLaDerecha = true;
 //		this.rayo = null;
 		this.meEstoyMoviendo = false;
 		this.subiendo = false;
@@ -67,7 +67,7 @@ public class Barbarianna {
 	public void dibujar(Entorno e) {
 		if (!estaSaltando) {
 			if (estaAgachado) {
-				if (caminaHaciaLaDerecha) {
+				if (estaCaminandoHaciaLaDerecha) {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y - 20, 0, 0.75);
 				} else {
 					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y - 20, 0, 0.75);
@@ -75,7 +75,7 @@ public class Barbarianna {
 				return;
 			}
 			if (meEstoyMoviendo) {
-				if (caminaHaciaLaDerecha) {
+				if (estaCaminandoHaciaLaDerecha) {
 					e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.75);
 				} else {
 					e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y - 5, 0, 0.75);
@@ -84,7 +84,7 @@ public class Barbarianna {
 				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y - 5, 0, 0.75);
 			}
 		} else {
-			if (caminaHaciaLaDerecha) {
+			if (estaCaminandoHaciaLaDerecha) {
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
 			} else {
 				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
@@ -132,7 +132,7 @@ public class Barbarianna {
 		if (x > ancho / 2) {
 			x -= velocidad;
 		}
-		caminaHaciaLaDerecha = false;
+		estaCaminandoHaciaLaDerecha = false;
 		meEstoyMoviendo = true;
 	}
 
@@ -146,7 +146,7 @@ public class Barbarianna {
 		if (x < e.ancho() - ancho / 2) {
 			x += velocidad;
 		}
-		caminaHaciaLaDerecha = true;
+		estaCaminandoHaciaLaDerecha = true;
 		meEstoyMoviendo = true;
 	}
 
@@ -223,7 +223,7 @@ public class Barbarianna {
 
 	public void caer(Piso[] pisos) {
 		if (!tocandoElPiso(pisos) && tocandoElCostado(pisos)) {
-			if (caminaHaciaLaDerecha) {
+			if (estaCaminandoHaciaLaDerecha) {
 				x = x + 1;
 			} else {
 				x = x - 1;
@@ -308,7 +308,7 @@ public class Barbarianna {
 	}
 	
 	public boolean getDireccion() {
-		return caminaHaciaLaDerecha;
+		return estaCaminandoHaciaLaDerecha;
 	}
 	
 	public boolean getDisparando() {
