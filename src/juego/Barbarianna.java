@@ -15,7 +15,7 @@ public class Barbarianna {
 
 	private double velocidad;
 	private boolean estaCaminandoHaciaLaDerecha;
-	private boolean meEstoyMoviendo;
+	private boolean seEstaMoviendo;
 
 //	private RayoBarbie rayo;
 
@@ -44,7 +44,7 @@ public class Barbarianna {
 
 		this.ancho = 36;
 		this.alto = 60;
-		this.altoOriginal = 60;
+		this.altoOriginal = 60; 
 
 		this.velocidad = velocidad;
 		this.estaSaltando = false;
@@ -55,7 +55,7 @@ public class Barbarianna {
 
 		this.estaCaminandoHaciaLaDerecha = true;
 //		this.rayo = null;
-		this.meEstoyMoviendo = false;
+		this.seEstaMoviendo = false;
 		this.subiendo = false;
 
 		this.cayendo = false;
@@ -74,7 +74,7 @@ public class Barbarianna {
 				}
 				return;
 			}
-			if (meEstoyMoviendo) {
+			if (seEstaMoviendo) {
 				if (estaCaminandoHaciaLaDerecha) {
 					e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.75);
 				} else {
@@ -133,7 +133,7 @@ public class Barbarianna {
 			x -= velocidad;
 		}
 		estaCaminandoHaciaLaDerecha = false;
-		meEstoyMoviendo = true;
+		seEstaMoviendo = true;
 	}
 
 	public void moverHaciaDerecha(Entorno e, Piso[] pisos) {
@@ -147,11 +147,11 @@ public class Barbarianna {
 			x += velocidad;
 		}
 		estaCaminandoHaciaLaDerecha = true;
-		meEstoyMoviendo = true;
+		seEstaMoviendo = true;
 	}
 
 	public void estaQuieto() {
-		meEstoyMoviendo = false;
+		seEstaMoviendo = false;
 	}
 
 	public void saltar(Piso[] pisos) {
