@@ -17,9 +17,9 @@ public class Juego extends InterfaceJuego {
 	private Velociraptor raptor;
 	private RayoEnemigo rayoEnemigo;
 	private Computadora compu;
-	
+
 	private Rayo rayoDeBarbarianna;
-	
+	private Rayo rayoDeVelociraptor;
 
 	public Juego() {
 		// Inicializa el objeto entorno
@@ -29,12 +29,8 @@ public class Juego extends InterfaceJuego {
 		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
 
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-		raptor = new Velociraptor(entorno.ancho() - 400, entorno.alto() - 90, 2.5);
+		raptor = new Velociraptor(entorno.ancho() - 100, 90, 2);
 
-		
-		
-		
-		
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
 		pisos = new Piso[5];
@@ -49,93 +45,153 @@ public class Juego extends InterfaceJuego {
 	}
 
 	public void tick() {
+		// --------------------FONDO----------------------
 		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
-	
-		
+		// --------------------PISOS----------------------
 		for (Piso p : pisos) {
 			p.dibujar(entorno);
 		}
-		barbarianna.dibujar(entorno);
-		barbarianna.dibujarColision(entorno);
-//		enviroment.dibujar(entorno);
+
+
 		compu.dibujar(entorno);
+		// --------------------VELOCIRAPTOR----------------------
 		if (raptor != null) {
 			raptor.dibujar(entorno);
-		}
 
-		// movimiento del personaje
-		
-		if((barbarianna.estaEnElAire() && entorno.estaPresionada('u')) || barbarianna.estaEnElAireSuperSaltando() ) {
-			barbarianna.saltar2(pisos); 
-		}else if((entorno.estaPresionada('w')  || barbarianna.estaEnElAire())&&  !barbarianna.estaEnElAireSuperSaltando() ) {
-			barbarianna.saltar(pisos);
-		}else {
-			barbarianna.estaQuieto(); 
-		}
-		
-
-		
-//		
-//		if((entorno.estaPresionada('w') && entorno.estaPresionada('u')) || barbarianna.estaEnElAire2() ) {
-//			barbarianna.saltar2(pisos); 
-//		}else if(entorno.estaPresionada('w') || barbarianna.estaEnElAire()){
-//			barbarianna.saltar(pisos);
-//			barbarianna.subirUnPiso(entorno,pisos);
 			
-//		}else if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
-	
-		if(barbarianna.getDisparando() ) {
-				rayoDeBarbarianna.mover();
-				rayoDeBarbarianna.dibujar(entorno);			
-				if(!rayoDeBarbarianna.getDisparado()) {
-					rayoDeBarbarianna = null;
-					barbarianna.terminoDeDisparar();								
+			if (raptor.getDisparando()) {
+				rayoDeVelociraptor.mover();
+				rayoDeVelociraptor.dibujar(entorno);
+				if (!rayoDeVelociraptor.getDisparado()) {
+					rayoDeVelociraptor = null;
+					raptor.terminoDeDisparar();
+				}else if( rayoDeVelociraptor.impactaPersonaje(barbarianna) ) {
+					rayoDeVelociraptor = null;
+					raptor.terminoDeDisparar();
 				}
-		}else if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-				rayoDeBarbarianna = new Rayo(barbarianna.getX(), barbarianna.getY(),5,barbarianna.getDireccion());
-				barbarianna.dispararRayo();
+			
+				
+	
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+			
+			if (!raptor.tocandoElPiso(pisos) && !raptor.estaEnElAire()) {
+				raptor.caer(pisos);
+
+			} else if (raptor.tocandoElPiso(pisos)) {
+
+				if (!raptor.tocaLaPared(entorno)) {
+					raptor.caminar();
+				} else {
+					raptor.girar();
+					raptor.caminar();
+				}
+				
+				
+				
+				
+				if(raptor.getPisoDondeEstaParado() == barbarianna.getPisoDondeEstaParado() ) {
+
+						if((raptor.getX() > barbarianna.getX()) && !raptor.getDireccion() ) {
+							if(!raptor.getDisparando()) {
+								rayoDeVelociraptor = new Rayo(raptor.getX(), raptor.getY()-15, 5, raptor.getDireccion());
+								raptor.dispararRayo();								
+							}
+						}else if((raptor.getX() < barbarianna.getX()) && raptor.getDireccion() ) {
+							if(!raptor.getDisparando()) {
+								rayoDeVelociraptor = new Rayo(raptor.getX(), raptor.getY() -15 , 5, raptor.getDireccion());
+								raptor.dispararRayo();								
+							}
+						}
+					
+				}
+				
+				
+				
+				
+				
+				
+				
+				if (raptor.getPisoDondeEstaParado() == 0) {
+					if (raptor.tocaLaPared(entorno) && !raptor.getDireccion()) {
+						raptor = null;
+					}
+				}
+			}
+
+		}
+
+		
+		
+		
+		
+		
+		
+		
+		
+		// --------------------BARBARIANNA----------------------
+		barbarianna.dibujar(entorno);
+	//	barbarianna.dibujarColision(entorno);
+		if ((barbarianna.estaEnElAire() && entorno.estaPresionada('u')) || barbarianna.estaEnElAireSuperSaltando()) {
+			barbarianna.saltar2(pisos);
+		} else if ((entorno.estaPresionada('w') || barbarianna.estaEnElAire())
+				&& !barbarianna.estaEnElAireSuperSaltando()) {
+			barbarianna.saltar(pisos);
+		} else {
+			barbarianna.estaQuieto();
 		}
 		
 		
 		
-		
-//		if (entorno.estaPresionada('u') ||  barbarianna.estaSubiendo()) {
-//			barbarianna.subirUnPiso(entorno,pisos);
-//		}
+		if (barbarianna.getDisparando()) {
+			rayoDeBarbarianna.mover();
+			rayoDeBarbarianna.dibujar(entorno);		
 
-		if (entorno.estaPresionada('a')  && barbarianna.tocandoElPiso(pisos)) {
+			
+			if (!rayoDeBarbarianna.getDisparado() ) {
+				rayoDeBarbarianna = null;
+				barbarianna.terminoDeDisparar();
+			}else if(raptor != null) {
+				if(rayoDeBarbarianna.impactaEnemigo(raptor)) {
+					rayoDeBarbarianna = null;
+					barbarianna.terminoDeDisparar();
+				}
+			}
+			
+			
+		} else if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
+			rayoDeBarbarianna = new Rayo(barbarianna.getX(), barbarianna.getY(), 5, barbarianna.getDireccion());
+			barbarianna.dispararRayo();
+		}
+		if (entorno.estaPresionada('a') && barbarianna.tocandoElPiso(pisos)) {
 			barbarianna.moverHaciaIzquierda(entorno, pisos);
-		}else if(entorno.estaPresionada('a') && !barbarianna.tocandoElPiso(pisos) &&  !barbarianna.estaEnElAire()){
+		} else if (entorno.estaPresionada('a') && !barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
 			barbarianna.caer(pisos);
-		}else if(entorno.estaPresionada('a') && barbarianna.estaEnElAire() ) {
-			barbarianna.moverHaciaIzquierda(entorno, pisos);	
-			
-		} else if (entorno.estaPresionada('d') && barbarianna.tocandoElPiso(pisos) ) {
-		//	if(!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
-			//	barbarianna.caer(pisos);
-			//}else {
-				
-				barbarianna.moverHaciaDerecha(entorno, pisos);				
-	//		}
-		}else if(entorno.estaPresionada('d') && !barbarianna.tocandoElPiso(pisos) &&  !barbarianna.estaEnElAire()) {
-			
+		} else if (entorno.estaPresionada('a') && barbarianna.estaEnElAire()) {
+			barbarianna.moverHaciaIzquierda(entorno, pisos);
+
+		} else if (entorno.estaPresionada('d') && barbarianna.tocandoElPiso(pisos)) {
+			barbarianna.moverHaciaDerecha(entorno, pisos);
+		} else if (entorno.estaPresionada('d') && !barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
 			barbarianna.caer(pisos);
-				
-		}else if(entorno.estaPresionada('d') && barbarianna.estaEnElAire() ) {
-			barbarianna.moverHaciaDerecha(entorno, pisos);				
+		} else if (entorno.estaPresionada('d') && barbarianna.estaEnElAire()) {
+			barbarianna.moverHaciaDerecha(entorno, pisos);
 		} else if (entorno.estaPresionada('s') && barbarianna.tocandoElPiso(pisos)) {
 			barbarianna.agacharse();
 		} else {
-			
-			if(!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
+			if (!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
 				barbarianna.caer(pisos);
-			}else if(barbarianna.estaAgachada()){
+			} else if (barbarianna.estaAgachada()) {
 				barbarianna.levantar();
 			}
 		}
-
-
-
 
 //		if (personaje.getRayo() != null && raptor != null && personaje.getRayo().chocasteConVelociraptor(raptor)) {
 //			raptor = null;

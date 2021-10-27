@@ -35,6 +35,8 @@ public class Barbarianna {
 	private double ultimaPosY1;
 
 	private boolean disparando;
+	private int pisoActual; 
+	
 	
 	public Barbarianna(double x, double y, double velocidad) {
 		this.x = x;
@@ -59,7 +61,7 @@ public class Barbarianna {
 		this.cayendo = false;
 		this.ultimaPosY1 = 0;
 		this.disparando = false;
-
+		this.pisoActual = 0;
 	}
 
 	public void dibujar(Entorno e) {
@@ -237,6 +239,7 @@ public class Barbarianna {
 			if ((((x - ancho / 2) >= pisos[i].getPosColision()[0] && (x <= pisos[i].getPosColision()[1]))
 					|| (x >= pisos[i].getPosColision()[0]) && (x + ancho / 2) <= pisos[i].getPosColision()[1])
 					&& (y + alto / 2) == pisos[i].getPosColision()[2]) {
+				pisoActual = i;
 				return true;
 			}
 		}
@@ -296,6 +299,13 @@ public class Barbarianna {
 	public double getY() {
 		return y;
 	}
+	public double getAncho() {
+		return ancho;
+	}
+	
+	public double getAlto() {
+		return alto;
+	}
 	
 	public boolean getDireccion() {
 		return caminaHaciaLaDerecha;
@@ -304,6 +314,11 @@ public class Barbarianna {
 	public boolean getDisparando() {
 		return disparando;
 	}
+	
+	public int getPisoDondeEstaParado() {
+		return pisoActual;
+	}
+	
 }
 //x0 = (x - ancho / 2)  
 //x1 = (x + ancho / 2)
