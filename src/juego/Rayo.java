@@ -15,7 +15,7 @@ public class Rayo {
 
 	private double velocidad;
 	private boolean estaMirandoDerecha;
-	 
+
 	private boolean disparado;
 
 	public Rayo(double x, double y, double velocidad, boolean estaMirandoDerecha) {
@@ -33,47 +33,50 @@ public class Rayo {
 		if (x > 800 || x < 0) {
 			disparado = false;
 			return;
-		}else {
+		} else {
 			disparado = true;
 		}
-			if (estaMirandoDerecha) {
-				x += velocidad;
-			} else {
-				x -= velocidad; // expliquenlo en el informe
-			}	
-	}
-	
-	
-	public void dibujar(Entorno e) { // dibujar()
-		//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
-		if(estaMirandoDerecha) {
-			e.dibujarImagen(Herramientas.cargarImagen("rayo-der.png"), x, y, 0, 1);
-			//e.dibujarRectangulo(x, y, 50, 20, 0, Color.GREEN);
-		}else {
-			e.dibujarImagen(Herramientas.cargarImagen("rayo-izq.png"), x, y, 0, 1);
-			//e.dibujarRectangulo(x, y, 50, 20, 0, Color.GREEN);
+		if (estaMirandoDerecha) {
+			x += velocidad;
+		} else {
+			x -= velocidad; // expliquenlo en el informe
 		}
 	}
-	
+
+	public void dibujar(Entorno e) { // dibujar()
+		// e.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
+		if (estaMirandoDerecha) {
+			e.dibujarImagen(Herramientas.cargarImagen("rayo-der.png"), x, y, 0, 1);
+			// e.dibujarRectangulo(x, y, 50, 20, 0, Color.GREEN);
+		} else {
+			e.dibujarImagen(Herramientas.cargarImagen("rayo-izq.png"), x, y, 0, 1);
+			// e.dibujarRectangulo(x, y, 50, 20, 0, Color.GREEN);
+		}
+	}
+
 	public boolean impactaEnemigo(Velociraptor enemigo) {
-		return (((x  >= enemigo.getX() - enemigo.getAncho()/2 && x <= enemigo.getX() + enemigo.getAncho()/2) || (x  <= enemigo.getX() - enemigo.getAncho()/2 && x >= enemigo.getX() + enemigo.getAncho()/2)) && (y > enemigo.getY() - enemigo.getAlto() / 2 && y < enemigo.getY() + enemigo.getAlto() / 2 ));
-		
+		return (((x >= enemigo.getX() - enemigo.getAncho() / 2 && x <= enemigo.getX() + enemigo.getAncho() / 2)
+				|| (x <= enemigo.getX() - enemigo.getAncho() / 2 && x >= enemigo.getX() + enemigo.getAncho() / 2))
+				&& (y > enemigo.getY() - enemigo.getAlto() / 2 && y < enemigo.getY() + enemigo.getAlto() / 2));
+
 	}
+
 	public boolean impactaPersonaje(Barbarianna personaje) {
-		return (((x  >= personaje.getX() - personaje.getAncho()/2 && x <= personaje.getX() + personaje.getAncho()/2) || (x  <= personaje.getX() - personaje.getAncho()/2 && x >= personaje.getX() + personaje.getAncho()/2)) && (y > personaje.getY() - personaje.getAlto() / 2 && y < personaje.getY() + personaje.getAlto() / 2 ));
-		
+		return (((x >= personaje.getX() - personaje.getAncho() / 2 && x <= personaje.getX() + personaje.getAncho() / 2)
+				|| (x <= personaje.getX() - personaje.getAncho() / 2
+						&& x >= personaje.getX() + personaje.getAncho() / 2))
+				&& (y > personaje.getY() - personaje.getAlto() / 2 && y < personaje.getY() + personaje.getAlto() / 2));
+
 	}
-	
-	
-	
-	
+
 //	public boolean chocasteConVelociraptor(Velociraptor raptor) {
-//	//	return x > raptor.getX() ;
+//		return x > raptor.getX() ;
 //	}
 
 	public double getX() {
 		return x;
 	}
+
 	public double getY() {
 		return y;
 	}
@@ -81,5 +84,5 @@ public class Rayo {
 	public boolean getDisparado() {
 		return disparado;
 	}
-	
+
 }
