@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.Color;
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -20,7 +21,10 @@ public class Juego extends InterfaceJuego {
 
 	private Rayo rayoDeBarbarianna;
 	private Rayo rayoDeVelociraptor;
-
+	
+	private int points;
+	private int lives;
+	private int kills;
 	public Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
@@ -40,11 +44,16 @@ public class Juego extends InterfaceJuego {
 		pisos[3] = new Piso(x - 164, y - 60, "pisoSuperiores.png", "3");
 		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png", "4");
 
+		this.points = 0;
+		this.lives = 1;
+		this.kills = 0;
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
 
 	public void tick() {
+		
+
 		// --------------------FONDO----------------------
 		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
 		// --------------------PISOS----------------------
@@ -54,6 +63,83 @@ public class Juego extends InterfaceJuego {
 
 
 		compu.dibujar(entorno);
+		
+		if(lives < 0) {
+			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
+			entorno.cambiarFont("sans", 24, Color.RED);
+			entorno.escribirTexto("points: " + points , entorno.ancho() / 2 -150, entorno.alto() /2 + 150);
+			entorno.escribirTexto("kills: " + kills ,entorno.ancho()-220, entorno.alto() /2 + 150);
+			return;
+		}else if(barbarianna == null) {
+			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
+			lives -= 1;
+		}else {
+			
+			
+			// --------------------BARBARIANNA----------------------
+			barbarianna.dibujar(entorno);
+		//	barbarianna.dibujarColision(entorno);
+			if ((barbarianna.estaEnElAire() && entorno.estaPresionada('u')) || barbarianna.estaEnElAireSuperSaltando()) {
+				barbarianna.saltar2(pisos);
+			} else if ((entorno.estaPresionada('w') || barbarianna.estaEnElAire())
+					&& !barbarianna.estaEnElAireSuperSaltando()) {
+				barbarianna.saltar(pisos);
+			} else {
+				barbarianna.estaQuieto();
+			}
+			
+			
+			
+			if (barbarianna.getDisparando()) {
+				rayoDeBarbarianna.mover();
+				rayoDeBarbarianna.dibujar(entorno);		
+
+				
+				if (!rayoDeBarbarianna.getDisparado() ) {
+					rayoDeBarbarianna = null;
+					barbarianna.terminoDeDisparar();
+				}else if(raptor != null) {
+					if(rayoDeBarbarianna.impactaEnemigo(raptor)) {
+						rayoDeBarbarianna = null;
+						barbarianna.terminoDeDisparar();
+						points += 30;
+						kills++;
+					}
+				}
+				
+				
+			} else if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
+				rayoDeBarbarianna = new Rayo(barbarianna.getX(), barbarianna.getY(), 5, barbarianna.getDireccion());
+				barbarianna.dispararRayo();
+			}
+			if (entorno.estaPresionada('a') && barbarianna.tocandoElPiso(pisos)) {
+				barbarianna.moverHaciaIzquierda(entorno, pisos);
+			} else if (entorno.estaPresionada('a') && !barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
+				barbarianna.caer(pisos);
+			} else if (entorno.estaPresionada('a') && barbarianna.estaEnElAire()) {
+				barbarianna.moverHaciaIzquierda(entorno, pisos);
+
+			} else if (entorno.estaPresionada('d') && barbarianna.tocandoElPiso(pisos)) {
+				barbarianna.moverHaciaDerecha(entorno, pisos);
+			} else if (entorno.estaPresionada('d') && !barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
+				barbarianna.caer(pisos);
+			} else if (entorno.estaPresionada('d') && barbarianna.estaEnElAire()) {
+				barbarianna.moverHaciaDerecha(entorno, pisos);
+			} else if (entorno.estaPresionada('s') && barbarianna.tocandoElPiso(pisos)) {
+				barbarianna.agacharse();
+			} else {
+				if (!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
+					barbarianna.caer(pisos);
+				} else if (barbarianna.estaAgachada()) {
+					barbarianna.levantar();
+				}
+			}
+			// --------------------BARBARIANNA----------------------
+		}
+	
+		
+		
+
 		// --------------------VELOCIRAPTOR----------------------
 		if (raptor != null) {
 			raptor.dibujar(entorno);
@@ -67,6 +153,7 @@ public class Juego extends InterfaceJuego {
 					raptor.terminoDeDisparar();
 				}else if( rayoDeVelociraptor.impactaPersonaje(barbarianna) ) {
 					rayoDeVelociraptor = null;
+					barbarianna = null;
 					raptor.terminoDeDisparar();
 				}
 			
@@ -95,10 +182,9 @@ public class Juego extends InterfaceJuego {
 				}
 				
 				
-				
-				
-				if(raptor.getPisoDondeEstaParado() == barbarianna.getPisoDondeEstaParado() ) {
-
+				if(barbarianna != null) {
+					if(raptor.getPisoDondeEstaParado() == barbarianna.getPisoDondeEstaParado() ) {
+						
 						if((raptor.getX() > barbarianna.getX()) && !raptor.getDireccion() ) {
 							if(!raptor.getDisparando()) {
 								rayoDeVelociraptor = new Rayo(raptor.getX(), raptor.getY()-15, 5, raptor.getDireccion());
@@ -110,8 +196,10 @@ public class Juego extends InterfaceJuego {
 								raptor.dispararRayo();								
 							}
 						}
-					
+						
+					}					
 				}
+				
 				
 				
 				
@@ -136,68 +224,19 @@ public class Juego extends InterfaceJuego {
 		
 		
 		
-		// --------------------BARBARIANNA----------------------
-		barbarianna.dibujar(entorno);
-	//	barbarianna.dibujarColision(entorno);
-		if ((barbarianna.estaEnElAire() && entorno.estaPresionada('u')) || barbarianna.estaEnElAireSuperSaltando()) {
-			barbarianna.saltar2(pisos);
-		} else if ((entorno.estaPresionada('w') || barbarianna.estaEnElAire())
-				&& !barbarianna.estaEnElAireSuperSaltando()) {
-			barbarianna.saltar(pisos);
-		} else {
-			barbarianna.estaQuieto();
-		}
-		
-		
-		
-		if (barbarianna.getDisparando()) {
-			rayoDeBarbarianna.mover();
-			rayoDeBarbarianna.dibujar(entorno);		
-
-			
-			if (!rayoDeBarbarianna.getDisparado() ) {
-				rayoDeBarbarianna = null;
-				barbarianna.terminoDeDisparar();
-			}else if(raptor != null) {
-				if(rayoDeBarbarianna.impactaEnemigo(raptor)) {
-					rayoDeBarbarianna = null;
-					barbarianna.terminoDeDisparar();
-				}
-			}
-			
-			
-		} else if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-			rayoDeBarbarianna = new Rayo(barbarianna.getX(), barbarianna.getY(), 5, barbarianna.getDireccion());
-			barbarianna.dispararRayo();
-		}
-		if (entorno.estaPresionada('a') && barbarianna.tocandoElPiso(pisos)) {
-			barbarianna.moverHaciaIzquierda(entorno, pisos);
-		} else if (entorno.estaPresionada('a') && !barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
-			barbarianna.caer(pisos);
-		} else if (entorno.estaPresionada('a') && barbarianna.estaEnElAire()) {
-			barbarianna.moverHaciaIzquierda(entorno, pisos);
-
-		} else if (entorno.estaPresionada('d') && barbarianna.tocandoElPiso(pisos)) {
-			barbarianna.moverHaciaDerecha(entorno, pisos);
-		} else if (entorno.estaPresionada('d') && !barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
-			barbarianna.caer(pisos);
-		} else if (entorno.estaPresionada('d') && barbarianna.estaEnElAire()) {
-			barbarianna.moverHaciaDerecha(entorno, pisos);
-		} else if (entorno.estaPresionada('s') && barbarianna.tocandoElPiso(pisos)) {
-			barbarianna.agacharse();
-		} else {
-			if (!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
-				barbarianna.caer(pisos);
-			} else if (barbarianna.estaAgachada()) {
-				barbarianna.levantar();
-			}
-		}
+	
 
 //		if (personaje.getRayo() != null && raptor != null && personaje.getRayo().chocasteConVelociraptor(raptor)) {
 //			raptor = null;
 //			personaje.destruirRayo();
 //		}
 //		personaje.avanzarDisparo();
+		
+		//-------------------TEXTO--------------------------
+		entorno.cambiarFont("sans", 24, Color.BLUE);
+		entorno.escribirTexto("lives: " + lives , 40, entorno.alto() - 20);
+		entorno.escribirTexto("points: " + points , entorno.ancho() / 2 -40, entorno.alto() - 20);
+		entorno.escribirTexto("kills: " + kills ,entorno.ancho()-120, entorno.alto() - 20);
 	}
 
 	@SuppressWarnings("unused")
