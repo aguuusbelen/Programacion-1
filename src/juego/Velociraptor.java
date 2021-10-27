@@ -14,7 +14,7 @@ public class Velociraptor {
 
 	private double velocidad;
 
-	private RayoBarbie rayo;
+	private Rayo rayo;
 	private boolean caminaHaciaLaDerecha;
 
 	public Velociraptor(double x, double y, double velocidad) {
@@ -32,7 +32,7 @@ public class Velociraptor {
 	public void dibujar(Entorno e) {
 		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 		if (rayo != null) {
-			rayo.dibujarRayo(e);
+			rayo.dibujar(e);
 		}
 	}
 	
@@ -40,16 +40,16 @@ public class Velociraptor {
 
 		if (rayo == null) {
 			if (caminaHaciaLaDerecha) {
-				rayo = new RayoBarbie(x + ancho / 2, y, 4, caminaHaciaLaDerecha);
+				rayo = new Rayo(x + ancho / 2, y, 4, caminaHaciaLaDerecha);
 			} else {
-				rayo = new RayoBarbie(x - ancho / 2, y, 4, caminaHaciaLaDerecha);
+				rayo = new Rayo(x - ancho / 2, y, 4, caminaHaciaLaDerecha);
 			}
 		}
 	}
 	
 	public void avanzarDisparo() {
 		if (rayo != null) {
-			rayo.avanzar();
+			rayo.mover();
 			if (rayo.getX() > 800 || rayo.getX() < 0) {
 				rayo = null;
 			}

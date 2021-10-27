@@ -17,6 +17,9 @@ public class Juego extends InterfaceJuego {
 	private Velociraptor raptor;
 	private RayoEnemigo rayoEnemigo;
 	private Computadora compu;
+	
+	private Rayo rayoDeBarbarianna;
+	
 
 	public Juego() {
 		// Inicializa el objeto entorno
@@ -26,9 +29,12 @@ public class Juego extends InterfaceJuego {
 		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
 
 		compu = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-
 		raptor = new Velociraptor(entorno.ancho() - 400, entorno.alto() - 90, 2.5);
 
+		
+		
+		
+		
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
 		pisos = new Piso[5];
@@ -77,11 +83,22 @@ public class Juego extends InterfaceJuego {
 //			barbarianna.subirUnPiso(entorno,pisos);
 			
 //		}else if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
-		
-		
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-			barbarianna.dispararRayo();
+	
+		if(barbarianna.getDisparando() ) {
+				rayoDeBarbarianna.mover();
+				rayoDeBarbarianna.dibujar(entorno);			
+				if(!rayoDeBarbarianna.getDisparado()) {
+					rayoDeBarbarianna = null;
+					barbarianna.terminoDeDisparar();								
+				}
+		}else if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
+				rayoDeBarbarianna = new Rayo(barbarianna.getX(), barbarianna.getY(),5,barbarianna.getDireccion());
+				barbarianna.dispararRayo();
 		}
+		
+		
+		
+		
 //		if (entorno.estaPresionada('u') ||  barbarianna.estaSubiendo()) {
 //			barbarianna.subirUnPiso(entorno,pisos);
 //		}

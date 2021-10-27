@@ -34,6 +34,8 @@ public class Barbarianna {
 
 	private double ultimaPosY1;
 
+	private boolean disparando;
+	
 	public Barbarianna(double x, double y, double velocidad) {
 		this.x = x;
 		this.y = y;
@@ -56,6 +58,7 @@ public class Barbarianna {
 
 		this.cayendo = false;
 		this.ultimaPosY1 = 0;
+		this.disparando = false;
 
 	}
 
@@ -101,7 +104,12 @@ public class Barbarianna {
 
 	// está encaminado, pero tienen que repensarlo
 	public void dispararRayo() {
-
+		disparando = true;
+	}
+		
+	public void terminoDeDisparar() {
+		disparando = false;
+	}
 //		if (rayo == null) {
 //			if (caminaHaciaLaDerecha) {
 //				rayo = new RayoBarbie(x + ancho / 2, y, 4, caminaHaciaLaDerecha);
@@ -110,7 +118,7 @@ public class Barbarianna {
 //			}
 //		}
 
-	}
+
 
 	public void moverHaciaIzquierda(Entorno e, Piso[] pisos) {
 		if (estaAgachado) {
@@ -279,6 +287,22 @@ public class Barbarianna {
 
 	public boolean estaAgachada() {
 		return estaAgachado;
+	}
+	
+	public double getX() {
+		return x;
+	}
+	
+	public double getY() {
+		return y;
+	}
+	
+	public boolean getDireccion() {
+		return caminaHaciaLaDerecha;
+	}
+	
+	public boolean getDisparando() {
+		return disparando;
 	}
 }
 //x0 = (x - ancho / 2)  
