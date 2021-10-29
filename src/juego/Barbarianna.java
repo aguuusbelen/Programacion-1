@@ -1,4 +1,5 @@
 package juego;
+
 import java.awt.Color;
 import entorno.Entorno;
 import entorno.Herramientas;
@@ -17,12 +18,12 @@ public class Barbarianna {
 	private boolean estaSuperSaltando;
 	private boolean estaDisparando;
 	private boolean estaCayendo;
-		
+
 	private int distanciaDelPisoCuandoSalta;
 	private int altoOriginal;
 	private double ultimaPosY1;
-	private int pisoActual; 
-	
+	private int pisoActual;
+
 	public Barbarianna(double x, double y, double velocidad) {
 		this.x = x;
 		this.y = y;
@@ -38,7 +39,7 @@ public class Barbarianna {
 		this.estaDisparando = false;
 		this.estaCayendo = false;
 		this.distanciaDelPisoCuandoSalta = 0;
-		this.altoOriginal = 48; 
+		this.altoOriginal = 48;
 		this.pisoActual = 0;
 		this.ultimaPosY1 = 0;
 	}
@@ -78,7 +79,7 @@ public class Barbarianna {
 	public void dispararRayo() {
 		estaDisparando = true;
 	}
-		
+
 	public void terminoDeDisparar() {
 		estaDisparando = false;
 	}
@@ -140,7 +141,8 @@ public class Barbarianna {
 	}
 
 	public void superSalto(Piso[] pisos) {
-		if ((estaSuperSaltando == true && !estaCayendo) && (!tocandoElTecho(pisos) && distanciaDelPisoCuandoSalta <= 55)) {
+		if ((estaSuperSaltando == true && !estaCayendo)
+				&& (!tocandoElTecho(pisos) && distanciaDelPisoCuandoSalta <= 55)) {
 			y = y - 2;
 			distanciaDelPisoCuandoSalta++;
 		} else if (estaSuperSaltando == true && (tocandoElTecho(pisos) || distanciaDelPisoCuandoSalta == 56)) {
@@ -172,7 +174,7 @@ public class Barbarianna {
 		}
 	}
 
-	public void levantarse () { 
+	public void levantarse() {
 		estaAgachada = false;
 		y = ultimaPosY1 - alto;
 		alto = altoOriginal;
@@ -190,9 +192,14 @@ public class Barbarianna {
 			y = y + 2;
 		}
 	}
-	
-	public boolean tocaLaPC(Computadora compu) {
-		return (x > compu.getX() && (y > compu.getY() - compu.getAncho() / 2 && y < compu.getY() + compu.getAncho() / 2  ) );
+
+	// isEmpty()
+	// isPeronista()
+	// isTocandoLaComputadora()
+	// estasTocandoLaComputadora()
+	boolean tocaLaPC(Computadora compu) {
+		return (x > compu.getX()
+				&& (y > compu.getY() - compu.getAncho() / 2 && y < compu.getY() + compu.getAncho() / 2));
 	}
 
 	public boolean tocandoElPiso(Piso[] pisos) {
@@ -209,7 +216,8 @@ public class Barbarianna {
 
 	private boolean tocandoElTecho(Piso[] pisos) {
 		for (int i = 0; i < pisos.length; i++) {
-			if (((((x - ancho / 2) >= pisos[i].getSuperposicion()[0] && ((x - ancho / 2) <= pisos[i].getSuperposicion()[1]))
+			if (((((x - ancho / 2) >= pisos[i].getSuperposicion()[0]
+					&& ((x - ancho / 2) <= pisos[i].getSuperposicion()[1]))
 					|| ((x + ancho / 2) >= pisos[i].getSuperposicion()[0]
 							&& (x + ancho / 2) <= pisos[i].getSuperposicion()[1]))
 					&& (y - alto / 2) == pisos[i].getSuperposicion()[3]) || ((y - alto / 2) <= 0)) {
@@ -248,32 +256,32 @@ public class Barbarianna {
 	public boolean estaAgachada() {
 		return estaAgachada;
 	}
-	
-	public double getX() {
-		return x;
-	}
-	
-	public double getY() {
-		return y;
-	}
-	
-	public double getAncho() {
-		return ancho;
-	}
-	
-	public double getAlto() {
-		return alto;
-	}
-	
-	public boolean getDireccion() {
-		return estaCaminandoHaciaLaDerecha;
-	}
-	
-	public boolean getDisparando() {
-		return estaDisparando;
-	}
-	
-	public int getPisoDondeEstaParado() {
-		return pisoActual;
-	}	
+
+//	public double getX() {
+//		return x;
+//	}
+//	
+//	public double getY() {
+//		return y;
+//	}
+//	
+//	public double getAncho() {
+//		return ancho;
+//	}
+//	
+//	public double getAlto() {
+//		return alto;
+//	}
+//	
+//	public boolean getDireccion() {
+//		return estaCaminandoHaciaLaDerecha;
+//	}
+//	
+//	public boolean getDisparando() {
+//		return estaDisparando;
+//	}
+//	
+//	public int getPisoDondeEstaParado() {
+//		return pisoActual;
+//	}	
 }

@@ -144,9 +144,9 @@ public class Velociraptor {
 		return false;
 	}
 
-	public boolean getEstaEnElAire() {
-		return estaEnElAire;
-	}
+//	public boolean getEstaEnElAire() {
+//		return estaEnElAire;
+//	}
 	public double getX() {
 		return x;
 	}
@@ -159,13 +159,14 @@ public class Velociraptor {
 	public double getAlto() {
 		return alto;
 	}
-	public boolean getDireccion() {
-		return estaCaminandoHaciaLaDerecha;
-	}
-	public boolean getDisparando() {
-		return estaDisparando;
-	}
-	public int getPisoDondeEstaParado() {
-		return pisoActual;
-	}
+//	public boolean getDireccion() {
+//		return estaCaminandoHaciaLaDerecha;
+//	}
+//	public boolean getDisparando() {
+//		return estaDisparando;
+//	}
+//	public int getPisoDondeEstaParado() {
+//		return pisoActual;
+//	}
+	
 }
