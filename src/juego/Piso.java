@@ -39,4 +39,24 @@ public class Piso {
 	public double[] getDimensiones() {
 		return posicionesEnXY; // {Xinicial, Xfinal, YInicial, YFinal}
 	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public int getAncho() {
+		return ancho;
+	}
+
+	public int getAlto() {
+		return alto;
+	}
+	
+	
 }
+
+
