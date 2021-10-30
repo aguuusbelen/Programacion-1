@@ -13,36 +13,30 @@ public class Piso {
 	private int ancho;
 	private int alto;
 
+	private double[] posicionesEnXY;
+	
 	public Piso(double x, double y, String img) {
 		this.x = x;
 		this.y = y;
 		this.img = Herramientas.cargarImagen("pisoSuperiores.png");
 		this.alto = 24;
 		this.ancho = 800;
+		this.posicionesEnXY = new double [4];
+		generarDimensiones();
 	}
 
 	public void dibujar(Entorno e) {
 		e.dibujarImagen(img, x, y, 0, 1.26);
 	}
-
-	public double getX() {
-		return x;
+	
+	private void generarDimensiones() {
+		posicionesEnXY[0] = x - ancho / 2;
+		posicionesEnXY[1] = x + ancho / 2;
+		posicionesEnXY[2] = y - alto/2;
+		posicionesEnXY[3] = y + alto/2;
 	}
 
-	public double getY() {
-		return y;
-	}
-
-	public int getAncho() {
-		return ancho;
-	}
-
-	public int getAlto() {
-		return alto;
-	}
-
-	public double[] getSuperposicion() {
-		double [] posColision = {x - ancho / 2,x + ancho / 2,y - (alto/2),(y + (alto/2))}; 
-		return posColision;  // {Xinicial, Xfinal, Ybase, Ytop}
+	public double[] getDimensiones() { 
+		return posicionesEnXY;  // {Xinicial, Xfinal, YInicial, YFinal}
 	}
 }

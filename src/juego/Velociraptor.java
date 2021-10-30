@@ -1,4 +1,5 @@
 package juego;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -9,13 +10,11 @@ public class Velociraptor {
 	private double ancho;
 	private double alto;
 	private double velocidad;
-	
-	private boolean estaCaminandoHaciaLaDerecha; 
-	private boolean estaEnMovimiento;
-	private boolean estaEnElAire; 
-	private boolean estaDisparando;
 
-	private int pisoActual; //Numero del piso donde se encuentra el personaje.
+	private boolean estaCaminandoHaciaLaDerecha;
+
+	private int pisoActual; // Numero del piso donde se encuentra el personaje.
+	private boolean estaVivo;
 
 	public Velociraptor(double x, double y, double velocidad) {
 		this.x = x;
@@ -23,66 +22,35 @@ public class Velociraptor {
 		this.ancho = 36;
 		this.alto = 60;
 		this.velocidad = velocidad;
-		
-		this.estaEnElAire = false;
-		this.estaCaminandoHaciaLaDerecha = false;
-		this.estaEnMovimiento = false;
-		this.estaDisparando = false;
 
-		this.pisoActual = 0; 
+		this.estaCaminandoHaciaLaDerecha = false;
+
+		this.pisoActual = -1;
+		this.estaVivo = true;
+
 	}
 
 	public void dibujar(Entorno e) {
-		if (!estaEnElAire) {
-			if (estaEnMovimiento) {
-				if (estaCaminandoHaciaLaDerecha) {
-					e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.75);
-				} else {
-					e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y - 5, 0, 0.75);
-				}
-			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y - 5, 0, 0.75);
-			}
-		} else {
-			if (estaCaminandoHaciaLaDerecha) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.75);
-			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.75);
-			}
-		}
-	}
-
-	public boolean tocaPersonaje(Barbarianna personaje) {
-		return (((x - ancho / 2 <= personaje.getX() + personaje.getAncho() / 2
-				&& x - ancho / 2 >= personaje.getX() - personaje.getAncho() / 2)
-				|| (x + ancho / 2 >= personaje.getX() - personaje.getAncho() / 2
-						&& x + ancho / 2 <= personaje.getX() + personaje.getAncho() / 2))
-				&& (y + 15 > personaje.getY() - personaje.getAlto() / 2
-						&& y + 15 < personaje.getY() + personaje.getAlto() / 2));
-	}
-
-	public void dispararRayo() {
-		estaDisparando = true;
-	}
-
-	public void terminoDeDisparar() {
-		estaDisparando = false;
-	}
-
-	public boolean tocaLaPared(Entorno e) {
-		return ((x - ancho / 2 < 0) || (x + ancho / 2 > e.ancho()));
-	}
-
-	public void caminar() {
 		if (estaCaminandoHaciaLaDerecha) {
-			moverHaciaDerecha();
+			e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.75);
 		} else {
-			moverHaciaIzquierda();
+			e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y - 5, 0, 0.75);
 		}
 	}
 
-	public void girar() {
-		estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
+	public void mover(Entorno e, Piso[] pisos) {
+		if (!estaSobreElPiso(pisos))
+			caer(pisos);
+		if (estaCaminandoHaciaLaDerecha && estaSobreElPiso(pisos))
+			moverHaciaDerecha();
+		if (!estaCaminandoHaciaLaDerecha && estaSobreElPiso(pisos))
+			moverHaciaIzquierda();
+		if (pisoActual == 4 || pisoActual == 2 || pisoActual == 0)
+			estaCaminandoHaciaLaDerecha = false;
+		if (pisoActual == 1 || pisoActual == 3)
+			estaCaminandoHaciaLaDerecha = true;
+		if (pisoActual == 0 && x < ancho / 2)
+			estaVivo = false;
 	}
 
 	public void moverHaciaIzquierda() {
@@ -90,19 +58,17 @@ public class Velociraptor {
 			x -= velocidad;
 		}
 		estaCaminandoHaciaLaDerecha = false;
-		estaEnMovimiento = true;
 	}
-
+	
 	public void moverHaciaDerecha() {
 		if (x < 800 - ancho / 2) {
 			x += velocidad;
 		}
 		estaCaminandoHaciaLaDerecha = true;
-		estaEnMovimiento = true;
 	}
-
+	
 	public void caer(Piso[] pisos) {
-		if (!tocandoElPiso(pisos) && tocandoElCostado(pisos)) {
+		if (estaSobreElBordeDelPiso(pisos)) {
 			if (estaCaminandoHaciaLaDerecha) {
 				x = x + 1;
 			} else {
@@ -114,11 +80,16 @@ public class Velociraptor {
 		}
 	}
 
-	public boolean tocandoElPiso(Piso[] pisos) {
+	public Rayo dispararRayo() {
+		boolean direccionDeDisparo = estaCaminandoHaciaLaDerecha;
+		return new Rayo(x, y, direccionDeDisparo);
+	}
+
+	private boolean estaSobreElPiso(Piso[] pisos) {
 		for (int i = 0; i < pisos.length; i++) {
-			if ((((x - ancho / 2) >= pisos[i].getSuperposicion()[0] && (x <= pisos[i].getSuperposicion()[1]))
-					|| (x >= pisos[i].getSuperposicion()[0]) && (x + ancho / 2) <= pisos[i].getSuperposicion()[1])
-					&& (y + alto / 2) == pisos[i].getSuperposicion()[2]) {
+			if ((((x - ancho / 2) >= pisos[i].getDimensiones()[0] && (x <= pisos[i].getDimensiones()[1]))
+					|| (x >= pisos[i].getDimensiones()[0]) && (x + ancho / 2) <= pisos[i].getDimensiones()[1])
+					&& (y + alto / 2) == pisos[i].getDimensiones()[2]) {
 				pisoActual = i;
 				return true;
 			}
@@ -126,17 +97,17 @@ public class Velociraptor {
 		return false;
 	}
 
-	private boolean tocandoElCostado(Piso[] pisos) {
+	private boolean estaSobreElBordeDelPiso(Piso[] pisos) {
 		for (int i = 0; i < pisos.length; i++) {
 			if (i != pisos.length - 1) {
-				if ((((x - ancho / 2) <= pisos[i + 1].getSuperposicion()[1]
-						&& (x + ancho / 2) >= pisos[i + 1].getSuperposicion()[1])
-						|| ((x + ancho / 2) >= pisos[i + 1].getSuperposicion()[0]
-								&& (x - ancho / 2) <= pisos[i + 1].getSuperposicion()[0]))
-						&& (((y - alto / 2) < pisos[i + 1].getSuperposicion()[3]
-								&& (y + alto / 2) > pisos[i + 1].getSuperposicion()[3])
-								|| ((y + alto / 2) > pisos[i + 1].getSuperposicion()[2]
-										&& (y - alto / 2) < pisos[i + 1].getSuperposicion()[2]))) {
+				if ((((x - ancho / 2) <= pisos[i + 1].getDimensiones()[1]
+						&& (x + ancho / 2) >= pisos[i + 1].getDimensiones()[1])
+						|| ((x + ancho / 2) >= pisos[i + 1].getDimensiones()[0]
+								&& (x - ancho / 2) <= pisos[i + 1].getDimensiones()[0]))
+						&& (((y - alto / 2) < pisos[i + 1].getDimensiones()[3]
+								&& (y + alto / 2) > pisos[i + 1].getDimensiones()[3])
+								|| ((y + alto / 2) > pisos[i + 1].getDimensiones()[2]
+										&& (y - alto / 2) < pisos[i + 1].getDimensiones()[2]))) {
 					return true;
 				}
 			}
@@ -144,29 +115,41 @@ public class Velociraptor {
 		return false;
 	}
 
-//	public boolean getEstaEnElAire() {
-//		return estaEnElAire;
-//	}
+	public boolean getEstaVivo() {
+		return estaVivo;
+	}
+	
+	public boolean getFueHallada(Barbarianna barbarianna) {
+		return (pisoActual == barbarianna.getPisoDondeEstaParado());
+	}
+
+	
 	public double getX() {
 		return x;
 	}
+
 	public double getY() {
 		return y;
 	}
+
 	public double getAncho() {
 		return ancho;
 	}
+
 	public double getAlto() {
 		return alto;
 	}
-//	public boolean getDireccion() {
-//		return estaCaminandoHaciaLaDerecha;
-//	}
-//	public boolean getDisparando() {
-//		return estaDisparando;
-//	}
-//	public int getPisoDondeEstaParado() {
-//		return pisoActual;
-//	}
+
+	
+	
 	
 }
+
+//public boolean tocaPersonaje(Barbarianna barbariana) {
+//return (((x - ancho / 2 <= personaje.getX() + personaje.getAncho() / 2
+//		&& x - ancho / 2 >= personaje.getX() - personaje.getAncho() / 2)
+//		|| (x + ancho / 2 >= personaje.getX() - personaje.getAncho() / 2
+//				&& x + ancho / 2 <= personaje.getX() + personaje.getAncho() / 2))
+//		&& (y + 15 > personaje.getY() - personaje.getAlto() / 2
+//				&& y + 15 < personaje.getY() + personaje.getAlto() / 2));
+//}
