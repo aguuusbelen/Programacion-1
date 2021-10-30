@@ -147,18 +147,20 @@ public class Barbarianna {
 	}
 //
 	
-	public boolean chocasteCon(Velociraptor[] velociraptors, Rayo[] rayoDeVelociraptors) {
+	public boolean chocasteConVelociraptor(Velociraptor[] velociraptors) {
 
 		for (Velociraptor v : velociraptors) {
 			if(v != null) {
-
 				return ((x + ancho / 2 >= v.getX() - v.getAncho() / 2 && x - ancho / 2 <= v.getX() - v.getAncho() / 2) || (x - ancho / 2 <= v.getX() + v.getAncho() / 2 && x + ancho / 2 >= v.getX() + v.getAncho() / 2)) && (y - alto / 2 < v.getY() + 15 && y + alto/2 > v.getY() + 15) ;
 			}
-		}
+		}	
+		return false;
 		
+	}
+
+	public boolean chocasteConRayo(Rayo[] rayoDeVelociraptors) {
 		for (Rayo r : rayoDeVelociraptors) {
 			if(r != null) {
-
 				return ((x - ancho / 2 <= r.getX() && x + ancho / 2 >= r.getX()) || (x - ancho / 2 >= r.getX() && x + ancho / 2 <= r.getX())) && (y - alto / 2 < r.getY() && y + alto/2 > r.getY()) ;
 			}
 		}
@@ -166,14 +168,6 @@ public class Barbarianna {
 		
 	}
 
-	//public boolean tocaPersonaje(Barbarianna barbariana) {
-	//return (((x - ancho / 2 <= personaje.getX() + personaje.getAncho() / 2
-//			&& x - ancho / 2 >= personaje.getX() - personaje.getAncho() / 2)
-//			|| (x + ancho / 2 >= personaje.getX() - personaje.getAncho() / 2
-//					&& x + ancho / 2 <= personaje.getX() + personaje.getAncho() / 2))
-//			&& (y + 15 > personaje.getY() - personaje.getAlto() / 2
-//					&& y + 15 < personaje.getY() + personaje.getAlto() / 2));
-	//}
 
 	
 	public void saltar(Piso[] pisos) {

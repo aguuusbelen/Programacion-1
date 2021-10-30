@@ -207,11 +207,18 @@ public class Juego extends InterfaceJuego {
 			gano = true;
 		}
 
-		if (barbarianna.chocasteCon(velociraptors, rayoDeVelociraptors)) {
+		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
 			barbarianna = null;
 			lives--;
 			return;
 		}
+		
+		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
+			barbarianna = null;
+			lives--;
+			return;
+		}
+		
 		
 		barbarianna.dibujar(entorno);
 
