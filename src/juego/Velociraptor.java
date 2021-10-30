@@ -10,7 +10,6 @@ public class Velociraptor {
 	private double ancho;
 	private double alto;
 	private double velocidad;
-
 	private boolean estaCaminandoHaciaLaDerecha;
 
 	private int pisoActual; // Numero del piso donde se encuentra el personaje.
@@ -59,14 +58,14 @@ public class Velociraptor {
 		}
 		estaCaminandoHaciaLaDerecha = false;
 	}
-	
+
 	public void moverHaciaDerecha() {
 		if (x < 800 - ancho / 2) {
 			x += velocidad;
 		}
 		estaCaminandoHaciaLaDerecha = true;
 	}
-	
+
 	public void caer(Piso[] pisos) {
 		if (estaSobreElBordeDelPiso(pisos)) {
 			if (estaCaminandoHaciaLaDerecha) {
@@ -118,12 +117,11 @@ public class Velociraptor {
 	public boolean getEstaVivo() {
 		return estaVivo;
 	}
-	
+
 	public boolean getFueHallada(Barbarianna barbarianna) {
 		return (pisoActual == barbarianna.getPisoDondeEstaParado());
 	}
 
-	
 	public double getX() {
 		return x;
 	}
@@ -140,16 +138,4 @@ public class Velociraptor {
 		return alto;
 	}
 
-	
-	
-	
 }
-
-//public boolean tocaPersonaje(Barbarianna barbariana) {
-//return (((x - ancho / 2 <= personaje.getX() + personaje.getAncho() / 2
-//		&& x - ancho / 2 >= personaje.getX() - personaje.getAncho() / 2)
-//		|| (x + ancho / 2 >= personaje.getX() - personaje.getAncho() / 2
-//				&& x + ancho / 2 <= personaje.getX() + personaje.getAncho() / 2))
-//		&& (y + 15 > personaje.getY() - personaje.getAlto() / 2
-//				&& y + 15 < personaje.getY() + personaje.getAlto() / 2));
-//}

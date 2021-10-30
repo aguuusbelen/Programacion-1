@@ -11,13 +11,13 @@ public class Juego extends InterfaceJuego {
 	private Entorno entorno;
 
 	private Piso[] pisos;
+	private Computadora computadora;
 
 	private Barbarianna barbarianna;
 	private Rayo rayoDeBarbarianna;
 
 	private Velociraptor[] velociraptors;
 	private Rayo[] rayoDeVelociraptors;
-	private Computadora computadora;
 
 	private int points;
 	private int lives;
@@ -30,13 +30,13 @@ public class Juego extends InterfaceJuego {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
 		this.gano = false;
+		this.time = 0;
 
 		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
 		computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
-		this.time = 0;
 		pisos = new Piso[5];
 		pisos[0] = new Piso(x, y + 240, "piso.png");
 		pisos[1] = new Piso(x - 164, y + 140, "pisoSuperiores.png");
@@ -52,7 +52,6 @@ public class Juego extends InterfaceJuego {
 		this.kills = 0;
 		// Inicia el juego!
 		this.entorno.iniciar();
-
 	}
 
 	public void tick() {
@@ -66,135 +65,6 @@ public class Juego extends InterfaceJuego {
 		computadora();
 		velociraptor();
 		barbarianna();
-
-//		if (barbarianna != null) {
-//		
-//		}else {
-//			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);			
-//		} 
-//		
-
-//					// --------------------VELOCIRAPTOR----------------------
-//					if (rayoDeBarbarianna != null && rayoDeBarbarianna.impactaEnemigo(raptors[i])) {
-//						rayoDeBarbarianna = null;
-//						raptors[i] = null;
-//						barbarianna.terminoDeDisparar();
-//						points += 30;
-//						kills++;
-//					}
-//
-//					if (raptors[i] != null) {
-//						raptors[i].dibujar(entorno);
-//						if (raptors[i].getDisparando()) {
-//							rayoDeVelociraptors[i].mover(entorno);
-//							rayoDeVelociraptors[i].dibujar(entorno);
-//							if (!rayoDeVelociraptors[i].getEstaEnPantalla()) {
-//								rayoDeVelociraptors[i] = null;
-//								raptors[i].terminoDeDisparar();
-//							} else if (rayoDeVelociraptors[i].impactaPersonaje(barbarianna) && barbarianna != null) {
-//								rayoDeVelociraptors[i] = null;
-//								barbarianna = null;
-//								raptors[i].terminoDeDisparar();
-//								return;
-//							}
-//						}
-//						if (!raptors[i].tocandoElPiso(pisos) && !raptors[i].getEstaEnElAire()) {
-//							raptors[i].caer(pisos);
-//						} else if (raptors[i].tocandoElPiso(pisos)) {
-//							if (raptors[i].getPisoDondeEstaParado() == 4 || raptors[i].getPisoDondeEstaParado() == 2
-//									|| raptors[i].getPisoDondeEstaParado() == 0) {
-//								if (raptors[i].getDireccion()) {
-//									raptors[i].girar();
-//								}
-//								raptors[i].caminar();
-//							} else {
-//								if (!raptors[i].getDireccion()) {
-//									raptors[i].girar();
-//								}
-//								raptors[i].caminar();
-//							}
-//							if (barbarianna != null) {
-//								if (raptors[i].tocaPersonaje(barbarianna)) {
-//									barbarianna = null;
-//									return;
-//								} else if (raptors[i].getPisoDondeEstaParado() == barbarianna
-//										.getPisoDondeEstaParado()) {
-//									if ((raptors[i].getX() > barbarianna.getX()) && !raptors[i].getDireccion()) {
-//										if (!raptors[i].getDisparando()) {
-//											rayoDeVelociraptors[i] = new Rayo(raptors[i].getX(), raptors[i].getY(), 5,
-//													raptors[i].getDireccion());
-//											raptors[i].dispararRayo();
-//										}
-//									} else if ((raptors[i].getX() < barbarianna.getX()) && raptors[i].getDireccion()) {
-//										if (!raptors[i].getDisparando()) {
-//											rayoDeVelociraptors[i] = new Rayo(raptors[i].getX(), raptors[i].getY(), 5,
-//													raptors[i].getDireccion());
-//											raptors[i].dispararRayo();
-//										}
-//									}
-//								}
-//							}
-//							if (raptors[i].getPisoDondeEstaParado() == 0) {
-//								if (raptors[i].tocaLaPared(entorno) && !raptors[i].getDireccion()) {
-//									raptors[i] = null;
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//			// --------------------BARBARIANNA----------------------
-//			barbarianna.dibujar(entorno);
-//			// --------------------PANTALLA DE GANADOR----------------------
-//			if (barbarianna.tocaLaPC(compu)) {
-//				statusGame = true;
-//			}
-//			if ((barbarianna.estaEnElAire() && entorno.estaPresionada('u'))
-//					|| barbarianna.estaEnElAireSuperSaltando()) {
-//				barbarianna.superSalto(pisos);
-//			} else if ((entorno.estaPresionada('w') || barbarianna.estaEnElAire())
-//					&& !barbarianna.estaEnElAireSuperSaltando()) {
-//				barbarianna.saltar(pisos);
-//			} else {
-//				barbarianna.estaInmovil();
-//			}
-//			if (barbarianna.getDisparando()) {
-//				rayoDeBarbarianna.mover(entorno);
-//				rayoDeBarbarianna.dibujar(entorno);
-//				if (!rayoDeBarbarianna.getEstaEnPantalla()) {
-//					rayoDeBarbarianna = null;
-//					barbarianna.terminoDeDisparar();
-//				}
-//			} else if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-//				rayoDeBarbarianna = new Rayo(barbarianna.getX(), barbarianna.getY(), 15, barbarianna.getDireccion());
-//				barbarianna.dispararRayo();
-//			}
-//			if (entorno.estaPresionada('a') && barbarianna.tocandoElPiso(pisos)) {
-//				barbarianna.moverHaciaIzquierda(entorno, pisos);
-//			} else if (entorno.estaPresionada('a') && !barbarianna.tocandoElPiso(pisos)
-//					&& !barbarianna.estaEnElAire()) {
-//				barbarianna.caer(pisos);
-//			} else if (entorno.estaPresionada('a') && barbarianna.estaEnElAire()) {
-//				barbarianna.moverHaciaIzquierda(entorno, pisos);
-//			} else if (entorno.estaPresionada('d') && barbarianna.tocandoElPiso(pisos)) {
-//				barbarianna.moverHaciaDerecha(entorno, pisos);
-//			} else if (entorno.estaPresionada('d') && !barbarianna.tocandoElPiso(pisos)
-//					&& !barbarianna.estaEnElAire()) {
-//				barbarianna.caer(pisos);
-//			} else if (entorno.estaPresionada('d') && barbarianna.estaEnElAire()) {
-//				barbarianna.moverHaciaDerecha(entorno, pisos);
-//			} else if (entorno.estaPresionada('s') && barbarianna.tocandoElPiso(pisos)) {
-//				barbarianna.agachar();
-//			} else {
-//				if (!barbarianna.tocandoElPiso(pisos) && !barbarianna.estaEnElAire()) {
-//					barbarianna.caer(pisos);
-//				} else if (barbarianna.estaAgachada()) {
-//					barbarianna.levantarse();
-//				}
-//			}
-//		}
-		// -------------------TEXTO--------------------------
-
 		textoEnPantalla();
 	}
 
@@ -203,7 +73,7 @@ public class Juego extends InterfaceJuego {
 			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
 		}
 
-		if (barbarianna.estasTocandoLaComputadora(computadora)) {
+		if (barbarianna.estaTocandoLaComputadora(computadora)) {
 			gano = true;
 		}
 
@@ -212,39 +82,27 @@ public class Juego extends InterfaceJuego {
 			lives--;
 			return;
 		}
-		
+
 		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
 			barbarianna = null;
 			lives--;
 			return;
 		}
-		
-		
-		barbarianna.dibujar(entorno);
 
-		if(rayoDeBarbarianna != null) {
-			rayoDeBarbarianna.dibujar(entorno);
-			rayoDeBarbarianna.mover();
-			if (!rayoDeBarbarianna.getEstaRenderizadoEnPantalla()) {
-				rayoDeBarbarianna = null;
-			}
-		}
-		
-		
-		
+		barbarianna.dibujar(entorno);
+		rayoBarbarianna();
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-			if(rayoDeBarbarianna == null)
-			rayoDeBarbarianna = barbarianna.dispararRayo();
+			if (rayoDeBarbarianna == null)
+				rayoDeBarbarianna = barbarianna.dispararRayo();
 		}
-		
 		if ((barbarianna.estaEnElAire() && entorno.estaPresionada('u')) || barbarianna.estaEnElAireSuperSaltando()) {
 			barbarianna.superSalto(pisos);
-		} else if ((entorno.estaPresionada('w') || barbarianna.estaEnElAire()) && !barbarianna.estaEnElAireSuperSaltando()) {
+		} else if ((entorno.estaPresionada('w') || barbarianna.estaEnElAire())
+				&& !barbarianna.estaEnElAireSuperSaltando()) {
 			barbarianna.saltar(pisos);
 		} else {
 			barbarianna.quieta(pisos);
 		}
-
 		if (entorno.estaPresionada('a')) {
 			barbarianna.moverHaciaIzquierda(entorno, pisos);
 			return;
@@ -257,11 +115,6 @@ public class Juego extends InterfaceJuego {
 			barbarianna.agachar();
 			return;
 		}
-		
-		
-
-		
-
 	}
 
 	private void dibujarFondo() {
@@ -310,7 +163,6 @@ public class Juego extends InterfaceJuego {
 
 	private void velociraptor() {
 		int idxV = 0;
-		int idxR = 0;
 		for (Velociraptor v : velociraptors) {
 			if (v != null) {
 				if (!v.getEstaVivo()) {
@@ -319,15 +171,11 @@ public class Juego extends InterfaceJuego {
 				}
 				v.dibujar(entorno);
 				v.mover(entorno, pisos);
-				if(barbarianna != null) {
+				if (barbarianna != null) {
 					if (v.getFueHallada(barbarianna) && rayoDeVelociraptors[idxV] == null) {
 						rayoDeVelociraptors[idxV] = v.dispararRayo();
-					}					
+					}
 				}
-				
-				
-				
-				
 			}
 			if (v == null && time > 100) {
 				velociraptors[idxV] = new Velociraptor(entorno.ancho() - 100, 90, 2);
@@ -335,6 +183,11 @@ public class Juego extends InterfaceJuego {
 			}
 			idxV++;
 		}
+		rayoVelociraptor();
+	}
+
+	private void rayoVelociraptor() {
+		int idxR = 0;
 		for (Rayo r : rayoDeVelociraptors) {
 			if (r != null) {
 				r.dibujar(entorno);
@@ -344,6 +197,17 @@ public class Juego extends InterfaceJuego {
 				}
 			}
 			idxR++;
+		}
+
+	}
+
+	private void rayoBarbarianna() {
+		if (rayoDeBarbarianna != null) {
+			rayoDeBarbarianna.dibujar(entorno);
+			rayoDeBarbarianna.mover();
+			if (!rayoDeBarbarianna.getEstaRenderizadoEnPantalla()) {
+				rayoDeBarbarianna = null;
+			}
 		}
 	}
 
