@@ -95,9 +95,9 @@ public class Juego extends InterfaceJuego {
 		if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
 			barbarianna.saltar(pisos);
 		}
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-			barbarianna.dispararRayo();
-		}
+//		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
+//			barbarianna.dispararRayo();
+//		}
 		if (entorno.estaPresionada('u') && barbarianna.estaHabilitadoParaSubirDePiso(entorno)) {
 			barbarianna.cuandoSubirUnPiso(entorno);
 		}
@@ -117,9 +117,9 @@ public class Juego extends InterfaceJuego {
 		barbarianna.Actualizar(entorno);
 		barbarianna.dibujar(entorno);
 
-//		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
-//			rayoDeBarbarianna = barbarianna.dispararRayo();
-//		}
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
+			rayoDeBarbarianna = barbarianna.dispararRayo();
+		}
 //		if ((entorno.estaPresionada('u')) && barbarianna.estaHabilitadoParaSubirDePiso(entorno)) {
 //			barbarianna.cuandoSubirUnPiso(entorno);
 //		}

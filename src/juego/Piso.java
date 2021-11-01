@@ -27,6 +27,7 @@ public class Piso {
 
 	public void dibujar(Entorno e) {
 		e.dibujarImagen(img, x, y, 0, 1.26);
+		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 	}
 
 	private void generarDimensiones() {

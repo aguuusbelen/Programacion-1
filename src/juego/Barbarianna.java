@@ -16,7 +16,6 @@ public class Barbarianna {
 	private boolean meEstoyMoviendo;
 	private boolean estaEnElAire;
 	private boolean estaAgachada;
-	private boolean estaSuperSaltando;
 	private boolean estaCayendo;
 	private boolean meEstoyCayendo;
 
@@ -34,19 +33,17 @@ public class Barbarianna {
 		this.x = x;
 		this.y = y;
 		this.auxPosY = y;
-		this.ancho = 36;
-		this.alto = 60;
-		this.altoOriginal = 60;
-		this.alturaAgachada = 40;
+		this.ancho = 30; //30
+		this.alto = 48;  //48
+		this.altoOriginal = 48;
+		this.alturaAgachada = 30;
 		this.velocidad = velocidad;
 
 		this.estaCaminandoHaciaLaDerecha = true;
 		this.meEstoyMoviendo = false;
 		this.estaEnElAire = false;
 		this.estaAgachada = false;
-		this.estaSuperSaltando = false;
 		this.estaCayendo = false;
-
 		this.distanciaDelPisoCuandoSalta = 0;
 
 		this.pisoActual = 0;
@@ -83,6 +80,7 @@ public class Barbarianna {
 	}
 
 	public void dibujar(Entorno e) {
+		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.BLUE);
 		if (!estaEnElAire && !estaSubiendoUnPisoDer && !estaSubiendoUnPisoIzq) {
 			if (estaAgachada == true) {
 				if (estaCaminandoHaciaLaDerecha == true) {
@@ -95,7 +93,7 @@ public class Barbarianna {
 			} else if (meEstoyMoviendo == true && estaCaminandoHaciaLaDerecha == false) {
 				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.65);
 			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.65);
+				//e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.65);
 			}
 		} else {
 
@@ -119,9 +117,6 @@ public class Barbarianna {
 	}
 
 	public void moverHaciaIzquierda(Entorno e, Piso[] pisos) {
-//		if (estaChocandoConElBordeDelPiso(pisos)) {
-//			return;
-//		}
 		if (estaSubiendoUnPisoDer == false && estaSubiendoUnPisoIzq == false) {
 			if (estaAgachada) {
 				levantar();
@@ -130,16 +125,13 @@ public class Barbarianna {
 		if (x > ancho / 2) {
 			x -= velocidad;
 		}
-		// enMovimiento();
 		estaCaminandoHaciaLaDerecha = false;
 		meEstoyMoviendo = true;
 
 	}
 
 	public void moverHaciaDerecha(Entorno e, Piso[] pisos) {
-//		if (estaChocandoConElBordeDelPiso(pisos)) {
-//			return;
-//		}
+
 		if (estaSubiendoUnPisoDer == false && estaSubiendoUnPisoIzq == false) {
 			if (estaAgachada) {
 				levantar();
@@ -147,7 +139,7 @@ public class Barbarianna {
 			if (x < e.ancho() - ancho / 2) {
 				x += velocidad;
 			}
-			// enMovimiento();
+
 			estaCaminandoHaciaLaDerecha = true;
 			meEstoyMoviendo = true;
 		}
@@ -167,40 +159,14 @@ public class Barbarianna {
 	}
 
 	public void agachar() {
-//		if (!estaEnElAire && estaAgachada == false) {
-//			ultimaPosY1 = (y + alto / 2);
-//			alto = alto / 2;
-//			y = y + alto / 2;
-//			estaAgachada = true;
-//		}
+
 		if (estaEnElAire == false && estaSubiendoUnPisoDer == false && estaSubiendoUnPisoIzq == false) {
 			estaAgachada = true;
+			y = auxPosY + (altoOriginal - alturaAgachada) / 2;			
 			alto = alturaAgachada;
-			y = auxPosY + (alto - alturaAgachada) / 2;
 		}
 
 	}
-
-//	public void levantarse() {
-//		estaAgachada = false;
-//		y = ultimaPosY1 - alto;
-//		alto = altoOriginal;
-//	}
-
-//	
-//	public void quieta(Piso[] pisos) {
-//		//enMovimiento();
-//		if (!estaTocandoElPiso(pisos) && !estaEnElAire) {
-//			caer();
-//		}
-//	}
-
-//	public void enMovimiento() {
-//		estaEnMovimiento = true;
-//		if (estaAgachada) {
-//			levantarse();
-//		}
-//	}
 
 	public void saltar(Piso[] pisos) {
 		if ((estaEnElAire && !estaCayendo) && (!estaTocandoElTecho(pisos) && distanciaDelPisoCuandoSalta <= 25)) {
@@ -340,30 +306,8 @@ public class Barbarianna {
 		return false;
 	}
 
-//	public boolean estaChocandoConElBordeDelPiso(Piso[] pisos) {
-//		for (int i = 0; i < pisos.length; i++) {
-//			if (i != pisos.length - 1) {
-//				if ((((x - ancho / 2) <= pisos[i + 1].getDimensiones()[1]
-//						&& (x + ancho / 2) >= pisos[i + 1].getDimensiones()[1])
-//						|| ((x + ancho / 2) >= pisos[i + 1].getDimensiones()[0]
-//								&& (x - ancho / 2) <= pisos[i + 1].getDimensiones()[0]))
-//						&& (((y - alto / 2) < pisos[i + 1].getDimensiones()[3]
-//								&& (y + alto / 2) > pisos[i + 1].getDimensiones()[3])
-//								|| ((y + alto / 2) > pisos[i + 1].getDimensiones()[2]
-//										&& (y - alto / 2) < pisos[i + 1].getDimensiones()[2]))) {
-//					return true;
-//				}
-//			}
-//		}
-//		return false;
-//	}
-
 	public boolean estaEnElAire() {
 		return estaEnElAire;
-	}
-
-	public boolean estaEnElAireSuperSaltando() {
-		return estaSuperSaltando;
 	}
 
 	public int getPisoDondeEstaParado() {
