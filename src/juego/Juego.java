@@ -92,7 +92,7 @@ public class Juego extends InterfaceJuego {
 		rayoBarbarianna();
 
 		if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
-			barbarianna.saltar(pisos);
+			barbarianna.saltar();
 		}
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
 			rayoDeBarbarianna = barbarianna.dispararRayo();
@@ -171,6 +171,8 @@ public class Juego extends InterfaceJuego {
 				} else if (rayoDeBarbarianna != null && velociraptors[idxV].meChocoElRayo(rayoDeBarbarianna)) {
 					velociraptors[idxV] = null;
 					rayoDeBarbarianna = null;
+					points += 10;
+					kills++;
 				}
 
 				v.dibujar(entorno);
