@@ -91,7 +91,7 @@ public class Juego extends InterfaceJuego {
 
 		rayoBarbarianna();
 
-		if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
+		if (entorno.estaPresionada('w')) {
 			barbarianna.saltar();
 		}
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
@@ -101,9 +101,9 @@ public class Juego extends InterfaceJuego {
 			barbarianna.cuandoSubirUnPiso(entorno);
 		}
 		if (entorno.estaPresionada('a')) {
-			barbarianna.moverHaciaIzquierda(entorno, pisos);
+			barbarianna.moverHaciaIzquierda(entorno);
 		} else if (entorno.estaPresionada('d')) {
-			barbarianna.moverHaciaDerecha(entorno, pisos);
+			barbarianna.moverHaciaDerecha(entorno);
 		} else if (entorno.estaPresionada('s')) {
 			barbarianna.agachar();
 		} else {

@@ -34,7 +34,7 @@ public class Rayo {
 		if (fueDisparadoHaciaLaDerecha && estaRenderizadoEnPantalla)
 			x += velocidad;
 		if (!fueDisparadoHaciaLaDerecha && estaRenderizadoEnPantalla)
-			x -= velocidad; 
+			x -= velocidad;
 		
 		
 	}

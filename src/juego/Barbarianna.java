@@ -72,6 +72,8 @@ public class Barbarianna {
 		    auxY = y;
 		    actualizarPisos(pisos);
 		   }
+		  } if (estoyEnElAire == true) {
+			  saltar();
 		  }
 		 }
 
@@ -112,7 +114,7 @@ public class Barbarianna {
 		y = y + 4;
 	}
 
-	public void moverHaciaIzquierda(Entorno e, Piso[] pisos) {
+	public void moverHaciaIzquierda(Entorno e) {
 		if (estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			if (estoyAgachada) {
 				levantar();
@@ -126,7 +128,7 @@ public class Barbarianna {
 
 	}
 
-	public void moverHaciaDerecha(Entorno e, Piso[] pisos) {
+	public void moverHaciaDerecha(Entorno e) {
 
 		if (estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			if (estoyAgachada) {
@@ -164,29 +166,27 @@ public class Barbarianna {
 
 	}
 
-	public void saltar(Piso[] pisos) {
-		if ((estoyEnElAire && !meEstoyCayendo) && (!estaTocandoElTecho(pisos) && distanciaDelPisoCuandoSalta <= 25)) {
-			y = y - 2;
-			distanciaDelPisoCuandoSalta++;
-		} else if (estoyEnElAire && (estaTocandoElTecho(pisos) || distanciaDelPisoCuandoSalta == 26)) {
-			distanciaDelPisoCuandoSalta++;
-			y = y + 2;
-			meEstoyCayendo = true;
-		} else if (estoyEnElAire && meEstoyCayendo) {
-			y = y + 2;
-			if (estaTocandoElPiso(pisos)) {
-				estoyEnElAire = false;
-				meEstoyCayendo = false;
-				distanciaDelPisoCuandoSalta = 0;
+	public void saltar() {
+		if (meEstoyCayendo == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
+			if (estoyEnElAire == true && distanciaDelPisoCuandoSalta <= alto / 2) {
+				y = y - 2;
+				distanciaDelPisoCuandoSalta++;
+			} else if (estoyEnElAire == true && distanciaDelPisoCuandoSalta > alto / 2) {
+				y = y + 2;
+				distanciaDelPisoCuandoSalta++;
+				if (distanciaDelPisoCuandoSalta == alto + 2) {
+					estoyEnElAire = false;
+					distanciaDelPisoCuandoSalta = 0;
+				}
+			} else {
+				if (estoyAgachada) {
+					levantar();
+				}
+				estoyEnElAire = true;
 			}
-		} else {
-			if (estoyAgachada) {
-				levantar();
-			}
-			estoyEnElAire = true;
 		}
-
 	}
+
 
 	public void actualizarPisos(Piso[] pisos) {
 		  pisoAbajoDeBarbarianna = null;
@@ -217,20 +217,27 @@ public class Barbarianna {
 	}
 
 	public boolean estaHabilitadoParaSubirDePiso(Entorno e) {
-		if (pisoArribaDeBarbarianna != null && pisoArribaDeBarbarianna.getX() < e.ancho() / 2
-				&& x > pisoArribaDeBarbarianna.getX() + pisoArribaDeBarbarianna.getAncho() / 2
-				&& meEstoyCayendo == false) {
-			return true;
-		} else if (pisoArribaDeBarbarianna != null && pisoArribaDeBarbarianna.getX() > e.ancho() / 2
-				&& x < pisoArribaDeBarbarianna.getX() - pisoArribaDeBarbarianna.getAncho() / 2
-				&& meEstoyCayendo == false) {
-			return true;
+		if (meEstoyCayendo == false && estoyEnElAire == false) {
+			if (pisoArribaDeBarbarianna != null && pisoArribaDeBarbarianna.getX() < e.ancho() / 2
+					&& x > pisoArribaDeBarbarianna.getX() + pisoArribaDeBarbarianna.getAncho() / 2
+					&& meEstoyCayendo == false) {
+				return true;
+			} else if (pisoArribaDeBarbarianna != null && pisoArribaDeBarbarianna.getX() > e.ancho() / 2
+					&& x < pisoArribaDeBarbarianna.getX() - pisoArribaDeBarbarianna.getAncho() / 2
+					&& meEstoyCayendo == false) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
 	}
 
 	public void saltarUnPiso(Entorno e, Piso[] pisos) {
+		if (estoyAgachada == true) {
+			levantar();
+		}
 		if (y > pisoArribaDeBarbarianna.getY() - pisoArribaDeBarbarianna.getAlto() / 2 - alto / 2) {
 			y = y - 3.5;
 		} else {
@@ -306,10 +313,6 @@ public class Barbarianna {
 			}
 		}
 		return false;
-	}
-
-	public boolean estaEnElAire() {
-		return estoyEnElAire;
 	}
 
 	public int getPisoDondeEstaParado() {
