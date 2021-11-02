@@ -80,7 +80,7 @@ public class Barbarianna {
 	}
 
 	public void dibujar(Entorno e) {
-		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.BLUE);
+		//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.BLUE);
 		if (!estaEnElAire && !estaSubiendoUnPisoDer && !estaSubiendoUnPisoIzq) {
 			if (estaAgachada == true) {
 				if (estaCaminandoHaciaLaDerecha == true) {

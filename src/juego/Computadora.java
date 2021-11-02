@@ -17,7 +17,7 @@ public class Computadora {
 		this.y = y;
 		this.ancho = 60;
 		this.alto = 60;
-		this.img = Herramientas.cargarImagen("compu.png");
+		this.img = Herramientas.cargarImagen("computadora.png");
 	}
 
 	public void dibujar(Entorno e) {

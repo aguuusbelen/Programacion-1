@@ -168,7 +168,11 @@ public class Juego extends InterfaceJuego {
 				if (!v.getEstaVivo()) {
 					velociraptors[idxV] = null;
 					return;
+				} else if (rayoDeBarbarianna != null && velociraptors[idxV].meChocoElRayo(rayoDeBarbarianna)) {
+					velociraptors[idxV] = null;
+					rayoDeBarbarianna = null;
 				}
+
 				v.dibujar(entorno);
 				v.mover(entorno, pisos);
 				if (barbarianna != null) {

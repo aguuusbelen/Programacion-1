@@ -5,6 +5,8 @@ import entorno.Herramientas;
 public class Rayo {
 	private double x;
 	private double y;
+	private double ancho;
+	private double alto;
 	private double velocidad;
 	
 	private boolean fueDisparadoHaciaLaDerecha;
@@ -13,6 +15,9 @@ public class Rayo {
 	public Rayo(double x , double y, boolean direccionDeDisparo) {
 		this.x = x ;
 		this.y = y ;
+		this.ancho = 40;
+		this.alto = 10;
+
 		this.velocidad = 4;
 		this.estaRenderizadoEnPantalla = false;
 		this.fueDisparadoHaciaLaDerecha = direccionDeDisparo;
@@ -60,6 +65,14 @@ public class Rayo {
 
 	public double getY() {
 		return y;
+	}
+	
+	public double getAncho() {
+		return ancho;
+	}
+	
+	public double getAlto() {
+		return alto;
 	}
 
 	public boolean getEstaRenderizadoEnPantalla() {
