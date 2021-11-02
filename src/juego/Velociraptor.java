@@ -1,5 +1,7 @@
 package juego;
 
+import java.awt.Color;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -18,7 +20,7 @@ public class Velociraptor {
 	public Velociraptor(double x, double y, double velocidad) {
 		this.x = x;
 		this.y = y;
-		this.ancho = 36;
+		this.ancho = 80;
 		this.alto = 60;
 		this.velocidad = velocidad;
 
@@ -30,10 +32,11 @@ public class Velociraptor {
 	}
 
 	public void dibujar(Entorno e) {
+		e.dibujarRectangulo(x, y, ancho, alto, 0, Color.YELLOW);
 		if (estaCaminandoHaciaLaDerecha) {
-			e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y - 5, 0, 0.75);
+			e.dibujarImagen(Herramientas.cargarImagen("velociraptor_derecha.png"), x, y - 5, 0, 0.60);
 		} else {
-			e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y - 5, 0, 0.75);
+			e.dibujarImagen(Herramientas.cargarImagen("velociraptor_izquierda.png"), x, y - 5, 0, 0.60);
 		}
 	}
 

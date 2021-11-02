@@ -89,57 +89,32 @@ public class Juego extends InterfaceJuego {
 			return;
 		}
 
-		
 		rayoBarbarianna();
-		
+
 		if (entorno.estaPresionada('w') || barbarianna.estaEnElAire()) {
 			barbarianna.saltar(pisos);
 		}
-//		if (entorno.estaPresionada(entorno.TECLA_ESPACIO)) {
-//			barbarianna.dispararRayo();
-//		}
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
+			rayoDeBarbarianna = barbarianna.dispararRayo();
+		}
 		if (entorno.estaPresionada('u') && barbarianna.estaHabilitadoParaSubirDePiso(entorno)) {
 			barbarianna.cuandoSubirUnPiso(entorno);
 		}
 		if (entorno.estaPresionada('a')) {
-			barbarianna.moverHaciaIzquierda(entorno,pisos);
+			barbarianna.moverHaciaIzquierda(entorno, pisos);
 		} else if (entorno.estaPresionada('d')) {
-			barbarianna.moverHaciaDerecha(entorno,pisos);
+			barbarianna.moverHaciaDerecha(entorno, pisos);
 		} else if (entorno.estaPresionada('s')) {
 			barbarianna.agachar();
 		} else {
 			barbarianna.estaQuieta();
 		}
-		
-		if(barbarianna.estaSubiendoUnPiso()) {
+
+		if (barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.saltarUnPiso(entorno, pisos);
 		}
 		barbarianna.Actualizar(entorno);
 		barbarianna.dibujar(entorno);
-
-		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
-			rayoDeBarbarianna = barbarianna.dispararRayo();
-		}
-//		if ((entorno.estaPresionada('u')) && barbarianna.estaHabilitadoParaSubirDePiso(entorno)) {
-//			barbarianna.cuandoSubirUnPiso(entorno);
-//		}
-//
-//		if (barbarianna.estaSubiendoUnPiso()) {
-//			barbarianna.saltarUnPiso(entorno, pisos);
-//		}
-//
-//		if ((entorno.estaPresionada('w') || barbarianna.estaEnElAire())) {
-//			barbarianna.saltar(pisos);
-//		}
-//		if (entorno.estaPresionada('a')) {
-//			barbarianna.moverHaciaIzquierda(entorno, pisos);
-//		} else if (entorno.estaPresionada('d')) {
-//			barbarianna.moverHaciaDerecha(entorno, pisos);
-//		} else if (entorno.estaPresionada('s')) {
-//			barbarianna.agachar();
-//		} else {
-//			barbarianna.quieta(pisos);
-//		}
 	}
 
 	private void dibujarFondo() {

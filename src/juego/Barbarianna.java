@@ -84,30 +84,30 @@ public class Barbarianna {
 		if (!estaEnElAire && !estaSubiendoUnPisoDer && !estaSubiendoUnPisoIzq) {
 			if (estaAgachada == true) {
 				if (estaCaminandoHaciaLaDerecha == true) {
-					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoDer.png"), x, y, 0, 0.65);
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_derecha.png"), x, y, 0, 0.65);
 				} else {
-					e.dibujarImagen(Herramientas.cargarImagen("Personaje_abajoIzq.png"), x, y, 0, 0.65);
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_izquierda.png"), x, y, 0, 0.65);
 				}
 			} else if (meEstoyMoviendo == true && estaCaminandoHaciaLaDerecha == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeDer().png"), x, y, 0, 0.65);
+				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha.png"), x, y, 0, 0.65);
 			} else if (meEstoyMoviendo == true && estaCaminandoHaciaLaDerecha == false) {
-				e.dibujarImagen(Herramientas.cargarImagen("PersonajeIzq().png"), x, y, 0, 0.65);
+				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda.png"), x, y, 0, 0.65);
 			} else {
-				//e.dibujarImagen(Herramientas.cargarImagen("PersonajeQuieto().png"), x, y, 0, 0.65);
+				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_quieta.png"), x, y, 0, 0.65);
 			}
 		} else {
 
 			if (estaSubiendoUnPisoDer == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.65);
-
+				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_derecha.png"), x, y, 0, 0.65);
 			} else if (estaSubiendoUnPisoIzq == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.65);
-
+				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_izquierda.png"), x, y, 0, 0.65);
 			} else if (estaCaminandoHaciaLaDerecha == true) {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaDer.png"), x, y, 0, 0.65);
+				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha.png"), x, y, 0, 0.65);
+				
 
 			} else {
-				e.dibujarImagen(Herramientas.cargarImagen("Personaje_esquivarArribaIzq.png"), x, y, 0, 0.65);
+				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda.png"), x, y, 0, 0.65);
+				
 			}
 		}
 	}
