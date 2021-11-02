@@ -7,7 +7,7 @@ import entorno.Herramientas;
 public class Barbarianna {
 	private double x;
 	private double y;
-	private double auxPosY;
+	private double auxY;
 	private double ancho;
 	private double alto;
 	private double velocidad;
@@ -31,7 +31,7 @@ public class Barbarianna {
 	public Barbarianna(double x, double y, double velocidad, Piso[] pisos) {
 		this.x = x;
 		this.y = y;
-		this.auxPosY = y;
+		this.auxY = y;
 		this.ancho = 30; //30
 		this.alto = 48;  //48
 		this.altoOriginal = 48;
@@ -54,28 +54,26 @@ public class Barbarianna {
 
 	}
 
-	public void Actualizar(Entorno e) {
-		if (pisoActualDeBarbarianna.getX() < e.ancho() / 2
-				&& x > pisoActualDeBarbarianna.getX() + pisoActualDeBarbarianna.getAncho() / 2
-				&& estoyEnElAire == false) {
-			meEstoyCayendo = true;
-		} else if (pisoActualDeBarbarianna.getX() > e.ancho() / 2
-				&& x < pisoActualDeBarbarianna.getX() - pisoActualDeBarbarianna.getAncho() / 2
-				&& estoyEnElAire == false) {
-			meEstoyCayendo = true;
-		}
-		if (meEstoyCayendo == true) {
-			caer();
-			if (pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
-				y = pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 - alto / 2;
-				meEstoyCayendo = false;
-				auxPosY = y;
-				pisoArribaDeBarbarianna = pisoActualDeBarbarianna;
-				pisoActualDeBarbarianna = pisoAbajoDeBarbarianna;
-				pisoAbajoDeBarbarianna = null;
-			}
-		}
-	}
+	public void Actualizar(Entorno e, Piso[] pisos) {
+		  if (pisoActualDeBarbarianna.getX() < e.ancho() / 2
+		    && x > pisoActualDeBarbarianna.getX() + pisoActualDeBarbarianna.getAncho() / 2
+		    && estoyEnElAire == false) {
+		   meEstoyCayendo = true;
+		  } else if (pisoActualDeBarbarianna.getX() > e.ancho() / 2
+		    && x < pisoActualDeBarbarianna.getX() - pisoActualDeBarbarianna.getAncho() / 2
+		    && estoyEnElAire == false) {
+		   meEstoyCayendo = true;
+		  }
+		  if (meEstoyCayendo == true) {
+		   caer();
+		   if (pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
+		    y = pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 - alto / 2;
+		    meEstoyCayendo = false;
+		    auxY = y;
+		    actualizarPisos(pisos);
+		   }
+		  }
+		 }
 
 	public void dibujar(Entorno e) {
 		//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.BLUE);
@@ -153,14 +151,14 @@ public class Barbarianna {
 	public void levantar() {
 		estoyAgachada = false;
 		alto = altoOriginal;
-		y = auxPosY;
+		y = auxY;
 	}
 
 	public void agachar() {
 
 		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			estoyAgachada = true;
-			y = auxPosY + (altoOriginal - alturaAgachada) / 2;			
+			y = auxY + (altoOriginal - alturaAgachada) / 2;			
 			alto = alturaAgachada;
 		}
 
@@ -191,18 +189,24 @@ public class Barbarianna {
 	}
 
 	public void actualizarPisos(Piso[] pisos) {
-		pisoAbajoDeBarbarianna = pisoActualDeBarbarianna;
-		pisoActualDeBarbarianna = null;
-		pisoArribaDeBarbarianna = null;
-		for (Piso piso : pisos) {
-			if (piso.getY() < y && (pisoArribaDeBarbarianna == null || piso.getY() > pisoArribaDeBarbarianna.getY())) {
-				pisoArribaDeBarbarianna = piso;
-			} else if (piso.getY() > y
-					&& (pisoActualDeBarbarianna == null || piso.getY() < pisoActualDeBarbarianna.getY())) {
-				pisoActualDeBarbarianna = piso;
-			}
-		}
-	}
+		  pisoAbajoDeBarbarianna = null;
+		  pisoActualDeBarbarianna = null;
+		  pisoArribaDeBarbarianna = null;
+		  for (Piso piso : pisos) {
+		   if (piso.getY() < y && (pisoArribaDeBarbarianna == null || piso.getY() > pisoArribaDeBarbarianna.getY())) {
+		    pisoArribaDeBarbarianna = piso;
+		   } else if (piso.getY() > y
+		     && (pisoActualDeBarbarianna == null || piso.getY() < pisoActualDeBarbarianna.getY())) {
+		    pisoAbajoDeBarbarianna = pisoActualDeBarbarianna;
+		    pisoActualDeBarbarianna = piso;
+		   } else if (piso.getY() > y && piso.getY() != pisoActualDeBarbarianna.getY()
+		     && (pisoAbajoDeBarbarianna == null
+		       || pisoActualDeBarbarianna.getY() == pisoAbajoDeBarbarianna.getY()
+		       || pisoAbajoDeBarbarianna.getY() > piso.getY())) {
+		    pisoAbajoDeBarbarianna = piso;
+		   }
+		  }
+		 }
 
 	public void cuandoSubirUnPiso(Entorno e) {
 		if (pisoArribaDeBarbarianna.getX() < e.ancho() / 2) {
@@ -234,7 +238,7 @@ public class Barbarianna {
 			estoySubiendoUnPisoIzq = false;
 			estoySubiendoUnPisoDer = false;
 			actualizarPisos(pisos);
-			auxPosY = y;
+			auxY = y;
 		}
 		if (estoySubiendoUnPisoIzq == true) {
 			x = x - 2;

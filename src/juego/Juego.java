@@ -113,7 +113,7 @@ public class Juego extends InterfaceJuego {
 		if (barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.saltarUnPiso(entorno, pisos);
 		}
-		barbarianna.Actualizar(entorno);
+		barbarianna.Actualizar(entorno,pisos);
 		barbarianna.dibujar(entorno);
 	}
 
