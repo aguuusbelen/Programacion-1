@@ -1,5 +1,5 @@
-= Introducción a la Programación: Trabajo Práctico 1
-Cristina Fernández_de_Kirchner <cfk@gmail.com>; Nestor Kirchner <nestor@gmail.com>
+= Pogramación I: Trabajo Práctico 1
+José Herrera <jooherrera4@gmail.com> ; Monarca_Actual <cfk@gmail.com>; Ex_Monarca <nestor@gmail.com>
 v1, {docdate}. Docentes Leo y Lucifer (COM-01)
 :title-page:
 :numbered:
@@ -18,6 +18,23 @@ v1, {docdate}. Docentes Leo y Lucifer (COM-01)
 
 // Descripción del trabajo práctico. Aquí se puede copiar textual el [ó
 // parte del] enunciado del trabajo práctico de considerarse necesario.
+El malvado Doctor Gero robó la computadora Commodore 128kb de hackeo del tiempo de
+Hackerman, el hacker más poderoso de todos los tiempos.
+
+El Doctor Gero está obsesionado con dominar el mundo, por ese motivo viajó al pasado, a la
+segunda guerra mundial, y se refugió en un castillo alemán, su objetivo es reunir a los ejércitos
+más malvados de la historia y con ellos poder conquistar el mundo.
+
+Al enterarse de esto, Hackerman, construye una nueva Commodore 128kb de hackeo del
+tiempo, y viaja al pasado a la Era Vikinga, para pedirle ayuda a Barbarianna.
+
+La heroína vikinga, Barbarianna, acepta ayudar a Hackerman, y viaja por el tiempo para
+enfrentar al Doctor Gero. El malvado Doctor se encuentra refugiado en un antiguo castillo
+alemán, repleto de velociraptors que él mismo llevó directamente desde la Era del Hielo.
+
+El objetivo de este trabajo práctico es desarrollar un videojuego en el cual Barbarianna vaya
+subiendo por los distintos pisos del antiguo castillo y pueda recuperar el dispositivo de hackeo
+del tiempo, sin perder la vida en manos de los peligrosísimos velociraptors.
 
 == Descripción
 
@@ -29,10 +46,16 @@ v1, {docdate}. Docentes Leo y Lucifer (COM-01)
 // También, se puede incluir una descripción general del programa—cómo
 // funciona.
 
-Para tener el codigo limpio, se crea un objeto llamado "Enviroment".
-Este es el encargado de generar todo lo relacionado con el ambiente 
-donde se lleva a cabo el juego. 
+Se puede manejar a Barbarianna mediante las teclas gamer 'w','a','s','d'. 
 
+Puede subir los pisos del juego solamente si tiene espacio para saltar lo suficiente. Para realizar esta acción se debe apretar 
+la tecla 'u'.
+
+Presionando la barra espaciadora lanza un rayo que elimina a los velociraptors. 
+
+Se da por ganado el juego si Barbarianna toca la computadora Commodore 128kb.
+
+Se da por perdido el juego si Barbarianna ya no tiene mas vidas. Si muere y tiene vidas disponibles, vuelve al piso inicial. 
 
 
 == Implementación
@@ -49,7 +72,23 @@ donde se lleva a cabo el juego.
 // _No debería incluirse el código de librerías/frameworks que se
 // utilicen—a no ser que sea absolutamente necesario._
 
+.Clase Barbarianna
+[source, java]
+----
+
+----
+
 == Conclusiones
+
+Una de las principales dificultades que se han presentado durante el desarrollo de este videojuego fue 
+la coordinación para la distribución de tareas. Otra fue el tiempo personal que cada integrante podía dedicarle a este trabajo.
+
+El trabajar solamente con la rama principal hace más dificil trabajar en equipo. 
+
+No tener una metodología de desarrollo o alguien a quien se lo pueda considerar lider de equipo, conlleva a que surjan diferencias o 
+malentendidos entre programadores. 
+
+Las reuniones con el docente fueron de mucha ayuda para la refactorización del código fuente.
 
 // Aquí van algunas reflexiones acerca del proceso de desarrollo del
 // trabajo realizado, y de los resultados obtenidos.
