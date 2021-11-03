@@ -1,5 +1,4 @@
 package juego;
-
 import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
@@ -27,26 +26,28 @@ public class Juego extends InterfaceJuego {
 	private int time;
 
 	public Juego() {
-		this.entorno = new Entorno(this, "Castlevania", 800, 600);
-		this.fondo = Herramientas.cargarImagen("fondo.png");
 		this.gano = false;
 		this.time = 0;
 
+		this.entorno = new Entorno(this, "Castlevania", 800, 600);
+		this.fondo = Herramientas.cargarImagen("fondo.png");
+		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
+		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 100, 2.5);
+		this.velociraptors = new Velociraptor[2];
+		this.rayoDeVelociraptors = new Rayo[2];
+
+		
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
-		pisos = new Piso[5];
+		this.pisos = new Piso[5];
 		pisos[0] = new Piso(x, y + 240, "piso.png");
 		pisos[1] = new Piso(x - 164, y + 140, "pisoSuperiores.png");
 		pisos[2] = new Piso(x + 164, y + 40, "pisoSuperiores.png");
 		pisos[3] = new Piso(x - 164, y - 60, "pisoSuperiores.png");
 		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png");
+		this.barbarianna.actualizarPisos(pisos);
+		
 
-		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 100, 2.5);
-		barbarianna.actualizarPisos(pisos);
-		computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-
-		velociraptors = new Velociraptor[2];
-		rayoDeVelociraptors = new Rayo[2];
 
 		this.points = 0;
 		this.lives = 9;
@@ -73,25 +74,20 @@ public class Juego extends InterfaceJuego {
 		if (barbarianna == null) {
 			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
 		}
-
 		if (barbarianna.estaTocandoLaComputadora(computadora)) {
 			gano = true;
 		}
-
 		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
 			barbarianna = null;
 			lives--;
 			return;
 		}
-
 		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
 			barbarianna = null;
 			lives--;
 			return;
 		}
-
 		rayoBarbarianna();
-
 		if (entorno.estaPresionada('w')) {
 			barbarianna.saltar();
 		}
@@ -110,7 +106,6 @@ public class Juego extends InterfaceJuego {
 		} else {
 			barbarianna.estaQuieta();
 		}
-
 		if (barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.saltarUnPiso(entorno, pisos);
 		}
@@ -176,7 +171,6 @@ public class Juego extends InterfaceJuego {
 					points += 10;
 					kills++;
 				}
-
 				v.dibujar(entorno);
 				v.mover(entorno, pisos);
 				if (barbarianna != null) {

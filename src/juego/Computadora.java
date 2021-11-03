@@ -1,5 +1,4 @@
 package juego;
-
 import java.awt.Image;
 import entorno.Entorno;
 import entorno.Herramientas;
@@ -39,4 +38,5 @@ public class Computadora {
 	public double getAlto() {
 		return alto;
 	}
+	
 }

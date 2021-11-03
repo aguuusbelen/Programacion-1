@@ -1,4 +1,5 @@
-= Pogramación I: Trabajo Práctico 1
+= Programación I: Trabajo Práctico 1
+
 José Herrera <jooherrera4@gmail.com> ; Monarca_Actual <cfk@gmail.com>; Ex_Monarca <nestor@gmail.com>
 v1, {docdate}. Docentes Leo y Lucifer (COM-01)
 :title-page:
@@ -60,23 +61,109 @@ Se da por perdido el juego si Barbarianna ya no tiene mas vidas. Si muere y tien
 
 == Implementación
 
-// En esta sección se incluye el código fuente correctamente formateado—y
-// comentado, si corresponde.
-
-// Además, por cada fragmento de código
-// relevante—i.e. función, método, procedimiento—se debe dar una
-// breve descripción, decir qué hace, y especificar los parámetros que
-// toma la función/método/procedimiento, junto con los valores que devuelve
-// ó modifica.
-
-// _No debería incluirse el código de librerías/frameworks que se
-// utilicen—a no ser que sea absolutamente necesario._
-
-.Clase Barbarianna
+.Esta constantemente comprobando el estado del juego.
 [source, java]
 ----
-
+  public void tick() {
+		time++;  //Temporizador para la aparición de un nuevo velociraptor.
+		if (perdio())
+			return;
+		if (gano())
+			return;
+		dibujarFondo();
+		dibujarPisos();
+		computadora();
+		velociraptor();
+		barbarianna();
+		textoEnPantalla();
+	}
 ----
+
+.Método de clase de Barbarianna.
+[source, java]
+----
+//Comprueba los estados de Barbarianna. Mediante la interacción del usuario con el teclado, el personaje ejecuta un comportamiento distinto. 
+private void barbarianna() {
+		if (barbarianna == null) {
+			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
+		}
+		if (barbarianna.estaTocandoLaComputadora(computadora)) {
+			gano = true;
+		}
+		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
+			barbarianna = null;
+			lives--;
+			return;
+		}
+		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
+			barbarianna = null;
+			lives--;
+			return;
+		}
+		rayoBarbarianna(); // Método de clase que contiene el rayo de Barbarianna.
+		if (entorno.estaPresionada('w')) {
+			barbarianna.saltar();
+		}
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
+			rayoDeBarbarianna = barbarianna.dispararRayo();
+		}
+		if (entorno.estaPresionada('u') && barbarianna.estaHabilitadoParaSubirDePiso(entorno)) {
+			barbarianna.cuandoSubirUnPiso(entorno);
+		}
+		if (entorno.estaPresionada('a')) {
+			barbarianna.moverHaciaIzquierda(entorno);
+		} else if (entorno.estaPresionada('d')) {
+			barbarianna.moverHaciaDerecha(entorno);
+		} else if (entorno.estaPresionada('s')) {
+			barbarianna.agachar();
+		} else {
+			barbarianna.estaQuieta();
+		}
+		if (barbarianna.estaSubiendoUnPiso()) {
+			barbarianna.saltarUnPiso(entorno, pisos);
+		}
+		barbarianna.Actualizar(entorno);
+		barbarianna.actualizarPisos(pisos);
+		barbarianna.dibujar(entorno);
+	}
+----
+
+.Método de clase de los velociraptors.
+[source, java]
+----
+private void velociraptor() {
+		int idxV = 0; // Iterador 
+    //Recorremos todos los velociraptors existentes
+		for (Velociraptor v : velociraptors) { 
+			if (v != null) {
+				if (!v.getEstaVivo()) {
+					velociraptors[idxV] = null;
+					return;
+				} else if (rayoDeBarbarianna != null && velociraptors[idxV].meChocoElRayo(rayoDeBarbarianna)) {
+					velociraptors[idxV] = null;
+					rayoDeBarbarianna = null;
+					points += 10;
+					kills++;
+				}
+				v.dibujar(entorno);
+				v.mover(entorno, pisos);
+				if (barbarianna != null) {
+					if (v.getFueHallada(barbarianna) && rayoDeVelociraptors[idxV] == null) {
+						rayoDeVelociraptors[idxV] = v.dispararRayo();
+					}
+				}
+			}
+			if (v == null && time > 100) {
+				velociraptors[idxV] = new Velociraptor(entorno.ancho() - 100, 90, 2);
+				time = 0;
+			}
+			idxV++;
+		}
+		rayoVelociraptor(); // Método de clase que contiene el rayo de los velociraptors.
+	}
+----
+
+
 
 == Conclusiones
 

@@ -20,8 +20,7 @@ public class Rayo {
 
 		this.velocidad = 4;
 		this.estaRenderizadoEnPantalla = false;
-		this.fueDisparadoHaciaLaDerecha = direccionDeDisparo;
-		
+		this.fueDisparadoHaciaLaDerecha = direccionDeDisparo;		
 	}
 
 	public void mover() { 
@@ -34,9 +33,7 @@ public class Rayo {
 		if (fueDisparadoHaciaLaDerecha && estaRenderizadoEnPantalla)
 			x += velocidad;
 		if (!fueDisparadoHaciaLaDerecha && estaRenderizadoEnPantalla)
-			x -= velocidad;
-		
-		
+			x -= velocidad;	
 	}
 
 	public void dibujar(Entorno e) { 
@@ -45,19 +42,6 @@ public class Rayo {
 		if (!fueDisparadoHaciaLaDerecha && estaRenderizadoEnPantalla)
 			e.dibujarImagen(Herramientas.cargarImagen("rayo-izq.png"), x, y, 0, 1);
 	}
-
-//	public boolean impactaEnemigo(Velociraptor enemigo) {
-//		return (((x >= enemigo.getX() - enemigo.getAncho() / 2 && x <= enemigo.getX() + enemigo.getAncho() / 2)
-//				|| (x <= enemigo.getX() - enemigo.getAncho() / 2 && x >= enemigo.getX() + enemigo.getAncho() / 2))
-//				&& (y > enemigo.getY() - enemigo.getAlto() / 2 && y < enemigo.getY() + enemigo.getAlto() / 2));
-//	}
-
-//	public boolean impactaPersonaje(Barbarianna personaje) {
-//		return (((x >= personaje.getX() - personaje.getAncho() / 2 && x <= personaje.getX() + personaje.getAncho() / 2)
-//				|| (x <= personaje.getX() - personaje.getAncho() / 2
-//						&& x >= personaje.getX() + personaje.getAncho() / 2))
-//				&& (y > personaje.getY() - personaje.getAlto() / 2 && y < personaje.getY() + personaje.getAlto() / 2));
-//	}
 
 	public double getX() {
 		return x;
@@ -78,4 +62,5 @@ public class Rayo {
 	public boolean getEstaRenderizadoEnPantalla() {
 		return estaRenderizadoEnPantalla;
 	}
+	
 }

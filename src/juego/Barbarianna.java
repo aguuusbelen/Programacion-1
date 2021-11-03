@@ -93,17 +93,14 @@ public class Barbarianna {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_quieta.png"), x, y, 0, 0.65);
 			}
 		} else {
-
 			if (estoySubiendoUnPisoDer == true) {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_derecha.png"), x, y, 0, 0.65);
 			} else if (estoySubiendoUnPisoIzq == true) {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_izquierda.png"), x, y, 0, 0.65);
 			} else if (estoyCaminandoHaciaLaDerecha == true) {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha.png"), x, y, 0, 0.65);
-
 			} else {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda.png"), x, y, 0, 0.65);
-
 			}
 		}
 	}
@@ -123,11 +120,9 @@ public class Barbarianna {
 		}
 		estoyCaminandoHaciaLaDerecha = false;
 		meEstoyMoviendo = true;
-
 	}
 
 	public void moverHaciaDerecha(Entorno e) {
-
 		if (estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			if (estoyAgachada) {
 				levantar();
@@ -155,13 +150,11 @@ public class Barbarianna {
 	}
 
 	public void agachar() {
-
 		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			estoyAgachada = true;
 			y = auxY + (altoOriginal - alturaAgachada) / 2;
 			alto = alturaAgachada;
 		}
-
 	}
 
 	public void saltar() {
@@ -261,10 +254,11 @@ public class Barbarianna {
 
 	public boolean chocasteConVelociraptor(Velociraptor[] velociraptors) {
 		for (Velociraptor v : velociraptors) {
-			if (v != null && ((x + ancho / 2 >= v.getX() - v.getAncho() / 2 && x - ancho / 2 <= v.getX() - v.getAncho() / 2)
-						|| (x - ancho / 2 <= v.getX() + v.getAncho() / 2
-						&& x + ancho / 2 >= v.getX() + v.getAncho() / 2))
-						&& (y - alto / 2 < v.getY() + 15 && y + alto / 2 > v.getY() + 15)) {
+			if (v != null
+					&& ((x + ancho / 2 >= v.getX() - v.getAncho() / 2 && x - ancho / 2 <= v.getX() - v.getAncho() / 2)
+							|| (x - ancho / 2 <= v.getX() + v.getAncho() / 2
+									&& x + ancho / 2 >= v.getX() + v.getAncho() / 2))
+					&& (y - alto / 2 < v.getY() + 15 && y + alto / 2 > v.getY() + 15)) {
 				return true;
 			}
 		}
@@ -273,9 +267,10 @@ public class Barbarianna {
 
 	public boolean chocasteConRayo(Rayo[] rayoDeVelociraptors) {
 		for (Rayo r : rayoDeVelociraptors) {
-			if (r != null && ((x - ancho / 2 <= r.getX() && x + ancho / 2 >= r.getX())
-						|| (x - ancho / 2 >= r.getX() && x + ancho / 2 <= r.getX()))
-						&& (y - alto / 2 < r.getY() && y + alto / 2 > r.getY())){
+			if (r != null
+					&& ((x - ancho / 2 <= r.getX() && x + ancho / 2 >= r.getX())
+							|| (x - ancho / 2 >= r.getX() && x + ancho / 2 <= r.getX()))
+					&& (y - alto / 2 < r.getY() && y + alto / 2 > r.getY())) {
 				return true;
 			}
 		}
@@ -319,5 +314,5 @@ public class Barbarianna {
 	public int getPisoDondeEstaParado() {
 		return pisoActual;
 	}
-
+	
 }

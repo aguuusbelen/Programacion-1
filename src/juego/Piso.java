@@ -1,6 +1,4 @@
 package juego;
-
-import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
 import entorno.Herramientas;
@@ -12,7 +10,6 @@ public class Piso {
 	private int alto;
 
 	private Image img;
-
 	private double[] posicionesEnXY;
 
 	public Piso(double x, double y, String img) {
@@ -27,7 +24,6 @@ public class Piso {
 
 	public void dibujar(Entorno e) {
 		e.dibujarImagen(img, x, y, 0, 1.26);
-		//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.RED);
 	}
 
 	private void generarDimensiones() {
@@ -38,7 +34,7 @@ public class Piso {
 	}
 
 	public double[] getDimensiones() {
-		return posicionesEnXY; // {Xinicial, Xfinal, YInicial, YFinal}
+		return posicionesEnXY;
 	}
 
 	public double getX() {
@@ -56,8 +52,5 @@ public class Piso {
 	public int getAlto() {
 		return alto;
 	}
-	
-	
+
 }
-
-

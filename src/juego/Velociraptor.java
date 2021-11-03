@@ -1,19 +1,15 @@
 package juego;
-
-import java.awt.Color;
-
 import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Velociraptor {
-
 	private double x;
 	private double y;
 	private double ancho;
 	private double alto;
 	private double velocidad;
-	private boolean estaCaminandoHaciaLaDerecha;
 
+	private boolean estaCaminandoHaciaLaDerecha;
 	private int pisoActual; // Numero del piso donde se encuentra el personaje.
 	private boolean estaVivo;
 
@@ -25,14 +21,11 @@ public class Velociraptor {
 		this.velocidad = velocidad;
 
 		this.estaCaminandoHaciaLaDerecha = false;
-
 		this.pisoActual = -1;
 		this.estaVivo = true;
-
 	}
 
 	public void dibujar(Entorno e) {
-		//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.YELLOW);
 		if (estaCaminandoHaciaLaDerecha) {
 			e.dibujarImagen(Herramientas.cargarImagen("velociraptor_derecha.png"), x, y - 5, 0, 0.60);
 		} else {
@@ -116,13 +109,12 @@ public class Velociraptor {
 		}
 		return false;
 	}
-	
+
 	public boolean meChocoElRayo(Rayo rayo) {
-		return (x + ancho / 2 >= rayo.getX() - rayo.getAlto() / 2) && (x - ancho / 2 <= rayo.getX() + rayo.getAlto() / 2)
+		return (x + ancho / 2 >= rayo.getX() - rayo.getAlto() / 2)
+				&& (x - ancho / 2 <= rayo.getX() + rayo.getAlto() / 2)
 				&& (y >= rayo.getY() - rayo.getAncho() / 2 && y <= rayo.getY() + rayo.getAlto() / 2);
 	}
-
-
 
 	public boolean getEstaVivo() {
 		return estaVivo;
