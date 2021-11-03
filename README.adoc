@@ -1,5 +1,4 @@
 = Programación I: Trabajo Práctico 1
-
 José Herrera <jooherrera4@gmail.com> ; Monarca_Actual <cfk@gmail.com>; Ex_Monarca <nestor@gmail.com>
 v1, {docdate}. Docentes Leo y Lucifer (COM-01)
 :title-page:
