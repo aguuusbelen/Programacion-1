@@ -1,6 +1,9 @@
 = Programación I: Trabajo Práctico 1
+
 José Herrera <jooherrera4@gmail.com> ; Monarca_Actual <cfk@gmail.com>; Ex_Monarca <nestor@gmail.com>
+
 v1, {docdate}. Docentes Leo y Lucifer (COM-01)
+
 :title-page:
 :numbered:
 :source-highlighter: coderay
@@ -42,7 +45,7 @@ Se da por perdido el juego si Barbarianna ya no tiene mas vidas. Si muere y tien
 
 == Implementación
 
-<<<<<<< HEAD
+
 .Esta constantemente comprobando el estado del juego.
 [source, java]
 ----
@@ -143,29 +146,7 @@ private void velociraptor() {
 		}
 		rayoVelociraptor(); // Método de clase que contiene el rayo de los velociraptors.
 	}
-=======
-.Clase Juego
-[source, java]
 ----
-  //Está constantemente comprobando el estado y comportamiento de los objetos.
-  public void tick() {
-		time++; 
-		if (perdio())
-			return;
-		if (gano())
-			return;
-		dibujarFondo();
-		dibujarPisos();
-		computadora();
-		velociraptor();
-		barbarianna();
-		textoEnPantalla();
-	}
-  
->>>>>>> adbd1bf1f9b1c97602f127ea5203a2100b7f4b9b
-----
-
-
 
 == Conclusiones
 
