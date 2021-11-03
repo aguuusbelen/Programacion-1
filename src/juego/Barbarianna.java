@@ -4,9 +4,10 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Barbarianna {
+	
 	private double x;
 	private double y;
-	private double auxY;
+	private double auxY; // ?
 	private double ancho;
 	private double alto;
 	private double velocidad;
@@ -23,8 +24,9 @@ public class Barbarianna {
 	private int pisoActual;
 	private boolean estoySubiendoUnPisoIzq;
 	private boolean estoySubiendoUnPisoDer;
-	private boolean tengoQueActualizarPisos;
-	private Piso pisoAbajoDeBarbarianna;
+	private boolean tengoQueActualizarPisos; // ?
+	
+//	private Piso pisoAbajoDeBarbarianna;
 	private Piso pisoActualDeBarbarianna;
 	private Piso pisoArribaDeBarbarianna;
 
@@ -178,6 +180,7 @@ public class Barbarianna {
 		}
 	}
 
+	// public Piso pisoEnElQueEstoyParada(Piso[] pisos) 
 	public void actualizarPisos(Piso[] pisos) {
 		if (tengoQueActualizarPisos == true) {
 			tengoQueActualizarPisos = false;
