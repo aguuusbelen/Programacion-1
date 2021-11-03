@@ -21,7 +21,7 @@ public class Velociraptor {
 		this.velocidad = velocidad;
 
 		this.estaCaminandoHaciaLaDerecha = false;
-		this.pisoActual = -1;
+		this.pisoActual = -1; // ???
 		this.estaVivo = true;
 	}
 
@@ -63,6 +63,8 @@ public class Velociraptor {
 	}
 
 	public void caer(Piso[] pisos) {
+		
+		
 		if (estaSobreElBordeDelPiso(pisos)) {
 			if (estaCaminandoHaciaLaDerecha) {
 				x = x + 1;

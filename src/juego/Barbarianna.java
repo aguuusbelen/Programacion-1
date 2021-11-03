@@ -26,7 +26,7 @@ public class Barbarianna {
 	private boolean estoySubiendoUnPisoDer;
 	private boolean tengoQueActualizarPisos; // ?
 	
-//	private Piso pisoAbajoDeBarbarianna;
+	private Piso pisoAbajoDeBarbarianna;
 	private Piso pisoActualDeBarbarianna;
 	private Piso pisoArribaDeBarbarianna;
 
@@ -107,6 +107,8 @@ public class Barbarianna {
 		}
 	}
 
+	
+	// public void caer(Piso[] pisos)
 	public void caer() {
 		y = y + 4;
 	}
@@ -205,6 +207,8 @@ public class Barbarianna {
 		}
 	}
 
+	// public void subirDePiso(Piso[] pisos)
+	
 	public void cuandoSubirUnPiso(Entorno e) {
 		if (pisoArribaDeBarbarianna.getX() < e.ancho() / 2) {
 			estoySubiendoUnPisoIzq = true;
