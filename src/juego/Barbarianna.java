@@ -1,6 +1,5 @@
 package juego;
 
-import java.awt.Color;
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -24,16 +23,17 @@ public class Barbarianna {
 	private int pisoActual;
 	private boolean estoySubiendoUnPisoIzq;
 	private boolean estoySubiendoUnPisoDer;
+	private boolean tengoQueActualizarPisos;
 	private Piso pisoAbajoDeBarbarianna;
 	private Piso pisoActualDeBarbarianna;
 	private Piso pisoArribaDeBarbarianna;
 
-	public Barbarianna(double x, double y, double velocidad, Piso[] pisos) {
+	public Barbarianna(double x, double y, double velocidad) {
 		this.x = x;
 		this.y = y;
 		this.auxY = y;
-		this.ancho = 30; //30
-		this.alto = 48;  //48
+		this.ancho = 30; // 30
+		this.alto = 48; // 48
 		this.altoOriginal = 48;
 		this.alturaAgachada = 30;
 		this.velocidad = velocidad;
@@ -50,35 +50,34 @@ public class Barbarianna {
 		this.estoySubiendoUnPisoDer = false;
 		this.meEstoyMoviendo = false;
 		this.meEstoyCayendo = false;
-		actualizarPisos(pisos);
-
+		this.tengoQueActualizarPisos = true;
 	}
 
-	public void Actualizar(Entorno e, Piso[] pisos) {
-		  if (pisoActualDeBarbarianna.getX() < e.ancho() / 2
-		    && x > pisoActualDeBarbarianna.getX() + pisoActualDeBarbarianna.getAncho() / 2
-		    && estoyEnElAire == false) {
-		   meEstoyCayendo = true;
-		  } else if (pisoActualDeBarbarianna.getX() > e.ancho() / 2
-		    && x < pisoActualDeBarbarianna.getX() - pisoActualDeBarbarianna.getAncho() / 2
-		    && estoyEnElAire == false) {
-		   meEstoyCayendo = true;
-		  }
-		  if (meEstoyCayendo == true) {
-		   caer();
-		   if (pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
-		    y = pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 - alto / 2;
-		    meEstoyCayendo = false;
-		    auxY = y;
-		    actualizarPisos(pisos);
-		   }
-		  } if (estoyEnElAire == true) {
-			  saltar();
-		  }
-		 }
+	public void Actualizar(Entorno e) {
+		if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
+				&& x > pisoActualDeBarbarianna.getX() + pisoActualDeBarbarianna.getAncho() / 2
+				&& estoyEnElAire == false) {
+			meEstoyCayendo = true;
+		} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
+				&& x < pisoActualDeBarbarianna.getX() - pisoActualDeBarbarianna.getAncho() / 2
+				&& estoyEnElAire == false) {
+			meEstoyCayendo = true;
+		}
+		if (meEstoyCayendo == true) {
+			caer();
+			if (pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
+				y = pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 - alto / 2;
+				meEstoyCayendo = false;
+				auxY = y;
+				tengoQueActualizarPisos = true;
+			}
+		}
+		if (estoyEnElAire == true) {
+			saltar();
+		}
+	}
 
 	public void dibujar(Entorno e) {
-		//e.dibujarRectangulo(x, y, ancho, alto, 0, Color.BLUE);
 		if (!estoyEnElAire && !estoySubiendoUnPisoDer && !estoySubiendoUnPisoIzq) {
 			if (estoyAgachada == true) {
 				if (estoyCaminandoHaciaLaDerecha == true) {
@@ -101,11 +100,10 @@ public class Barbarianna {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_izquierda.png"), x, y, 0, 0.65);
 			} else if (estoyCaminandoHaciaLaDerecha == true) {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha.png"), x, y, 0, 0.65);
-				
 
 			} else {
 				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda.png"), x, y, 0, 0.65);
-				
+
 			}
 		}
 	}
@@ -160,7 +158,7 @@ public class Barbarianna {
 
 		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			estoyAgachada = true;
-			y = auxY + (altoOriginal - alturaAgachada) / 2;			
+			y = auxY + (altoOriginal - alturaAgachada) / 2;
 			alto = alturaAgachada;
 		}
 
@@ -187,26 +185,29 @@ public class Barbarianna {
 		}
 	}
 
-
 	public void actualizarPisos(Piso[] pisos) {
-		  pisoAbajoDeBarbarianna = null;
-		  pisoActualDeBarbarianna = null;
-		  pisoArribaDeBarbarianna = null;
-		  for (Piso piso : pisos) {
-		   if (piso.getY() < y && (pisoArribaDeBarbarianna == null || piso.getY() > pisoArribaDeBarbarianna.getY())) {
-		    pisoArribaDeBarbarianna = piso;
-		   } else if (piso.getY() > y
-		     && (pisoActualDeBarbarianna == null || piso.getY() < pisoActualDeBarbarianna.getY())) {
-		    pisoAbajoDeBarbarianna = pisoActualDeBarbarianna;
-		    pisoActualDeBarbarianna = piso;
-		   } else if (piso.getY() > y && piso.getY() != pisoActualDeBarbarianna.getY()
-		     && (pisoAbajoDeBarbarianna == null
-		       || pisoActualDeBarbarianna.getY() == pisoAbajoDeBarbarianna.getY()
-		       || pisoAbajoDeBarbarianna.getY() > piso.getY())) {
-		    pisoAbajoDeBarbarianna = piso;
-		   }
-		  }
-		 }
+		if (tengoQueActualizarPisos == true) {
+			tengoQueActualizarPisos = false;
+			pisoAbajoDeBarbarianna = null;
+			pisoActualDeBarbarianna = null;
+			pisoArribaDeBarbarianna = null;
+			for (Piso piso : pisos) {
+				if (piso.getY() < y
+						&& (pisoArribaDeBarbarianna == null || piso.getY() > pisoArribaDeBarbarianna.getY())) {
+					pisoArribaDeBarbarianna = piso;
+				} else if (piso.getY() > y
+						&& (pisoActualDeBarbarianna == null || piso.getY() < pisoActualDeBarbarianna.getY())) {
+					pisoAbajoDeBarbarianna = pisoActualDeBarbarianna;
+					pisoActualDeBarbarianna = piso;
+				} else if (piso.getY() > y && piso.getY() != pisoActualDeBarbarianna.getY()
+						&& (pisoAbajoDeBarbarianna == null
+								|| pisoActualDeBarbarianna.getY() == pisoAbajoDeBarbarianna.getY()
+								|| pisoAbajoDeBarbarianna.getY() > piso.getY())) {
+					pisoAbajoDeBarbarianna = piso;
+				}
+			}
+		}
+	}
 
 	public void cuandoSubirUnPiso(Entorno e) {
 		if (pisoArribaDeBarbarianna.getX() < e.ancho() / 2) {
@@ -244,7 +245,7 @@ public class Barbarianna {
 			y = pisoArribaDeBarbarianna.getY() - pisoArribaDeBarbarianna.getAlto() / 2 - alto / 2;
 			estoySubiendoUnPisoIzq = false;
 			estoySubiendoUnPisoDer = false;
-			actualizarPisos(pisos);
+			tengoQueActualizarPisos = true;
 			auxY = y;
 		}
 		if (estoySubiendoUnPisoIzq == true) {

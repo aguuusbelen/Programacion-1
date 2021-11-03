@@ -41,7 +41,8 @@ public class Juego extends InterfaceJuego {
 		pisos[3] = new Piso(x - 164, y - 60, "pisoSuperiores.png");
 		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png");
 
-		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 100, 2.5, pisos);
+		barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 100, 2.5);
+		barbarianna.actualizarPisos(pisos);
 		computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
 
 		velociraptors = new Velociraptor[2];
@@ -70,7 +71,7 @@ public class Juego extends InterfaceJuego {
 
 	private void barbarianna() {
 		if (barbarianna == null) {
-			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5, pisos);
+			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
 		}
 
 		if (barbarianna.estaTocandoLaComputadora(computadora)) {
@@ -113,7 +114,8 @@ public class Juego extends InterfaceJuego {
 		if (barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.saltarUnPiso(entorno, pisos);
 		}
-		barbarianna.Actualizar(entorno,pisos);
+		barbarianna.Actualizar(entorno);
+		barbarianna.actualizarPisos(pisos);
 		barbarianna.dibujar(entorno);
 	}
 
