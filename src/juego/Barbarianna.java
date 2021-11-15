@@ -21,7 +21,7 @@ public class Barbarianna {
 	private int distanciaDelPisoCuandoSalta;
 	private int altoOriginal;
 	private int alturaAgachada;
-	private int pisoActual;
+	
 	private boolean estoySubiendoUnPisoIzq;
 	private boolean estoySubiendoUnPisoDer;
 	private boolean tengoQueActualizarPisos; // ?
@@ -46,7 +46,6 @@ public class Barbarianna {
 		this.estoyAgachada = false;
 		this.distanciaDelPisoCuandoSalta = 0;
 
-		this.pisoActual = 0;
 
 		this.estoySubiendoUnPisoIzq = false;
 		this.estoySubiendoUnPisoDer = false;
@@ -55,29 +54,6 @@ public class Barbarianna {
 		this.tengoQueActualizarPisos = true;
 	}
 
-	public void Actualizar(Entorno e) {
-		if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
-				&& x > pisoActualDeBarbarianna.getX() + pisoActualDeBarbarianna.getAncho() / 2
-				&& estoyEnElAire == false) {
-			meEstoyCayendo = true;
-		} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
-				&& x < pisoActualDeBarbarianna.getX() - pisoActualDeBarbarianna.getAncho() / 2
-				&& estoyEnElAire == false) {
-			meEstoyCayendo = true;
-		}
-		if (meEstoyCayendo == true) {
-			caer();
-			if (pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
-				y = pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 - alto / 2;
-				meEstoyCayendo = false;
-				auxY = y;
-				tengoQueActualizarPisos = true;
-			}
-		}
-		if (estoyEnElAire == true) {
-			saltar();
-		}
-	}
 
 	public void dibujar(Entorno e) {
 		if (!estoyEnElAire && !estoySubiendoUnPisoDer && !estoySubiendoUnPisoIzq) {
@@ -107,11 +83,6 @@ public class Barbarianna {
 		}
 	}
 
-	
-	// public void caer(Piso[] pisos)
-	public void caer() {
-		y = y + 4;
-	}
 
 	public void moverHaciaIzquierda(Entorno e) {
 		if (estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
@@ -181,6 +152,35 @@ public class Barbarianna {
 			}
 		}
 	}
+	
+	public void Actualizar(Entorno e) {
+		if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
+				&& x > pisoActualDeBarbarianna.getX() + pisoActualDeBarbarianna.getAncho() / 2
+				&& estoyEnElAire == false) {
+			meEstoyCayendo = true;
+		} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
+				&& x < pisoActualDeBarbarianna.getX() - pisoActualDeBarbarianna.getAncho() / 2
+				&& estoyEnElAire == false) {
+			meEstoyCayendo = true;
+		}
+		if (meEstoyCayendo == true) {
+			caer();
+			if (pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
+				y = pisoAbajoDeBarbarianna.getY() - pisoAbajoDeBarbarianna.getAlto() / 2 - alto / 2;
+				meEstoyCayendo = false;
+				auxY = y;
+				tengoQueActualizarPisos = true;
+			}
+		}
+		if (estoyEnElAire == true) {
+			saltar();
+		}
+	}
+	
+	// public void caer(Piso[] pisos)
+		public void caer() {
+			y = y + 4;
+		}
 
 	// public Piso pisoEnElQueEstoyParada(Piso[] pisos) 
 	public void actualizarPisos(Piso[] pisos) {
@@ -294,32 +294,5 @@ public class Barbarianna {
 				&& y < computadora.getY() + computadora.getAncho() / 2));
 	}
 
-	public boolean estaTocandoElPiso(Piso[] pisos) {
-		for (int i = 0; i < pisos.length; i++) {
-			if ((((x - ancho / 2) >= pisos[i].getDimensiones()[0] && (x <= pisos[i].getDimensiones()[1]))
-					|| (x >= pisos[i].getDimensiones()[0]) && (x + ancho / 2) <= pisos[i].getDimensiones()[1])
-					&& (y + alto / 2) == pisos[i].getDimensiones()[2]) {
-				pisoActual = i;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean estaTocandoElTecho(Piso[] pisos) {
-		for (int i = 0; i < pisos.length; i++) {
-			if (((((x - ancho / 2) >= pisos[i].getDimensiones()[0] && ((x - ancho / 2) <= pisos[i].getDimensiones()[1]))
-					|| ((x + ancho / 2) >= pisos[i].getDimensiones()[0]
-							&& (x + ancho / 2) <= pisos[i].getDimensiones()[1]))
-					&& (y - alto / 2) == pisos[i].getDimensiones()[3]) || ((y - alto / 2) <= 0)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public int getPisoDondeEstaParado() {
-		return pisoActual;
-	}
 	
 }

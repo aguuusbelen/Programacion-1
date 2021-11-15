@@ -1,4 +1,6 @@
 package juego;
+
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
@@ -17,26 +19,21 @@ public class Juego extends InterfaceJuego {
 
 	private Velociraptor[] velociraptors;
 	private Rayo[] rayoDeVelociraptors;
+	private double tiempoDeEsperaParaCrearVelociraptor; // para que aparezcan de manera aleatoria
+	private double tiempoDeEsperaParaCrearRayo;
+	private Random random;
 
 	private int points;
 	private int lives;
 	private int kills;
 
 	private boolean gano;
-	private int time;
 
 	public Juego() {
-		this.gano = false;
-		this.time = 0;
-
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
-		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 100, 2.5);
-		this.velociraptors = new Velociraptor[2];
-		this.rayoDeVelociraptors = new Rayo[2];
+		this.gano = false;
 
-		
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
 		this.pisos = new Piso[5];
@@ -45,49 +42,90 @@ public class Juego extends InterfaceJuego {
 		pisos[2] = new Piso(x + 164, y + 40, "pisoSuperiores.png");
 		pisos[3] = new Piso(x - 164, y - 60, "pisoSuperiores.png");
 		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png");
-		this.barbarianna.actualizarPisos(pisos);
-		
 
+		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
+		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 100, 2.5);
+		this.barbarianna.actualizarPisos(pisos);
+
+		this.velociraptors = new Velociraptor[6];
+		this.rayoDeVelociraptors = new Rayo[6];
+		random = new Random();
 
 		this.points = 0;
-		this.lives = 9;
+		this.lives = 5;
 		this.kills = 0;
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
 
 	public void tick() {
-		time++;
-		if (perdio())
-			return;
-		if (gano())
-			return;
-		dibujarFondo();
-		dibujarPisos();
-		computadora();
-		velociraptor();
-		barbarianna();
-		textoEnPantalla();
-	}
+		
+		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
+		entorno.cambiarFont("sans", 20, Color.WHITE);
+		entorno.escribirTexto("lives: " + lives, 40, entorno.alto() - 20);
+		entorno.escribirTexto("points: " + points, entorno.ancho() / 2 - 40, entorno.alto() - 20);
+		entorno.escribirTexto("kills: " + kills, entorno.ancho() - 120, entorno.alto() - 20);
 
-	private void barbarianna() {
-		if (barbarianna == null) {
-			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 102, 2.5);
+		for (Piso p : pisos) {
+			p.dibujar(entorno);
 		}
-		if (barbarianna.estaTocandoLaComputadora(computadora)) {
-			gano = true;
+
+		computadora.dibujar(entorno);
+
+		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
+			tiempoDeEsperaParaCrearVelociraptor--;
+		} else if (tiempoDeEsperaParaCrearVelociraptor == 0) {
+
 		}
-		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
-			barbarianna = null;
-			lives--;
-			return;
+
+		if (tiempoDeEsperaParaCrearRayo > 0) {
+			tiempoDeEsperaParaCrearRayo--;
+		} else if (tiempoDeEsperaParaCrearRayo == 0) {
+
 		}
-		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
-			barbarianna = null;
-			lives--;
-			return;
+
+		for (int i = 0; i < velociraptors.length; i++) {
+			if (velociraptors[i] != null) {
+				velociraptors[i].dibujar(entorno);
+				velociraptors[i].actualizar(entorno, pisos);
+				if (velociraptors[i].llegueAlFinalDelCamino() == true) {
+					velociraptors[i] = null;
+				} else if (rayoDeBarbarianna != null && velociraptors[i].meChocoElRayo(rayoDeBarbarianna)) {
+					velociraptors[i] = null;
+					rayoDeBarbarianna = null;
+					kills++;
+					points = points + 10;
+				}
+			}
+			if (velociraptors[i] == null && tiempoDeEsperaParaCrearVelociraptor == 0) {
+				velociraptors[i] = new Velociraptor(entorno.ancho() + 100, entorno.alto() - 502, 1.5, pisos);
+				tiempoDeEsperaParaCrearVelociraptor = random.nextInt(150) + 200;
+			}
 		}
-		rayoBarbarianna();
+
+		for (int r = 0; r < rayoDeVelociraptors.length; r++) {
+			if (rayoDeVelociraptors[r] != null) {
+				rayoDeVelociraptors[r].dibujar(entorno);
+				rayoDeVelociraptors[r].mover();
+				if (rayoDeVelociraptors[r].getX() > entorno.ancho() || rayoDeVelociraptors[r].getX() < 0) {
+					rayoDeVelociraptors[r] = null;
+				}
+			} else if (rayoDeVelociraptors[r] == null && velociraptors[r] != null && tiempoDeEsperaParaCrearRayo == 0) {
+				rayoDeVelociraptors[r] = velociraptors[r].dispararRayo();
+				tiempoDeEsperaParaCrearRayo = random.nextInt(100);
+				System.out.print(tiempoDeEsperaParaCrearRayo);
+			}
+			if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
+				rayoDeVelociraptors[r]=null;
+				barbarianna = null;
+				barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 95, 2.5);
+				
+			}
+		}
+
+		barbarianna.dibujar(entorno);
+		barbarianna.Actualizar(entorno);
+		barbarianna.actualizarPisos(pisos);
 		if (entorno.estaPresionada('w')) {
 			barbarianna.saltar();
 		}
@@ -109,109 +147,49 @@ public class Juego extends InterfaceJuego {
 		if (barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.saltarUnPiso(entorno, pisos);
 		}
-		barbarianna.Actualizar(entorno);
-		barbarianna.actualizarPisos(pisos);
-		barbarianna.dibujar(entorno);
-	}
-
-	private void dibujarFondo() {
-		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
-	}
-
-	private void dibujarPisos() {
-		for (Piso p : pisos) {
-			p.dibujar(entorno);
+		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
+			barbarianna = null;
+			lives--;
+			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 95, 2.5);
+			
 		}
-	}
+		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
+			barbarianna = null;
+			lives--;
+			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 95, 2.5);
+		}
 
-	private void computadora() {
-		computadora.dibujar(entorno);
-	}
+		
+		if (barbarianna.estaTocandoLaComputadora(computadora)) {
+			gano = true;
+		}
 
-	private void textoEnPantalla() {
-		entorno.cambiarFont("sans", 24, Color.BLUE);
-		entorno.escribirTexto("lives: " + lives, 40, entorno.alto() - 20);
-		entorno.escribirTexto("points: " + points, entorno.ancho() / 2 - 40, entorno.alto() - 20);
-		entorno.escribirTexto("kills: " + kills, entorno.ancho() - 120, entorno.alto() - 20);
-	}
-
-	private boolean perdio() {
+		if (rayoDeBarbarianna != null) {
+			rayoDeBarbarianna.dibujar(entorno);
+			rayoDeBarbarianna.mover();
+			if (rayoDeBarbarianna.getX() > entorno.ancho() || rayoDeBarbarianna.getX() < 0) {
+				rayoDeBarbarianna = null;
+			}
+		}
+		
 		if (lives == 0) {
 			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2,
 					0);
 			entorno.cambiarFont("sans", 24, Color.RED);
 			entorno.escribirTexto("points: " + points, entorno.ancho() / 2 - 150, entorno.alto() / 2 + 150);
 			entorno.escribirTexto("kills: " + kills, entorno.ancho() - 220, entorno.alto() / 2 + 150);
-			return true;
+			
 		}
-		return false;
-	}
-
-	private boolean gano() {
-		if (gano) {
+		
+	if (gano) {
 			entorno.dibujarImagen(Herramientas.cargarImagen("win.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
 			entorno.cambiarFont("sans", 24, Color.GREEN);
 			entorno.escribirTexto("points: " + (points + 100), entorno.ancho() / 2 - 150, entorno.alto() / 2 + 150);
 			entorno.escribirTexto("kills: " + kills, entorno.ancho() - 220, entorno.alto() / 2 + 150);
-			return true;
-		}
-		return false;
+			
 	}
 
-	private void velociraptor() {
-		int idxV = 0;
-		for (Velociraptor v : velociraptors) {
-			if (v != null) {
-				if (!v.getEstaVivo()) {
-					velociraptors[idxV] = null;
-					return;
-				} else if (rayoDeBarbarianna != null && velociraptors[idxV].meChocoElRayo(rayoDeBarbarianna)) {
-					velociraptors[idxV] = null;
-					rayoDeBarbarianna = null;
-					points += 10;
-					kills++;
-				}
-				v.dibujar(entorno);
-				v.mover(entorno, pisos);
-				if (barbarianna != null) {
-					if (v.getFueHallada(barbarianna) && rayoDeVelociraptors[idxV] == null) {
-						rayoDeVelociraptors[idxV] = v.dispararRayo();
-					}
-				}
-			}
-			if (v == null && time > 100) {
-				velociraptors[idxV] = new Velociraptor(entorno.ancho() - 100, 90, 2);
-				time = 0;
-			}
-			idxV++;
-		}
-		rayoVelociraptor();
-	}
-
-	private void rayoVelociraptor() {
-		int idxR = 0;
-		for (Rayo r : rayoDeVelociraptors) {
-			if (r != null) {
-				r.dibujar(entorno);
-				r.mover();
-				if (!r.getEstaRenderizadoEnPantalla()) {
-					rayoDeVelociraptors[idxR] = null;
-				}
-			}
-			idxR++;
-		}
-
-	}
-
-	private void rayoBarbarianna() {
-		if (rayoDeBarbarianna != null) {
-			rayoDeBarbarianna.dibujar(entorno);
-			rayoDeBarbarianna.mover();
-			if (!rayoDeBarbarianna.getEstaRenderizadoEnPantalla()) {
-				rayoDeBarbarianna = null;
-			}
-		}
-	}
+}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {

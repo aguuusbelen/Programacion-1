@@ -10,18 +10,28 @@ public class Velociraptor {
 	private double velocidad;
 
 	private boolean estaCaminandoHaciaLaDerecha;
-	private int pisoActual; // Numero del piso donde se encuentra el personaje.
+	private boolean meEstoyCayendo;
+	private boolean llegueAlFinalDelCamino;
+
+	private Piso pisoAbajoDeVelociraptor;
+	private Piso pisoActualDeVelociraptor;
+
 	private boolean estaVivo;
 
-	public Velociraptor(double x, double y, double velocidad) {
+	public Velociraptor(double x, double y, double velocidad, Piso[] pisos) {
 		this.x = x;
 		this.y = y;
 		this.ancho = 80;
 		this.alto = 60;
 		this.velocidad = velocidad;
 
+		
 		this.estaCaminandoHaciaLaDerecha = false;
-		this.pisoActual = -1; // ???
+		this.meEstoyCayendo = false;
+		this.llegueAlFinalDelCamino = false;
+
+		actualizarPisos(pisos);
+
 		this.estaVivo = true;
 	}
 
@@ -33,84 +43,92 @@ public class Velociraptor {
 		}
 	}
 
-	public void mover(Entorno e, Piso[] pisos) {
-		if (!estaSobreElPiso(pisos))
-			caer(pisos);
-		if (estaCaminandoHaciaLaDerecha && estaSobreElPiso(pisos))
+
+	public void actualizar(Entorno e, Piso[] pisos) {
+		if (estaCaminandoHaciaLaDerecha) {
 			moverHaciaDerecha();
-		if (!estaCaminandoHaciaLaDerecha && estaSobreElPiso(pisos))
+		} else {
 			moverHaciaIzquierda();
-		if (pisoActual == 4 || pisoActual == 2 || pisoActual == 0)
-			estaCaminandoHaciaLaDerecha = false;
-		if (pisoActual == 1 || pisoActual == 3)
-			estaCaminandoHaciaLaDerecha = true;
-		if (pisoActual == 0 && x < ancho / 2)
-			estaVivo = false;
+		}
+
+		if (pisoActualDeVelociraptor.getX() > e.ancho() / 2
+				&& x < pisoActualDeVelociraptor.getX() - pisoActualDeVelociraptor.getAncho() / 2) {
+			meEstoyCayendo = true;
+		} else if (pisoActualDeVelociraptor.getX() < e.ancho() / 2
+				&& x > pisoActualDeVelociraptor.getX() + pisoActualDeVelociraptor.getAncho() / 2) {
+			meEstoyCayendo = true;
+		}
+
+		if (meEstoyCayendo == true) {
+			caer();
+			if (pisoAbajoDeVelociraptor.getY() - pisoAbajoDeVelociraptor.getAlto() / 2 <= y + alto / 2) {
+				y = pisoAbajoDeVelociraptor.getY() - pisoAbajoDeVelociraptor.getAlto() / 2 - alto / 2;
+				meEstoyCayendo = false;
+				actualizarPisos(pisos);
+			}
+		}
+
+		if (pisoActualDeVelociraptor.getX() == 540 && x < ancho / 2) {
+			llegueAlFinalDelCamino = true;
+		}
+	}
+
+	public void girar() {
+		estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
 	}
 
 	public void moverHaciaIzquierda() {
 		if (x > ancho / 2) {
 			x -= velocidad;
+		} else {
+			if (pisoAbajoDeVelociraptor == null) {
+				llegueAlFinalDelCamino = true;
+			} else {
+				girar();
+			}
 		}
-		estaCaminandoHaciaLaDerecha = false;
 	}
 
 	public void moverHaciaDerecha() {
 		if (x < 800 - ancho / 2) {
 			x += velocidad;
+		} else {
+			girar();
 		}
-		estaCaminandoHaciaLaDerecha = true;
+	}
+	
+	public void caer() {
+		y = y + 4;
 	}
 
-	public void caer(Piso[] pisos) {
-		
-		
-		if (estaSobreElBordeDelPiso(pisos)) {
-			if (estaCaminandoHaciaLaDerecha) {
-				x = x + 1;
-			} else {
-				x = x - 1;
+	
+	public void actualizarPisos(Piso[] pisos) {
+		pisoActualDeVelociraptor = pisoAbajoDeVelociraptor;
+		pisoAbajoDeVelociraptor = null;
+		for (Piso piso : pisos) {
+			if (piso.getY() > y
+					&& (pisoActualDeVelociraptor == null || pisoActualDeVelociraptor.getY() > piso.getY())) {
+				pisoAbajoDeVelociraptor = pisoActualDeVelociraptor;
+				pisoActualDeVelociraptor = piso;
+			} else if (piso.getY() > y && piso.getY() != pisoActualDeVelociraptor.getY()
+					&& (pisoAbajoDeVelociraptor == null
+							|| pisoActualDeVelociraptor.getY() == pisoAbajoDeVelociraptor.getY()
+							|| pisoAbajoDeVelociraptor.getY() > piso.getY())) {
+				pisoAbajoDeVelociraptor = piso;
 			}
-			y = y + 2;
-		} else {
-			y = y + 2;
 		}
 	}
+
+	public boolean llegueAlFinalDelCamino() {
+		return llegueAlFinalDelCamino;
+	}
+
 
 	public Rayo dispararRayo() {
 		boolean direccionDeDisparo = estaCaminandoHaciaLaDerecha;
 		return new Rayo(x, y, direccionDeDisparo);
 	}
 
-	private boolean estaSobreElPiso(Piso[] pisos) {
-		for (int i = 0; i < pisos.length; i++) {
-			if ((((x - ancho / 2) >= pisos[i].getDimensiones()[0] && (x <= pisos[i].getDimensiones()[1]))
-					|| (x >= pisos[i].getDimensiones()[0]) && (x + ancho / 2) <= pisos[i].getDimensiones()[1])
-					&& (y + alto / 2) == pisos[i].getDimensiones()[2]) {
-				pisoActual = i;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean estaSobreElBordeDelPiso(Piso[] pisos) {
-		for (int i = 0; i < pisos.length; i++) {
-			if (i != pisos.length - 1) {
-				if ((((x - ancho / 2) <= pisos[i + 1].getDimensiones()[1]
-						&& (x + ancho / 2) >= pisos[i + 1].getDimensiones()[1])
-						|| ((x + ancho / 2) >= pisos[i + 1].getDimensiones()[0]
-								&& (x - ancho / 2) <= pisos[i + 1].getDimensiones()[0]))
-						&& (((y - alto / 2) < pisos[i + 1].getDimensiones()[3]
-								&& (y + alto / 2) > pisos[i + 1].getDimensiones()[3])
-								|| ((y + alto / 2) > pisos[i + 1].getDimensiones()[2]
-										&& (y - alto / 2) < pisos[i + 1].getDimensiones()[2]))) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 	public boolean meChocoElRayo(Rayo rayo) {
 		return (x + ancho / 2 >= rayo.getX() - rayo.getAlto() / 2)
@@ -122,9 +140,7 @@ public class Velociraptor {
 		return estaVivo;
 	}
 
-	public boolean getFueHallada(Barbarianna barbarianna) {
-		return (pisoActual == barbarianna.getPisoDondeEstaParado());
-	}
+
 
 	public double getX() {
 		return x;
