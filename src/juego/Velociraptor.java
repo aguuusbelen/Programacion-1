@@ -1,4 +1,5 @@
 package juego;
+
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -12,10 +13,6 @@ public class Velociraptor {
 	private boolean estaCaminandoHaciaLaDerecha;
 	private boolean meEstoyCayendo;
 	private boolean llegueAlFinalDelCamino;
-
-	private Piso pisoAbajoDeVelociraptor;
-	private Piso pisoActualDeVelociraptor;
-
 	private boolean estaVivo;
 
 	public Velociraptor(double x, double y, double velocidad, Piso[] pisos) {
@@ -25,14 +22,11 @@ public class Velociraptor {
 		this.alto = 60;
 		this.velocidad = velocidad;
 
-		
 		this.estaCaminandoHaciaLaDerecha = false;
 		this.meEstoyCayendo = false;
 		this.llegueAlFinalDelCamino = false;
-
-		actualizarPisos(pisos);
-
 		this.estaVivo = true;
+		
 	}
 
 	public void dibujar(Entorno e) {
@@ -43,92 +37,68 @@ public class Velociraptor {
 		}
 	}
 
-
-	public void actualizar(Entorno e, Piso[] pisos) {
+	public void mover(Entorno e) {
 		if (estaCaminandoHaciaLaDerecha) {
-			moverHaciaDerecha();
-		} else {
-			moverHaciaIzquierda();
-		}
-
-		if (pisoActualDeVelociraptor.getX() > e.ancho() / 2
-				&& x < pisoActualDeVelociraptor.getX() - pisoActualDeVelociraptor.getAncho() / 2) {
-			meEstoyCayendo = true;
-		} else if (pisoActualDeVelociraptor.getX() < e.ancho() / 2
-				&& x > pisoActualDeVelociraptor.getX() + pisoActualDeVelociraptor.getAncho() / 2) {
-			meEstoyCayendo = true;
-		}
-
-		if (meEstoyCayendo == true) {
-			caer();
-			if (pisoAbajoDeVelociraptor.getY() - pisoAbajoDeVelociraptor.getAlto() / 2 <= y + alto / 2) {
-				y = pisoAbajoDeVelociraptor.getY() - pisoAbajoDeVelociraptor.getAlto() / 2 - alto / 2;
-				meEstoyCayendo = false;
-				actualizarPisos(pisos);
+			if (x < 800 - ancho / 2) {
+				x += velocidad;
+			}  else {
+				estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
 			}
-		}
-
-		if (pisoActualDeVelociraptor.getX() == 540 && x < ancho / 2) {
-			llegueAlFinalDelCamino = true;
-		}
-	}
-
-	public void girar() {
-		estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
-	}
-
-	public void moverHaciaIzquierda() {
-		if (x > ancho / 2) {
-			x -= velocidad;
 		} else {
-			if (pisoAbajoDeVelociraptor == null) {
-				llegueAlFinalDelCamino = true;
+			if (x > ancho / 2) {
+				x -= velocidad;
 			} else {
-				girar();
+				estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
 			}
+
 		}
 	}
 
-	public void moverHaciaDerecha() {
-		if (x < 800 - ancho / 2) {
-			x += velocidad;
+
+	public void caer(Entorno e, Piso[] pisos) {
+		Piso pisoActualDeVelociraptor = pisoEnElQueEstoyParado(pisos);
+		if (meEstoyCayendo == false) {
+			if (pisoActualDeVelociraptor != null && pisoActualDeVelociraptor.getX() < e.ancho() / 2
+					&& x > pisoActualDeVelociraptor.getX() + pisoActualDeVelociraptor.getAncho() / 2) {
+				meEstoyCayendo = true;
+				y = y + 4;
+			} else if (pisoActualDeVelociraptor != null && pisoActualDeVelociraptor.getX() > e.ancho() / 2
+					&& x < pisoActualDeVelociraptor.getX() - pisoActualDeVelociraptor.getAncho() / 2) {
+				meEstoyCayendo = true;
+				y = y + 4;
+			} else if (pisoActualDeVelociraptor != null && pisoActualDeVelociraptor.getX() == e.ancho() / 2
+					&& x < ancho / 2) {
+				llegueAlFinalDelCamino = true;
+			}
 		} else {
-			girar();
-		}
-	}
-	
-	public void caer() {
-		y = y + 4;
-	}
-
-	
-	public void actualizarPisos(Piso[] pisos) {
-		pisoActualDeVelociraptor = pisoAbajoDeVelociraptor;
-		pisoAbajoDeVelociraptor = null;
-		for (Piso piso : pisos) {
-			if (piso.getY() > y
-					&& (pisoActualDeVelociraptor == null || pisoActualDeVelociraptor.getY() > piso.getY())) {
-				pisoAbajoDeVelociraptor = pisoActualDeVelociraptor;
-				pisoActualDeVelociraptor = piso;
-			} else if (piso.getY() > y && piso.getY() != pisoActualDeVelociraptor.getY()
-					&& (pisoAbajoDeVelociraptor == null
-							|| pisoActualDeVelociraptor.getY() == pisoAbajoDeVelociraptor.getY()
-							|| pisoAbajoDeVelociraptor.getY() > piso.getY())) {
-				pisoAbajoDeVelociraptor = piso;
+			if (pisoActualDeVelociraptor != null
+					&& pisoActualDeVelociraptor.getY() - pisoActualDeVelociraptor.getAlto() / 2 <= y + alto / 2) {
+				meEstoyCayendo = false;
+			} else {
+				y = y + 4;
 			}
 		}
 	}
+
+	public Piso pisoEnElQueEstoyParado(Piso[] pisos) {
+		for (int p=0; p < pisos.length ; p++ ) {
+			if (pisos[p].getY() - pisos[p].getAlto() / 2 == y + alto / 2) {
+				return pisos[p];
+			}
+		}
+		return null;
+	}
+	
+	
 
 	public boolean llegueAlFinalDelCamino() {
 		return llegueAlFinalDelCamino;
 	}
 
-
 	public Rayo dispararRayo() {
 		boolean direccionDeDisparo = estaCaminandoHaciaLaDerecha;
 		return new Rayo(x, y, direccionDeDisparo);
 	}
-
 
 	public boolean meChocoElRayo(Rayo rayo) {
 		return (x + ancho / 2 >= rayo.getX() - rayo.getAlto() / 2)
@@ -139,8 +109,6 @@ public class Velociraptor {
 	public boolean getEstaVivo() {
 		return estaVivo;
 	}
-
-
 
 	public double getX() {
 		return x;

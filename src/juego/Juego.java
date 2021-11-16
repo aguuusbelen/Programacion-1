@@ -44,8 +44,8 @@ public class Juego extends InterfaceJuego {
 		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png");
 
 		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 100, 2.5);
-		this.barbarianna.actualizarPisos(pisos);
+		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96, 2.5);
+		//this.barbarianna.actualizarPisos(pisos);
 
 		this.velociraptors = new Velociraptor[6];
 		this.rayoDeVelociraptors = new Rayo[6];
@@ -87,7 +87,8 @@ public class Juego extends InterfaceJuego {
 		for (int i = 0; i < velociraptors.length; i++) {
 			if (velociraptors[i] != null) {
 				velociraptors[i].dibujar(entorno);
-				velociraptors[i].actualizar(entorno, pisos);
+				velociraptors[i].mover(entorno);
+				velociraptors[i].caer(entorno, pisos);
 				if (velociraptors[i].llegueAlFinalDelCamino() == true) {
 					velociraptors[i] = null;
 				} else if (rayoDeBarbarianna != null && velociraptors[i].meChocoElRayo(rayoDeBarbarianna)) {
@@ -98,7 +99,7 @@ public class Juego extends InterfaceJuego {
 				}
 			}
 			if (velociraptors[i] == null && tiempoDeEsperaParaCrearVelociraptor == 0) {
-				velociraptors[i] = new Velociraptor(entorno.ancho() + 100, entorno.alto() - 502, 1.5, pisos);
+				velociraptors[i] = new Velociraptor(entorno.ancho() + 100, entorno.alto() - 502, 3, pisos);
 				tiempoDeEsperaParaCrearVelociraptor = random.nextInt(150) + 200;
 			}
 		}
@@ -113,27 +114,27 @@ public class Juego extends InterfaceJuego {
 			} else if (rayoDeVelociraptors[r] == null && velociraptors[r] != null && tiempoDeEsperaParaCrearRayo == 0) {
 				rayoDeVelociraptors[r] = velociraptors[r].dispararRayo();
 				tiempoDeEsperaParaCrearRayo = random.nextInt(100);
-				System.out.print(tiempoDeEsperaParaCrearRayo);
+				
 			}
 			if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
 				rayoDeVelociraptors[r]=null;
 				barbarianna = null;
-				barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 95, 2.5);
+				lives--;
+				barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96, 2.5);
 				
 			}
 		}
 
 		barbarianna.dibujar(entorno);
-		barbarianna.Actualizar(entorno);
-		barbarianna.actualizarPisos(pisos);
-		if (entorno.estaPresionada('w')) {
+		barbarianna.caer(entorno, pisos);
+		if (entorno.estaPresionada('w') || barbarianna.estoySaltando()) {
 			barbarianna.saltar();
 		}
 		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
 			rayoDeBarbarianna = barbarianna.dispararRayo();
 		}
-		if (entorno.estaPresionada('u') && barbarianna.estaHabilitadoParaSubirDePiso(entorno)) {
-			barbarianna.cuandoSubirUnPiso(entorno);
+		if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
+			barbarianna.subirDePiso(entorno, pisos);
 		}
 		if (entorno.estaPresionada('a')) {
 			barbarianna.moverHaciaIzquierda(entorno);
@@ -144,20 +145,20 @@ public class Juego extends InterfaceJuego {
 		} else {
 			barbarianna.estaQuieta();
 		}
-		if (barbarianna.estaSubiendoUnPiso()) {
-			barbarianna.saltarUnPiso(entorno, pisos);
-		}
+		//if (barbarianna.estaSubiendoUnPiso()) {
+		//	barbarianna.saltarUnPiso(entorno, pisos);
+		//}
 		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
 			barbarianna = null;
 			lives--;
-			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 95, 2.5);
+			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96, 2.5);
 			
 		}
-		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
-			barbarianna = null;
-			lives--;
-			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 95, 2.5);
-		}
+//		if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
+//			barbarianna = null;
+//			lives--;
+//			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96, 2.5);
+//		}
 
 		
 		if (barbarianna.estaTocandoLaComputadora(computadora)) {
@@ -172,7 +173,7 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 		
-		if (lives == 0) {
+		if (lives <= 0) {
 			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2,
 					0);
 			entorno.cambiarFont("sans", 24, Color.RED);
