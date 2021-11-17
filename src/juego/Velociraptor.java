@@ -101,9 +101,9 @@ public class Velociraptor {
 	}
 
 	public boolean meChocoElRayo(Rayo rayo) {
-		return (x + ancho / 2 >= rayo.getX() - rayo.getAlto() / 2)
-				&& (x - ancho / 2 <= rayo.getX() + rayo.getAlto() / 2)
-				&& (y >= rayo.getY() - rayo.getAncho() / 2 && y <= rayo.getY() + rayo.getAlto() / 2);
+		return (x + ancho / 2 >= rayo.getX() - rayo.getAncho() / 2
+				&& x - ancho / 2 <= rayo.getX() + rayo.getAncho() / 2)
+				&& (y + alto >= rayo.getY() - rayo.getAlto() / 2 && y - alto <= rayo.getY() + rayo.getAlto() / 2);
 	}
 
 	public boolean getEstaVivo() {

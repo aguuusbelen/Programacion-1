@@ -79,12 +79,12 @@ public class Barbarianna {
 			if (estoyAgachada) {
 				levantar();
 			}
+			if (x > ancho / 2) {
+				x -= velocidad;
+			}
+			estoyCaminandoHaciaLaDerecha = false;
+			meEstoyMoviendo = true;
 		}
-		if (x > ancho / 2) {
-			x -= velocidad;
-		}
-		estoyCaminandoHaciaLaDerecha = false;
-		meEstoyMoviendo = true;
 	}
 
 	public void moverHaciaDerecha(Entorno e) {
@@ -157,9 +157,9 @@ public class Barbarianna {
 				y = y + 4;
 			}
 		} else {
-			if (pisoActualDeBarbarianna != null
-					&& pisoActualDeBarbarianna.getY() - pisoActualDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
+			if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getY() - pisoActualDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
 				meEstoyCayendo = false;
+				auxY = y;
 			} else {
 				y = y + 4;
 			}
