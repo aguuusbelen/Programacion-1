@@ -13,6 +13,7 @@ public class Juego extends InterfaceJuego {
 
 	private Piso[] pisos;
 	private Computadora computadora;
+	private Corazón corazón;
 
 	private Barbarianna barbarianna;
 	private Rayo rayoDeBarbarianna;
@@ -44,6 +45,7 @@ public class Juego extends InterfaceJuego {
 		pisos[4] = new Piso(x + 164, y - 160);
 
 		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
+		this.corazón = new Corazón(entorno.ancho() - 60, entorno.alto() - 100);//286
 		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 		// this.barbarianna.actualizarPisos(pisos);
 
@@ -88,6 +90,7 @@ public class Juego extends InterfaceJuego {
 		}
 
 		computadora.dibujar(entorno);
+		corazón.dibujar(entorno);
 
 		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
 			tiempoDeEsperaParaCrearVelociraptor--;
@@ -168,6 +171,10 @@ public class Juego extends InterfaceJuego {
 
 		if (barbarianna.estaTocandoLaComputadora(computadora, pisos[4])) {
 			gano = true;
+		}
+		
+		if (barbarianna.estaTocandoElCorazón(corazón)) {
+			lives++;
 		}
 
 		if (rayoDeBarbarianna != null) {

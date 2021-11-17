@@ -254,8 +254,13 @@ public class Barbarianna {
 		// (y > computadora.getY() - computadora.getAlto() / 2 && y < computadora.getY()
 		// + computadora.getAlto() / 2));
 	}
+	
+	public boolean estaTocandoElCorazón(Corazón corazón/*, Piso SegundoPiso*/) {
+		return (x > corazón.getX());/*&& y < SegundoPiso.getY()*/
+	}
 
 	public boolean estoySaltando() {
 		return estoyEnElAire;
 	}
+
 }
