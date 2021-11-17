@@ -15,7 +15,7 @@ public class Velociraptor {
 	private boolean llegueAlFinalDelCamino;
 	private boolean estaVivo;
 
-	public Velociraptor(double x, double y, double velocidad, Piso[] pisos) {
+	public Velociraptor(double x, double y, double velocidad) {
 		this.x = x;
 		this.y = y;
 		this.ancho = 80;
@@ -39,7 +39,7 @@ public class Velociraptor {
 
 	public void mover(Entorno e) {
 		if (estaCaminandoHaciaLaDerecha) {
-			if (x < 800 - ancho / 2) {
+			if (x < e.ancho() - ancho / 2) {
 				x += velocidad;
 			}  else {
 				estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;

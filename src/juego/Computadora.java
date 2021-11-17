@@ -27,16 +27,12 @@ public class Computadora {
 		return x;
 	}
 
-	public double getY() {
-		return y;
-	}
-
-	public double getAncho() {
-		return ancho;
-	}
-
-	public double getAlto() {
-		return alto;
-	}
+//	public double getY() {
+//		return y;
+//	}
+//
+//	public double getAlto() {
+//		return alto;
+//	}
 	
 }

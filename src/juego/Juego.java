@@ -44,7 +44,7 @@ public class Juego extends InterfaceJuego {
 		pisos[4] = new Piso(x + 164, y - 160, "pisoSuperiores.png");
 
 		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96, 2.5);
+		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 		// this.barbarianna.actualizarPisos(pisos);
 
 		this.velociraptors = new Velociraptor[6];
@@ -100,7 +100,7 @@ public class Juego extends InterfaceJuego {
 					}
 				}
 				if (velociraptors[i] == null && tiempoDeEsperaParaCrearVelociraptor == 0) {
-					velociraptors[i] = new Velociraptor(entorno.ancho() + 100, entorno.alto() - 502, 1.5, pisos);
+					velociraptors[i] = new Velociraptor(entorno.ancho() + 100, entorno.alto() - 502, 1.5);
 					tiempoDeEsperaParaCrearVelociraptor = random.nextInt(150) + 200;
 				}
 			}
@@ -122,7 +122,7 @@ public class Juego extends InterfaceJuego {
 					rayoDeVelociraptors[r] = null;
 					barbarianna = null;
 					lives--;
-					barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96, 2.5);
+					barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 
 				}
 			}
@@ -151,11 +151,11 @@ public class Juego extends InterfaceJuego {
 			if (barbarianna.chocasteConVelociraptor(velociraptors)) {
 				barbarianna = null;
 				lives--;
-				barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96, 2.5);
+				barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 
 			}
 
-			if (barbarianna.estaTocandoLaComputadora(computadora)) {
+			if (barbarianna.estaTocandoLaComputadora(computadora, pisos[4])) {
 				gano = true;
 			}
 
@@ -168,8 +168,7 @@ public class Juego extends InterfaceJuego {
 			}
 		} else {
 			if (lives <= 0 && gano == false) {
-				entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2,
-						entorno.alto() / 2, 0);
+				entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2,entorno.alto() / 2, 0);
 				entorno.cambiarFont("sans", 24, Color.RED);
 				entorno.escribirTexto("points: " + points, entorno.ancho() / 2 - 150, entorno.alto() / 2 + 150);
 				entorno.escribirTexto("kills: " + kills, entorno.ancho() - 220, entorno.alto() / 2 + 150);

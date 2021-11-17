@@ -25,7 +25,7 @@ public class Barbarianna {
 	private boolean estoySubiendoUnPisoIzq;
 	private boolean estoySubiendoUnPisoDer;
 
-	public Barbarianna(double x, double y, double velocidad) {
+	public Barbarianna(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.auxY = y;
@@ -33,7 +33,7 @@ public class Barbarianna {
 		this.alto = 48; // 48
 		this.altoOriginal = 48;
 		this.alturaAgachada = 30;
-		this.velocidad = velocidad;
+		this.velocidad = 2.5;
 
 		this.estoyCaminandoHaciaLaDerecha = true;
 		this.meEstoyMoviendo = false;
@@ -43,7 +43,6 @@ public class Barbarianna {
 
 		this.estoySubiendoUnPisoIzq = false;
 		this.estoySubiendoUnPisoDer = false;
-		this.meEstoyMoviendo = false;
 		this.meEstoyCayendo = false;
 	}
 
@@ -247,9 +246,9 @@ public class Barbarianna {
 		return new Rayo(x, y, direccionDeDisparo);
 	}
 
-	public boolean estaTocandoLaComputadora(Computadora computadora) {
-		return (x > computadora.getX() && (y > computadora.getY() - computadora.getAncho() / 2
-				&& y < computadora.getY() + computadora.getAncho() / 2));
+	public boolean estaTocandoLaComputadora(Computadora computadora, Piso ultimoPiso) {
+		return (x > computadora.getX() && y < ultimoPiso.getY());
+				//(y > computadora.getY() - computadora.getAlto() / 2 && y < computadora.getY() + computadora.getAlto() / 2));
 	}
 	
 	public boolean estoySaltando() {
