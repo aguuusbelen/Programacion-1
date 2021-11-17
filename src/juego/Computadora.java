@@ -4,6 +4,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Computadora {
+	
 	private double x;
 	private double y;
 	private double ancho;

@@ -7,12 +7,12 @@ public class Barbarianna {
 
 	private double x;
 	private double y;
-	private double auxY; // ?
+	private double auxY; // yAgachada
 	private double ancho;
 	private double alto;
 	private double velocidad;
 
-	private boolean estoyCaminandoHaciaLaDerecha;
+	private boolean estoyCaminandoHaciaLaDerecha; // direccion
 	private boolean meEstoyMoviendo;
 	private boolean estoyEnElAire;
 	private boolean estoyAgachada;
@@ -101,7 +101,7 @@ public class Barbarianna {
 		}
 	}
 
-	public void estaQuieta() {
+	public void estaQuieta() { // quietar()
 		meEstoyMoviendo = false;
 		if (estoyAgachada) {
 			levantar();
@@ -143,7 +143,7 @@ public class Barbarianna {
 			}
 		}
 	}
-	
+
 	public void caer(Entorno e, Piso[] pisos) {
 		Piso pisoActualDeBarbarianna = pisoEnElQueEstoyParada(pisos);
 		if (meEstoyCayendo == false) {
@@ -157,7 +157,8 @@ public class Barbarianna {
 				y = y + 4;
 			}
 		} else {
-			if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getY() - pisoActualDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
+			if (pisoActualDeBarbarianna != null
+					&& pisoActualDeBarbarianna.getY() - pisoActualDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
 				meEstoyCayendo = false;
 				auxY = y;
 			} else {
@@ -174,25 +175,27 @@ public class Barbarianna {
 		}
 		return null;
 	}
-	
+
 	public void subirDePiso(Entorno e, Piso[] pisos) {
-		if(meEstoyCayendo == false) {
+		if (meEstoyCayendo == false) {
 			Piso pisoActualDeBarbarianna = pisoEnElQueEstoyParada(pisos);
-			if(pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() == e.ancho() / 2 && (x > e.ancho() - 164 && x < e.ancho())) {
-				//piso con agujero a la derecha
+			if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() == e.ancho() / 2
+					&& (x > e.ancho() - 164 && x < e.ancho())) {
+				// piso con agujero a la derecha
 				estoySubiendoUnPisoIzq = true;
 				pisoActualDeBarbarianna = null;
-			}
-			else if(pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2 && (x <  164 && x > 0)) {
-				//piso con agujero a la derecha
+			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
+					&& (x < 164 && x > 0)) {
+				// piso con agujero a la derecha
 				estoySubiendoUnPisoDer = true;
 				pisoActualDeBarbarianna = null;
-			} else if(pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2 && (x > e.ancho() - 164 && x < e.ancho())) {
-				//piso con agujero a la izquierda
+			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
+					&& (x > e.ancho() - 164 && x < e.ancho())) {
+				// piso con agujero a la izquierda
 				estoySubiendoUnPisoIzq = true;
 				pisoActualDeBarbarianna = null;
 			}
-			if(estoySubiendoUnPisoDer == true || estoySubiendoUnPisoIzq == true) {
+			if (estoySubiendoUnPisoDer == true || estoySubiendoUnPisoIzq == true) {
 				y = y - 2;
 				if (estoyAgachada == true) {
 					levantar();
@@ -216,7 +219,7 @@ public class Barbarianna {
 		return estoySubiendoUnPisoDer || estoySubiendoUnPisoIzq;
 	}
 
-	public boolean chocasteConVelociraptor(Velociraptor[] velociraptors) {
+	public boolean chocasteConVelociraptor(Velociraptor[] velociraptors) { // ...conAlgúnVelociraptor...
 		for (Velociraptor v : velociraptors) {
 			if (v != null
 					&& ((x + ancho / 2 >= v.getX() - v.getAncho() / 2 && x - ancho / 2 <= v.getX() - v.getAncho() / 2)
@@ -248,9 +251,10 @@ public class Barbarianna {
 
 	public boolean estaTocandoLaComputadora(Computadora computadora, Piso ultimoPiso) {
 		return (x > computadora.getX() && y < ultimoPiso.getY());
-				//(y > computadora.getY() - computadora.getAlto() / 2 && y < computadora.getY() + computadora.getAlto() / 2));
+		// (y > computadora.getY() - computadora.getAlto() / 2 && y < computadora.getY()
+		// + computadora.getAlto() / 2));
 	}
-	
+
 	public boolean estoySaltando() {
 		return estoyEnElAire;
 	}

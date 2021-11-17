@@ -3,16 +3,17 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Rayo {
+	
 	private double x;
 	private double y;
 	private double ancho;
 	private double alto;
 	private double velocidad;
 	
-	private boolean fueDisparadoHaciaLaDerecha;
-	private boolean estaRenderizadoEnPantalla;
+	private boolean fueDisparadoHaciaLaDerecha; // direccion
+	private boolean estaRenderizadoEnPantalla; // no vá
 
-	public Rayo(double x , double y, boolean direccionDeDisparo) {
+	public Rayo(double x , double y, boolean direccion) {
 		this.x = x ;
 		this.y = y ;
 		this.ancho = 40;
@@ -20,7 +21,7 @@ public class Rayo {
 
 		this.velocidad = 4;
 		this.estaRenderizadoEnPantalla = false;
-		this.fueDisparadoHaciaLaDerecha = direccionDeDisparo;		
+		this.fueDisparadoHaciaLaDerecha = direccion;		
 	}
 
 	public void mover() { 
@@ -59,8 +60,8 @@ public class Rayo {
 		return alto;
 	}
 
-	public boolean getEstaRenderizadoEnPantalla() {
-		return estaRenderizadoEnPantalla;
-	}
+//	public boolean getEstaRenderizadoEnPantalla() {
+//		return estaRenderizadoEnPantalla;
+//	}
 	
 }

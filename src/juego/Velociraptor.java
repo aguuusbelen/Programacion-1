@@ -4,16 +4,18 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Velociraptor {
+
 	private double x;
 	private double y;
 	private double ancho;
 	private double alto;
 	private double velocidad;
+	private double velocidadDeCaida;
 
-	private boolean estaCaminandoHaciaLaDerecha;
+	private boolean estaCaminandoHaciaLaDerecha; // direccion
 	private boolean meEstoyCayendo;
 	private boolean llegueAlFinalDelCamino;
-	private boolean estaVivo;
+//	private boolean estaVivo;
 
 	public Velociraptor(double x, double y, double velocidad) {
 		this.x = x;
@@ -25,8 +27,7 @@ public class Velociraptor {
 		this.estaCaminandoHaciaLaDerecha = false;
 		this.meEstoyCayendo = false;
 		this.llegueAlFinalDelCamino = false;
-		this.estaVivo = true;
-		
+//		this.estaVivo = true;
 	}
 
 	public void dibujar(Entorno e) {
@@ -41,7 +42,7 @@ public class Velociraptor {
 		if (estaCaminandoHaciaLaDerecha) {
 			if (x < e.ancho() - ancho / 2) {
 				x += velocidad;
-			}  else {
+			} else {
 				estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
 			}
 		} else {
@@ -53,7 +54,6 @@ public class Velociraptor {
 
 		}
 	}
-
 
 	public void caer(Entorno e, Piso[] pisos) {
 		Piso pisoActualDeVelociraptor = pisoEnElQueEstoyParado(pisos);
@@ -81,23 +81,21 @@ public class Velociraptor {
 	}
 
 	public Piso pisoEnElQueEstoyParado(Piso[] pisos) {
-		for (int p=0; p < pisos.length ; p++ ) {
+		for (int p = 0; p < pisos.length; p++) {
 			if (pisos[p].getY() - pisos[p].getAlto() / 2 == y + alto / 2) {
 				return pisos[p];
 			}
 		}
-		return null;
+		return null; // explicar en el informe
 	}
-	
-	
 
 	public boolean llegueAlFinalDelCamino() {
 		return llegueAlFinalDelCamino;
 	}
 
 	public Rayo dispararRayo() {
-		boolean direccionDeDisparo = estaCaminandoHaciaLaDerecha;
-		return new Rayo(x, y, direccionDeDisparo);
+		boolean direccion = estaCaminandoHaciaLaDerecha;
+		return new Rayo(x, y, direccion);
 	}
 
 	public boolean meChocoElRayo(Rayo rayo) {
@@ -106,9 +104,9 @@ public class Velociraptor {
 				&& (y + alto >= rayo.getY() - rayo.getAlto() / 2 && y - alto <= rayo.getY() + rayo.getAlto() / 2);
 	}
 
-	public boolean getEstaVivo() {
-		return estaVivo;
-	}
+//	public boolean getEstaVivo() {
+//		return estaVivo;
+//	}
 
 	public double getX() {
 		return x;
