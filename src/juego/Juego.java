@@ -135,19 +135,18 @@ public class Juego extends InterfaceJuego {
 			if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
 				rayoDeBarbarianna = barbarianna.dispararRayo();
 			}
-			if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
-				barbarianna.subirDePiso(entorno, pisos);
-			}
+			
 			if (entorno.estaPresionada('a')) {
 				barbarianna.moverHaciaIzquierda(entorno);
 			} else if (entorno.estaPresionada('d')) {
 				barbarianna.moverHaciaDerecha(entorno);
 			} else if (entorno.estaPresionada('s')) {
 				barbarianna.agachar();
+			} else if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
+				barbarianna.subirDePiso(entorno, pisos);
 			} else {
 				barbarianna.estaQuieta();
 			}
-
 			if (barbarianna.chocasteConVelociraptor(velociraptors)) {
 				barbarianna = null;
 				lives--;
