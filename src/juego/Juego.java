@@ -102,14 +102,14 @@ public class Juego extends InterfaceJuego {
 		computadora.dibujar(entorno, Herramientas.cargarImagen("computadora.png"));
 		
 		if (escudo != null && tieneEscudo == false) {
-		escudo.dibujar(entorno, Herramientas.cargarImagen("escudoFrente.png"));
+		escudo.dibujar(entorno, Herramientas.cargarImagen("escudo_frente.png"));
 		}
 		
 		if (corazon != null && lives <= 2 && tieneVidaExtra == false) {
 		corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
 		}
 		if (estrella != null && tienePuntosExtra == false) {
-			estrella.dibujar(entorno, Herramientas.cargarImagen("estrellaArcoiris.png"));
+			estrella.dibujar(entorno, Herramientas.cargarImagen("estrella_arcoiris.png"));
 			}
 
 		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
