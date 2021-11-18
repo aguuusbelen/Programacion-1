@@ -128,7 +128,6 @@ public class Barbarianna {
 				y = y - 2;
 				distanciaDelPisoCuandoSalta++;
 			} else if (estoyEnElAire == true && distanciaDelPisoCuandoSalta > alto / 2) {
-				System.out.println("entro al segundo");
 				y = y + 2;
 				distanciaDelPisoCuandoSalta++;
 				if (distanciaDelPisoCuandoSalta == alto + 2) {
@@ -255,9 +254,14 @@ public class Barbarianna {
 		// + computadora.getAlto() / 2));
 	}
 	
-	public boolean estaTocandoElCorazón(Corazón corazón/*, Piso SegundoPiso*/) {
-		return (x > corazón.getX());/*&& y < SegundoPiso.getY()*/
-	}
+	public boolean estaTocandoElCorazon(Corazon corazon) {
+		  return (corazon != null)
+		    && ((x - ancho / 2 <= corazon.getX() && x + ancho / 2 >= corazon.getX())
+		      || (x - ancho / 2 >= corazon.getX() && x + ancho / 2 <= corazon.getX()))
+		    && (y - alto / 2 < corazon.getY() && y + alto / 2 > corazon.getY());
+		 }
+	
+
 
 	public boolean estoySaltando() {
 		return estoyEnElAire;
