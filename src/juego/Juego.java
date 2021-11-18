@@ -29,11 +29,13 @@ public class Juego extends InterfaceJuego {
 	private int kills;
 
 	private boolean gano;
+	private boolean tieneVidaExtra;
 
 	public Juego() {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
 		this.gano = false;
+		this.tieneVidaExtra= false;
 
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
@@ -45,9 +47,8 @@ public class Juego extends InterfaceJuego {
 		pisos[4] = new Piso(x + 164, y - 160);
 
 		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-		this.corazon = new Corazon(entorno.ancho() - 60, entorno.alto() - 100);//286
+		this.corazon = new Corazon(entorno.ancho() - 60, entorno.alto() - 400);
 		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
-		// this.barbarianna.actualizarPisos(pisos);
 
 		this.velociraptors = new Velociraptor[6];
 		this.rayoDeVelociraptors = new Rayo[6];
@@ -91,20 +92,16 @@ public class Juego extends InterfaceJuego {
 
 		computadora.dibujar(entorno);
 		
-		if (corazon != null) {
+		if (corazon != null && lives <= 2 && tieneVidaExtra == false) {
 		corazon.dibujar(entorno);
 		}
 
 		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
 			tiempoDeEsperaParaCrearVelociraptor--;
-		} else if (tiempoDeEsperaParaCrearVelociraptor == 0) {
-			// ???
 		}
 
 		if (tiempoDeEsperaParaCrearRayo > 0) {
 			tiempoDeEsperaParaCrearRayo--;
-		} else if (tiempoDeEsperaParaCrearRayo == 0) {
-			// ???
 		}
 
 		for (int i = 0; i < velociraptors.length; i++) {
@@ -179,6 +176,7 @@ public class Juego extends InterfaceJuego {
 		if (barbarianna.estaTocandoElCorazon(corazon)) {
 			lives++;
 			corazon = null;
+			tieneVidaExtra = true;
 		}
 
 		if (rayoDeBarbarianna != null) {

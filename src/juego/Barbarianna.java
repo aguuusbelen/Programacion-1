@@ -260,8 +260,6 @@ public class Barbarianna {
 		      || (x - ancho / 2 >= corazon.getX() && x + ancho / 2 <= corazon.getX()))
 		    && (y - alto / 2 < corazon.getY() && y + alto / 2 > corazon.getY());
 		 }
-	
-
 
 	public boolean estoySaltando() {
 		return estoyEnElAire;
