@@ -47,7 +47,8 @@ public class Juego extends InterfaceJuego {
 		pisos[4] = new Piso(x + 164, y - 160);
 
 		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-		this.corazon = new Corazon(entorno.ancho() - 60, entorno.alto() - 400);
+		this.corazon = new Corazon(entorno.ancho() - 60, entorno.alto() - 400);  //corazon
+		this.corazon = new Corazon(entorno.ancho()/2, entorno.alto() - 300);    //estrella
 		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 
 		this.velociraptors = new Velociraptor[6];
@@ -93,8 +94,11 @@ public class Juego extends InterfaceJuego {
 		computadora.dibujar(entorno);
 		
 		if (corazon != null && lives <= 2 && tieneVidaExtra == false) {
-		corazon.dibujar(entorno);
+		corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
 		}
+		if (corazon != null) {
+			corazon.dibujar(entorno, Herramientas.cargarImagen("estrella.png"));
+			}
 
 		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
 			tiempoDeEsperaParaCrearVelociraptor--;
