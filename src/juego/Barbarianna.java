@@ -247,12 +247,6 @@ public class Barbarianna {
 		boolean direccionDeDisparo = estoyCaminandoHaciaLaDerecha;
 		return new Rayo(x, y, direccionDeDisparo);
 	}
-
-//	public boolean estaTocandoLaComputadora(Computadora computadora, Piso ultimoPiso) {
-//		return (x > computadora.getX() && y < ultimoPiso.getY());
-//		// (y > computadora.getY() - computadora.getAlto() / 2 && y < computadora.getY()
-//		// + computadora.getAlto() / 2));
-//	}
 	
 	public boolean estaTocando(Item item) {
 		  return (item != null)

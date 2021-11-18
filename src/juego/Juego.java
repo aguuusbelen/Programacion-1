@@ -16,6 +16,7 @@ public class Juego extends InterfaceJuego {
 	private Item corazon;
 	private Item estrella;
 	private Item computadora;
+	private Item escudo;
 
 	private Barbarianna barbarianna;
 	private Rayo rayoDeBarbarianna;
@@ -33,6 +34,7 @@ public class Juego extends InterfaceJuego {
 	private boolean gano;
 	private boolean tieneVidaExtra;
 	private boolean tienePuntosExtra;
+	private boolean tieneEscudo;
 
 	public Juego() {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
@@ -40,6 +42,7 @@ public class Juego extends InterfaceJuego {
 		this.gano = false;
 		this.tieneVidaExtra= false;
 		this.tienePuntosExtra= false;
+		this.tieneEscudo= false;
 		
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
@@ -51,8 +54,9 @@ public class Juego extends InterfaceJuego {
 		pisos[4] = new Piso(x + 164, y - 160);
 
 		this.computadora = new Item(entorno.ancho() / 2 + 15, entorno.alto() - 490);
-		this.corazon = new Item(entorno.ancho() - 60, entorno.alto() - 400);  //corazon
-		this.estrella = new Item(entorno.ancho() - 714, entorno.alto() - 310);    //estrella
+		this.corazon = new Item(entorno.ancho() - 60, entorno.alto() - 400);
+		this.estrella = new Item(entorno.ancho() - 714, entorno.alto() - 310);
+		this.escudo = new Item(entorno.ancho() - 350, entorno.alto() - 285);
 		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 
 		this.velociraptors = new Velociraptor[6];
@@ -96,6 +100,10 @@ public class Juego extends InterfaceJuego {
 		}
 
 		computadora.dibujar(entorno, Herramientas.cargarImagen("computadora.png"));
+		
+		if (escudo != null && tieneEscudo == false) {
+		escudo.dibujar(entorno, Herramientas.cargarImagen("escudoFrente.png"));
+		}
 		
 		if (corazon != null && lives <= 2 && tieneVidaExtra == false) {
 		corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
@@ -152,7 +160,9 @@ public class Juego extends InterfaceJuego {
 		}
 
 		barbarianna.dibujar(entorno);
+		
 		barbarianna.caer(entorno, pisos);
+		
 		if (entorno.estaPresionada('w') || barbarianna.estoySaltando()) {
 			barbarianna.saltar();
 		}
@@ -185,6 +195,11 @@ public class Juego extends InterfaceJuego {
 			lives++;
 			corazon = null;
 			tieneVidaExtra = true;
+		}
+		
+		if (barbarianna.estaTocando(escudo)) {
+			escudo = null;
+			tieneEscudo = true;
 		}
 		
 		if (barbarianna.estaTocando(estrella)) {
