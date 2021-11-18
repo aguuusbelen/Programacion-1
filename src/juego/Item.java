@@ -3,15 +3,14 @@ package juego;
 import java.awt.Image;
 
 import entorno.Entorno;
-import entorno.Herramientas;
 
-public class Corazon {
+public class Item {
 
 	private double x;
 	private double y;
 
 	
-	public Corazon(double x, double y) {
+	public Item(double x, double y) {
 		this.x = x;
 		this.y = y;
 		

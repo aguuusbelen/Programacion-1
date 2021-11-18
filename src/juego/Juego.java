@@ -12,8 +12,10 @@ public class Juego extends InterfaceJuego {
 	private Entorno entorno;
 
 	private Piso[] pisos;
-	private Computadora computadora;
-	private Corazon corazon;
+
+	private Item corazon;
+	private Item estrella;
+	private Item computadora;
 
 	private Barbarianna barbarianna;
 	private Rayo rayoDeBarbarianna;
@@ -30,13 +32,15 @@ public class Juego extends InterfaceJuego {
 
 	private boolean gano;
 	private boolean tieneVidaExtra;
+	private boolean tienePuntosExtra;
 
 	public Juego() {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
 		this.gano = false;
 		this.tieneVidaExtra= false;
-
+		this.tienePuntosExtra= false;
+		
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
 		this.pisos = new Piso[5];
@@ -46,9 +50,9 @@ public class Juego extends InterfaceJuego {
 		pisos[3] = new Piso(x - 164, y - 60);
 		pisos[4] = new Piso(x + 164, y - 160);
 
-		this.computadora = new Computadora(entorno.ancho() / 2 + 15, entorno.alto() - 500);
-		this.corazon = new Corazon(entorno.ancho() - 60, entorno.alto() - 400);  //corazon
-		this.corazon = new Corazon(entorno.ancho()/2, entorno.alto() - 300);    //estrella
+		this.computadora = new Item(entorno.ancho() / 2 + 15, entorno.alto() - 490);
+		this.corazon = new Item(entorno.ancho() - 60, entorno.alto() - 400);  //corazon
+		this.estrella = new Item(entorno.ancho() - 714, entorno.alto() - 310);    //estrella
 		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 
 		this.velociraptors = new Velociraptor[6];
@@ -91,13 +95,13 @@ public class Juego extends InterfaceJuego {
 			p.dibujar(entorno);
 		}
 
-		computadora.dibujar(entorno);
+		computadora.dibujar(entorno, Herramientas.cargarImagen("computadora.png"));
 		
 		if (corazon != null && lives <= 2 && tieneVidaExtra == false) {
 		corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
 		}
-		if (corazon != null) {
-			corazon.dibujar(entorno, Herramientas.cargarImagen("estrella.png"));
+		if (estrella != null && tienePuntosExtra == false) {
+			estrella.dibujar(entorno, Herramientas.cargarImagen("estrellaArcoiris.png"));
 			}
 
 		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
@@ -173,14 +177,20 @@ public class Juego extends InterfaceJuego {
 			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 		}
 
-		if (barbarianna.estaTocandoLaComputadora(computadora, pisos[4])) {
+		if (barbarianna.estaTocando(computadora)) {
 			gano = true;
 		}
 		
-		if (barbarianna.estaTocandoElCorazon(corazon)) {
+		if (barbarianna.estaTocando(corazon)) {
 			lives++;
 			corazon = null;
 			tieneVidaExtra = true;
+		}
+		
+		if (barbarianna.estaTocando(estrella)) {
+			points+=10;
+			estrella = null;
+			tienePuntosExtra = true;
 		}
 
 		if (rayoDeBarbarianna != null) {

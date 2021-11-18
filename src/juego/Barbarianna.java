@@ -248,17 +248,17 @@ public class Barbarianna {
 		return new Rayo(x, y, direccionDeDisparo);
 	}
 
-	public boolean estaTocandoLaComputadora(Computadora computadora, Piso ultimoPiso) {
-		return (x > computadora.getX() && y < ultimoPiso.getY());
-		// (y > computadora.getY() - computadora.getAlto() / 2 && y < computadora.getY()
-		// + computadora.getAlto() / 2));
-	}
+//	public boolean estaTocandoLaComputadora(Computadora computadora, Piso ultimoPiso) {
+//		return (x > computadora.getX() && y < ultimoPiso.getY());
+//		// (y > computadora.getY() - computadora.getAlto() / 2 && y < computadora.getY()
+//		// + computadora.getAlto() / 2));
+//	}
 	
-	public boolean estaTocandoElCorazon(Corazon corazon) {
-		  return (corazon != null)
-		    && ((x - ancho / 2 <= corazon.getX() && x + ancho / 2 >= corazon.getX())
-		      || (x - ancho / 2 >= corazon.getX() && x + ancho / 2 <= corazon.getX()))
-		    && (y - alto / 2 < corazon.getY() && y + alto / 2 > corazon.getY());
+	public boolean estaTocando(Item item) {
+		  return (item != null)
+		    && ((x - ancho / 2 <= item.getX() && x + ancho / 2 >= item.getX())
+		      || (x - ancho / 2 >= item.getX() && x + ancho / 2 <= item.getX()))
+		    && (y - alto / 2 < item.getY() && y + alto / 2 > item.getY());
 		 }
 
 	public boolean estoySaltando() {
