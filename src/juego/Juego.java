@@ -16,7 +16,7 @@ public class Juego extends InterfaceJuego {
 	private Item corazon;
 	private Item estrella;
 	private Item computadora;
-	private Item escudo;
+	private Escudo escudo;
 
 	private Barbarianna barbarianna;
 	private Rayo rayoDeBarbarianna;
@@ -34,7 +34,6 @@ public class Juego extends InterfaceJuego {
 	private boolean gano;
 	private boolean tieneVidaExtra;
 	private boolean tienePuntosExtra;
-	private boolean tieneEscudo;
 
 	public Juego() {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
@@ -42,7 +41,6 @@ public class Juego extends InterfaceJuego {
 		this.gano = false;
 		this.tieneVidaExtra= false;
 		this.tienePuntosExtra= false;
-		this.tieneEscudo= false;
 		
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
@@ -56,7 +54,7 @@ public class Juego extends InterfaceJuego {
 		this.computadora = new Item(entorno.ancho() / 2 + 15, entorno.alto() - 490);
 		this.corazon = new Item(entorno.ancho() - 60, entorno.alto() - 400);
 		this.estrella = new Item(entorno.ancho() - 714, entorno.alto() - 310);
-		this.escudo = new Item(entorno.ancho() - 350, entorno.alto() - 285);
+		this.escudo = new Escudo(entorno.ancho() - 350, entorno.alto() - 285);
 		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 
 		this.velociraptors = new Velociraptor[6];
@@ -101,7 +99,7 @@ public class Juego extends InterfaceJuego {
 
 		computadora.dibujar(entorno, Herramientas.cargarImagen("computadora.png"));
 		
-		if (escudo != null && tieneEscudo == false) {
+		if (escudo != null) {
 		escudo.dibujar(entorno, Herramientas.cargarImagen("escudo_frente.png"));
 		}
 		
@@ -157,6 +155,9 @@ public class Juego extends InterfaceJuego {
 				lives--;
 				barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 			}
+			else if (barbarianna.chocasteConRayo(rayoDeVelociraptors) && barbarianna.seCubre()) {
+				rayoDeVelociraptors[r] = null;
+			}
 		}
 
 		barbarianna.dibujar(entorno);
@@ -178,6 +179,8 @@ public class Juego extends InterfaceJuego {
 			barbarianna.agachar();
 		} else if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.subirDePiso(entorno, pisos);
+		} else if (entorno.estaPresionada('c')) {
+			barbarianna.seCubre();
 		} else {
 			barbarianna.estaQuieta();
 		}
@@ -197,9 +200,9 @@ public class Juego extends InterfaceJuego {
 			tieneVidaExtra = true;
 		}
 		
-		if (barbarianna.estaTocando(escudo)) {
+		if (barbarianna.agarraEscudo(escudo)) {
 			escudo = null;
-			tieneEscudo = true;
+			barbarianna.tieneEscudo(escudo);
 		}
 		
 		if (barbarianna.estaTocando(estrella)) {
