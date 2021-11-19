@@ -1,6 +1,7 @@
 = Programación I: Trabajo Práctico 1
 
-José Herrera <jooherrera4@gmail.com> ; Monarca_Actual <cfk@gmail.com>; Ex_Monarca <nestor@gmail.com>
+Integrantes
+Agustina Mendez <agustina.996@hotmail.com> ; Kevin Montenegro <kevinmontenegroac@gmail.com>; Gaston Sanchez <gaston.sanchez.gs@gmail.com> ; Martina Soria <marti3014soria@gmail.com>
 
 v1, {docdate}. Docentes Leo y Lucifer (COM-01)
 
