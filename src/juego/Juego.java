@@ -39,9 +39,9 @@ public class Juego extends InterfaceJuego {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
 		this.gano = false;
-		this.tieneVidaExtra= false;
-		this.tienePuntosExtra= false;
-		
+		this.tieneVidaExtra = false;
+		this.tienePuntosExtra = false;
+
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
 		this.pisos = new Piso[5];
@@ -98,17 +98,17 @@ public class Juego extends InterfaceJuego {
 		}
 
 		computadora.dibujar(entorno, Herramientas.cargarImagen("computadora.png"));
-		
+
 		if (escudo != null) {
-		escudo.dibujar(entorno, Herramientas.cargarImagen("escudo_frente.png"));
+			escudo.dibujar(entorno, Herramientas.cargarImagen("escudo_frente.png"));
 		}
-		
+
 		if (corazon != null && lives <= 2 && tieneVidaExtra == false) {
-		corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
+			corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
 		}
 		if (estrella != null && tienePuntosExtra == false) {
 			estrella.dibujar(entorno, Herramientas.cargarImagen("estrella_arcoiris.png"));
-			}
+		}
 
 		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
 			tiempoDeEsperaParaCrearVelociraptor--;
@@ -150,19 +150,24 @@ public class Juego extends InterfaceJuego {
 				tiempoDeEsperaParaCrearRayo = random.nextInt(100);
 			}
 			if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
-				rayoDeVelociraptors[r] = null;
-				barbarianna = null;
-				lives--;
-				barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
-			}
-			else if (barbarianna.chocasteConRayo(rayoDeVelociraptors) && barbarianna.seCubre()) {
-				rayoDeVelociraptors[r] = null;
+				if (barbarianna.tieneEscudo() == true && entorno.estaPresionada('c')) {
+					rayoDeVelociraptors[r] = null;
+				} else {
+					rayoDeVelociraptors[r] = null;
+					barbarianna = null;
+					lives--;
+					barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
+				}
+
 			}
 		}
 
 		barbarianna.dibujar(entorno);
-		
+
 		barbarianna.caer(entorno, pisos);
+		if(barbarianna.agarraEscudo(escudo)) {
+			escudo = null;
+		};
 		
 		if (entorno.estaPresionada('w') || barbarianna.estoySaltando()) {
 			barbarianna.saltar();
@@ -177,12 +182,11 @@ public class Juego extends InterfaceJuego {
 			barbarianna.moverHaciaDerecha(entorno);
 		} else if (entorno.estaPresionada('s')) {
 			barbarianna.agachar();
-		} else if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
-			barbarianna.subirDePiso(entorno, pisos);
-		} else if (entorno.estaPresionada('c')) {
-			barbarianna.seCubre();
 		} else {
 			barbarianna.estaQuieta();
+		}
+		if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
+			barbarianna.subirDePiso(entorno, pisos);
 		}
 		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
 			barbarianna = null;
@@ -193,20 +197,15 @@ public class Juego extends InterfaceJuego {
 		if (barbarianna.estaTocando(computadora)) {
 			gano = true;
 		}
-		
+
 		if (barbarianna.estaTocando(corazon)) {
 			lives++;
 			corazon = null;
 			tieneVidaExtra = true;
 		}
-		
-		if (barbarianna.agarraEscudo(escudo)) {
-			escudo = null;
-			barbarianna.tieneEscudo(escudo);
-		}
-		
+
 		if (barbarianna.estaTocando(estrella)) {
-			points+=10;
+			points += 10;
 			estrella = null;
 			tienePuntosExtra = true;
 		}
