@@ -12,7 +12,7 @@ public class Velociraptor {
 	private double velocidad;
 	private double velocidadDeCaida;
 
-	private boolean estaCaminandoHaciaLaDerecha; // direccion
+	private boolean direccionDerecha; // direccion
 	private boolean meEstoyCayendo;
 	private boolean llegueAlFinalDelCamino;
 //	private boolean estaVivo;
@@ -24,14 +24,14 @@ public class Velociraptor {
 		this.alto = 60;
 		this.velocidad = velocidad;
 
-		this.estaCaminandoHaciaLaDerecha = false;
+		this.direccionDerecha = false;
 		this.meEstoyCayendo = false;
 		this.llegueAlFinalDelCamino = false;
 //		this.estaVivo = true;
 	}
 
 	public void dibujar(Entorno e) {
-		if (estaCaminandoHaciaLaDerecha) {
+		if (direccionDerecha) {
 			e.dibujarImagen(Herramientas.cargarImagen("velociraptor_derecha.png"), x, y - 5, 0, 0.60);
 		} else {
 			e.dibujarImagen(Herramientas.cargarImagen("velociraptor_izquierda.png"), x, y - 5, 0, 0.60);
@@ -39,17 +39,17 @@ public class Velociraptor {
 	}
 
 	public void mover(Entorno e) {
-		if (estaCaminandoHaciaLaDerecha) {
+		if (direccionDerecha) {
 			if (x < e.ancho() - ancho / 2) {
 				x += velocidad;
 			} else {
-				estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
+				direccionDerecha = !direccionDerecha;
 			}
 		} else {
 			if (x > ancho / 2) {
 				x -= velocidad;
 			} else {
-				estaCaminandoHaciaLaDerecha = !estaCaminandoHaciaLaDerecha;
+				direccionDerecha = !direccionDerecha;
 			}
 
 		}
@@ -94,7 +94,7 @@ public class Velociraptor {
 	}
 
 	public Rayo dispararRayo() {
-		boolean direccion = estaCaminandoHaciaLaDerecha;
+		boolean direccion = direccionDerecha;
 		return new Rayo(x, y, direccion);
 	}
 

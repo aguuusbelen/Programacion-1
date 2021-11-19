@@ -7,12 +7,12 @@ public class Barbarianna {
 
 	private double x;
 	private double y;
-	private double auxY; // yAgachada
+	private double yAgachada; // yAgachada
 	private double ancho;
 	private double alto;
 	private double velocidad;
 
-	private boolean estoyCaminandoHaciaLaDerecha; // direccion
+	private boolean direccionDerecha; // direccion
 	private boolean meEstoyMoviendo;
 	private boolean estoyEnElAire;
 	private boolean estoyAgachada;
@@ -29,14 +29,14 @@ public class Barbarianna {
 	public Barbarianna(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.auxY = y;
+		this.yAgachada = y;
 		this.ancho = 30; // 30
 		this.alto = 48; // 48
 		this.altoOriginal = 48;
 		this.alturaAgachada = 30;
 		this.velocidad = 2.5;
 
-		this.estoyCaminandoHaciaLaDerecha = true;
+		this.direccionDerecha = true;
 		this.meEstoyMoviendo = false;
 		this.estoyEnElAire = false;
 		this.estoyAgachada = false;
@@ -52,15 +52,15 @@ public class Barbarianna {
 		if (tieneEscudo == false) {
 			if (!estoyEnElAire && !estoySubiendoUnPisoDer && !estoySubiendoUnPisoIzq) {
 				if (estoyAgachada == true) {
-					if (estoyCaminandoHaciaLaDerecha == true) {
+					if (direccionDerecha == true) {
 						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_derecha.png"), x, y, 0, 0.80); // antes
 																													// 0.65
 					} else {
 						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_izquierda.png"), x, y, 0, 0.80);
 					}
-				} else if (meEstoyMoviendo == true && estoyCaminandoHaciaLaDerecha == true) {
+				} else if (meEstoyMoviendo == true && direccionDerecha == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha.png"), x, y, 0, 0.80);
-				} else if (meEstoyMoviendo == true && estoyCaminandoHaciaLaDerecha == false) {
+				} else if (meEstoyMoviendo == true && direccionDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda.png"), x, y, 0, 0.80);
 				} else {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_quieta.png"), x, y, 0, 0.80);
@@ -70,7 +70,7 @@ public class Barbarianna {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_derecha.png"), x, y, 0, 0.80);
 				} else if (estoySubiendoUnPisoIzq == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_izquierda.png"), x, y, 0, 0.80);
-				} else if (estoyCaminandoHaciaLaDerecha == true) {
+				} else if (direccionDerecha == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha.png"), x, y, 0, 0.80);
 				} else {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda.png"), x, y, 0, 0.80);
@@ -79,20 +79,20 @@ public class Barbarianna {
 		} else {
 			if (!estoyEnElAire && !estoySubiendoUnPisoDer && !estoySubiendoUnPisoIzq) {
 				if (estoyAgachada == true) {
-					if (estoyCaminandoHaciaLaDerecha == true) {
+					if (direccionDerecha == true) {
 						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_derecha.png"), x, y, 0, 0.80); // antes
 																													// 0.65
 					} else {
 						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_izquierda.png"), x, y, 0, 0.80);
 					}
-				} else if (meEstoyMoviendo == true && estoyCaminandoHaciaLaDerecha == true) {
+				} else if (meEstoyMoviendo == true && direccionDerecha == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha_escudo.png"), x, y, 0, 0.80);
-				} else if (meEstoyMoviendo == true && estoyCaminandoHaciaLaDerecha == false) {
+				} else if (meEstoyMoviendo == true && direccionDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda_escudo.png"), x, y, 0, 0.80);
-				} else if (estoyCaminandoHaciaLaDerecha == true) {
+				} else if (direccionDerecha == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha_escudo_cubierta.png"), x, y,
 							0, 0.80);
-				} else if (estoyCaminandoHaciaLaDerecha == false) {
+				} else if (direccionDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda_escudo_cubierta.png"), x, y,
 							0, 0.80);
 				} else {
@@ -103,7 +103,7 @@ public class Barbarianna {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_derecha.png"), x, y, 0, 0.80);
 				} else if (estoySubiendoUnPisoIzq == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_izquierda.png"), x, y, 0, 0.80);
-				} else if (estoyCaminandoHaciaLaDerecha == true) {
+				} else if (direccionDerecha == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha_escudo.png"), x, y, 0, 0.80);
 				} else {
 				}
@@ -120,7 +120,7 @@ public class Barbarianna {
 			if (x > ancho / 2) {
 				x -= velocidad;
 			}
-			estoyCaminandoHaciaLaDerecha = false;
+			direccionDerecha = false;
 			meEstoyMoviendo = true;
 		}
 	}
@@ -134,12 +134,12 @@ public class Barbarianna {
 				x += velocidad;
 			}
 
-			estoyCaminandoHaciaLaDerecha = true;
+			direccionDerecha = true;
 			meEstoyMoviendo = true;
 		}
 	}
 
-	public void estaQuieta() { // quietar()
+	public void quietar() { // quietar()
 		meEstoyMoviendo = false;
 		if (estoyAgachada) {
 			levantar();
@@ -149,13 +149,13 @@ public class Barbarianna {
 	public void levantar() {
 		estoyAgachada = false;
 		alto = altoOriginal;
-		y = auxY;
+		y = yAgachada;
 	}
 
 	public void agachar() {
 		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			estoyAgachada = true;
-			y = auxY + (altoOriginal - alturaAgachada) / 2;
+			y = yAgachada + (altoOriginal - alturaAgachada) / 2;
 			alto = alturaAgachada;
 		}
 	}
@@ -197,7 +197,7 @@ public class Barbarianna {
 			if (pisoActualDeBarbarianna != null
 					&& pisoActualDeBarbarianna.getY() - pisoActualDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
 				meEstoyCayendo = false;
-				auxY = y;
+				yAgachada = y;
 			} else {
 				y = y + 4;
 			}
@@ -241,7 +241,7 @@ public class Barbarianna {
 					y = y + 2;
 					estoySubiendoUnPisoIzq = false;
 					estoySubiendoUnPisoDer = false;
-					auxY = y;
+					yAgachada = y;
 				}
 				if (estoySubiendoUnPisoIzq == true) {
 					x = x - 2;
@@ -256,7 +256,7 @@ public class Barbarianna {
 		return estoySubiendoUnPisoDer || estoySubiendoUnPisoIzq;
 	}
 
-	public boolean chocasteConVelociraptor(Velociraptor[] velociraptors) { // ...conAlgúnVelociraptor...
+	public boolean chocasteConAlgunVelociraptor(Velociraptor[] velociraptors) { // ...conAlgúnVelociraptor...
 		for (Velociraptor v : velociraptors) {
 			if (v != null
 					&& ((x + ancho / 2 >= v.getX() - v.getAncho() / 2 && x - ancho / 2 <= v.getX() - v.getAncho() / 2)
@@ -269,7 +269,7 @@ public class Barbarianna {
 		return false;
 	}
 
-	public boolean chocasteConRayo(Rayo[] rayoDeVelociraptors) {
+	public boolean chocasteConAlgunRayo(Rayo[] rayoDeVelociraptors) {
 		for (Rayo r : rayoDeVelociraptors) {
 			if (r != null
 					&& ((x - ancho / 2 <= r.getX() && x + ancho / 2 >= r.getX())
@@ -282,7 +282,7 @@ public class Barbarianna {
 	}
 
 	public Rayo dispararRayo() {
-		boolean direccionDeDisparo = estoyCaminandoHaciaLaDerecha;
+		boolean direccionDeDisparo = direccionDerecha;
 		return new Rayo(x, y, direccionDeDisparo);
 	}
 

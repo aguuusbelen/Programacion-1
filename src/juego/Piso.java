@@ -17,7 +17,7 @@ public class Piso {
 		this.y = y;
 		this.alto = 24;
 		this.ancho = 800;
-		this.img = Herramientas.cargarImagen("pisoSuperiores.png");
+		this.img = Herramientas.cargarImagen("piso_superior.png");
 	}
 
 	public void dibujar(Entorno e) {

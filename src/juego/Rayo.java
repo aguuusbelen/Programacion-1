@@ -12,7 +12,7 @@ public class Rayo {
 
 	private double velocidad;
 
-	private boolean fueDisparadoHaciaLaDerecha;
+	private boolean disparoDerecha;
 
 	public Rayo(double x, double y, boolean direccionDeDisparo) {
 		this.x = x;
@@ -20,11 +20,11 @@ public class Rayo {
 		this.ancho = 40;
 		this.alto = 10;
 		this.velocidad = 4;
-		this.fueDisparadoHaciaLaDerecha = direccionDeDisparo;
+		this.disparoDerecha = direccionDeDisparo;
 	}
 
 	public void mover() {
-		if (fueDisparadoHaciaLaDerecha) {
+		if (disparoDerecha) {
 			x += velocidad;
 		} else {
 			x -= velocidad;
@@ -32,10 +32,10 @@ public class Rayo {
 	}
 
 	public void dibujar(Entorno e) {
-		if (fueDisparadoHaciaLaDerecha) {
-			e.dibujarImagen(Herramientas.cargarImagen("rayo-der.png"), x, y, 0, 0.85);
+		if (disparoDerecha) {
+			e.dibujarImagen(Herramientas.cargarImagen("rayo_der.png"), x, y, 0, 0.85);
 		} else {
-			e.dibujarImagen(Herramientas.cargarImagen("rayo-izq.png"), x, y, 0, 0.85);
+			e.dibujarImagen(Herramientas.cargarImagen("rayo_izq.png"), x, y, 0, 0.85);
 		}
 	}
 

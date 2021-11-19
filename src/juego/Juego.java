@@ -149,7 +149,7 @@ public class Juego extends InterfaceJuego {
 				rayoDeVelociraptors[r] = velociraptors[r].dispararRayo();
 				tiempoDeEsperaParaCrearRayo = random.nextInt(100);
 			}
-			if (barbarianna.chocasteConRayo(rayoDeVelociraptors)) {
+			if (barbarianna.chocasteConAlgunRayo(rayoDeVelociraptors)) {
 				if (barbarianna.tieneEscudo() == true && entorno.estaPresionada('c')) {
 					rayoDeVelociraptors[r] = null;
 				} else {
@@ -183,12 +183,12 @@ public class Juego extends InterfaceJuego {
 		} else if (entorno.estaPresionada('s')) {
 			barbarianna.agachar();
 		} else {
-			barbarianna.estaQuieta();
+			barbarianna.quietar();
 		}
 		if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.subirDePiso(entorno, pisos);
 		}
-		if (barbarianna.chocasteConVelociraptor(velociraptors)) {
+		if (barbarianna.chocasteConAlgunVelociraptor(velociraptors)) {
 			barbarianna = null;
 			lives--;
 			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
