@@ -49,10 +49,10 @@ public class Juego extends InterfaceJuego {
 		pisos[3] = new Piso(x - 164, y - 60);
 		pisos[4] = new Piso(x + 164, y - 160);
 
-		this.computadora = new Item(entorno.ancho() / 2 + 15, entorno.alto() - 490, "computadora");
-		this.corazon = new Item(entorno.ancho() - 60, entorno.alto() - 400, "corazon");
-		this.estrella = new Item(entorno.ancho() - 714, entorno.alto() - 310, "estrella");
-		this.escudo = new Item(entorno.ancho() - 350, entorno.alto() - 285, "escudo");
+		this.computadora = new Item(entorno.ancho() / 2 + 15, entorno.alto() - 490);
+		this.corazon = new Item(entorno.ancho() - 60, entorno.alto() - 400);
+		this.estrella = new Item(entorno.ancho() - 714, entorno.alto() - 310);
+		this.escudo = new Item(entorno.ancho() - 350, entorno.alto() - 285);
 		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 
 		this.velociraptors = new Velociraptor[6];

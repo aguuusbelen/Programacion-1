@@ -8,12 +8,11 @@ public class Item {
 
 	private double x;
 	private double y;
-	private String nombre;
-
-	public Item(double x, double y, String nombre) {
+	
+	public Item(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.nombre=nombre;
+		
 	}
 
 	public void dibujar(Entorno e, Image imagen) {
@@ -26,10 +25,6 @@ public class Item {
 
 	public double getY() {
 		return y;
-	}
-
-	public String getNombre() {
-		return nombre;
 	}
 	
 }
