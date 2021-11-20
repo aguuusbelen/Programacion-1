@@ -70,15 +70,16 @@ public class Juego extends InterfaceJuego {
 
 	public void tick() {
 
+		// PERDIO
 		if (lives <= 0 && gano == false) {
-			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2,
-					0);
+			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
 			entorno.cambiarFont("sans", 24, Color.RED);
 			entorno.escribirTexto("points: " + points, entorno.ancho() / 2 - 150, entorno.alto() / 2 + 150);
 			entorno.escribirTexto("kills: " + kills, entorno.ancho() - 220, entorno.alto() / 2 + 150);
 			return;
 		}
 
+		// GANO
 		if (lives > 0 && gano == true) {
 			entorno.dibujarImagen(Herramientas.cargarImagen("win.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
 			entorno.cambiarFont("sans", 24, Color.GREEN);
@@ -87,6 +88,7 @@ public class Juego extends InterfaceJuego {
 			return;
 		}
 
+		//JUGANDO
 		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
 		entorno.cambiarFont("sans", 20, Color.WHITE);
 		entorno.escribirTexto("lives: " + lives, 40, entorno.alto() - 20);
@@ -165,10 +167,11 @@ public class Juego extends InterfaceJuego {
 		barbarianna.dibujar(entorno);
 
 		barbarianna.caer(entorno, pisos);
-		if(barbarianna.agarraEscudo(escudo)) {
+		if (barbarianna.agarraEscudo(escudo)) {
 			escudo = null;
-		};
-		
+		}
+		;
+
 		if (entorno.estaPresionada('w') || barbarianna.estoySaltando()) {
 			barbarianna.saltar();
 		}

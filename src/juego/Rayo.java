@@ -6,25 +6,22 @@ import entorno.Herramientas;
 public class Rayo {
 	private double x;
 	private double y;
-
 	private double ancho;
 	private double alto;
-
 	private double velocidad;
+	private boolean direccion;
 
-	private boolean disparoDerecha;
-
-	public Rayo(double x, double y, boolean direccionDeDisparo) {
+	public Rayo(double x, double y, boolean direccion) {
 		this.x = x;
 		this.y = y;
 		this.ancho = 40;
 		this.alto = 10;
 		this.velocidad = 4;
-		this.disparoDerecha = direccionDeDisparo;
+		this.direccion = direccion;
 	}
 
 	public void mover() {
-		if (disparoDerecha) {
+		if (direccion) {
 			x += velocidad;
 		} else {
 			x -= velocidad;
@@ -32,7 +29,7 @@ public class Rayo {
 	}
 
 	public void dibujar(Entorno e) {
-		if (disparoDerecha) {
+		if (direccion) {
 			e.dibujarImagen(Herramientas.cargarImagen("rayo_der.png"), x, y, 0, 0.85);
 		} else {
 			e.dibujarImagen(Herramientas.cargarImagen("rayo_izq.png"), x, y, 0, 0.85);

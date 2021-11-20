@@ -218,18 +218,21 @@ public class Barbarianna {
 			Piso pisoActualDeBarbarianna = pisoEnElQueEstoyParada(pisos);
 			if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() == e.ancho() / 2
 					&& (x > e.ancho() - 164 && x < e.ancho())) {
-				// piso con agujero a la derecha
+				//Sube a piso desde la base
 				estoySubiendoUnPisoIzq = true;
+				direccionDerecha = false;
 				pisoActualDeBarbarianna = null;
 			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
 					&& (x < 164 && x > 0)) {
-				// piso con agujero a la derecha
+				//Sube a piso con agujero a la derecha
 				estoySubiendoUnPisoDer = true;
+				direccionDerecha = true;
 				pisoActualDeBarbarianna = null;
 			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
 					&& (x > e.ancho() - 164 && x < e.ancho())) {
 				// piso con agujero a la izquierda
 				estoySubiendoUnPisoIzq = true;
+				direccionDerecha = false;
 				pisoActualDeBarbarianna = null;
 			}
 			if (estoySubiendoUnPisoDer == true || estoySubiendoUnPisoIzq == true) {
