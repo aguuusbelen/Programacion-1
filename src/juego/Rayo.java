@@ -36,12 +36,13 @@ public class Rayo {
 		}
 	}
 
-	public boolean salioDeLosBordes (Entorno e) {
+	public boolean salioDeLosBordes(Entorno e) {
 		if (this.x > e.ancho() || this.x < 0) {
-			 return true;
+			return true;
 		}
 		return false;
 	}
+
 	public double getX() {
 		return x;
 	}
