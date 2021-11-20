@@ -32,15 +32,13 @@ public class Juego extends InterfaceJuego {
 	private int kills;
 
 	private boolean gano;
-	private boolean tieneVidaExtra;
-	private boolean tienePuntosExtra;
+	//private boolean tieneVidaExtra;
+	//private boolean tienePuntosExtra;
 
 	public Juego() {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
 		this.gano = false;
-		this.tieneVidaExtra = false;
-		this.tienePuntosExtra = false;
 
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
@@ -94,21 +92,22 @@ public class Juego extends InterfaceJuego {
 		entorno.escribirTexto("lives: " + lives, 40, entorno.alto() - 20);
 		entorno.escribirTexto("points: " + points, entorno.ancho() / 2 - 40, entorno.alto() - 20);
 		entorno.escribirTexto("kills: " + kills, entorno.ancho() - 120, entorno.alto() - 20);
-
+		
+		//DIBUJA LOS PISOS
 		for (Piso p : pisos) {
 			p.dibujar(entorno);
 		}
-
+		//DIBUJA LOS ITEMS
 		computadora.dibujar(entorno, Herramientas.cargarImagen("computadora.png"));
 
 		if (escudo != null) {
 			escudo.dibujar(entorno, Herramientas.cargarImagen("escudo_frente.png"));
 		}
 
-		if (corazon != null && lives <= 2 && tieneVidaExtra == false) {
+		if (corazon != null && lives <= 2) {
 			corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
 		}
-		if (estrella != null && tienePuntosExtra == false) {
+		if (estrella != null) {
 			estrella.dibujar(entorno, Herramientas.cargarImagen("estrella_arcoiris.png"));
 		}
 
@@ -119,7 +118,7 @@ public class Juego extends InterfaceJuego {
 		if (tiempoDeEsperaParaCrearRayo > 0) {
 			tiempoDeEsperaParaCrearRayo--;
 		}
-
+		//CREA LOS VELOCIRAPTORS
 		for (int i = 0; i < velociraptors.length; i++) {
 			if (velociraptors[i] != null) {
 				velociraptors[i].dibujar(entorno);
@@ -139,12 +138,12 @@ public class Juego extends InterfaceJuego {
 				tiempoDeEsperaParaCrearVelociraptor = random.nextInt(150) + 200;
 			}
 		}
-
+		//CREA LOS RAYOS DE LOS VELOCIRAPTORS
 		for (int r = 0; r < rayoDeVelociraptors.length; r++) {
 			if (rayoDeVelociraptors[r] != null) {
 				rayoDeVelociraptors[r].dibujar(entorno);
 				rayoDeVelociraptors[r].mover();
-				if (rayoDeVelociraptors[r].getX() > entorno.ancho() || rayoDeVelociraptors[r].getX() < 0) {
+				if (rayoDeVelociraptors[r].salioDeLosBordes(entorno)) {
 					rayoDeVelociraptors[r] = null;
 				}
 			} else if (rayoDeVelociraptors[r] == null && velociraptors[r] != null && tiempoDeEsperaParaCrearRayo == 0) {
@@ -163,7 +162,7 @@ public class Juego extends InterfaceJuego {
 
 			}
 		}
-
+		//MOVIMIENTOS Y ACCIONES DE BARBARIANNA
 		barbarianna.dibujar(entorno);
 
 		barbarianna.caer(entorno, pisos);
@@ -204,19 +203,17 @@ public class Juego extends InterfaceJuego {
 		if (barbarianna.estaTocando(corazon)) {
 			lives++;
 			corazon = null;
-			tieneVidaExtra = true;
 		}
 
 		if (barbarianna.estaTocando(estrella)) {
 			points += 10;
 			estrella = null;
-			tienePuntosExtra = true;
 		}
 
 		if (rayoDeBarbarianna != null) {
 			rayoDeBarbarianna.dibujar(entorno);
 			rayoDeBarbarianna.mover();
-			if (rayoDeBarbarianna.getX() > entorno.ancho() || rayoDeBarbarianna.getX() < 0) {
+			if(rayoDeBarbarianna.salioDeLosBordes(entorno)) {
 				rayoDeBarbarianna = null;
 			}
 		}
