@@ -293,7 +293,7 @@ public class Barbarianna {
 				&& (y - alto / 2 < item.getY() && y + alto / 2 > item.getY());
 	}
 
-	public boolean agarraEscudo(Escudo escudo) {
+	public boolean agarraEscudo(Item escudo) {
 		if ((escudo != null)
 				&& ((x - ancho / 2 <= escudo.getX() && x + ancho / 2 >= escudo.getX())
 						|| (x - ancho / 2 >= escudo.getX() && x + ancho / 2 <= escudo.getX()))
