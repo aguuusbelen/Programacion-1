@@ -62,13 +62,5 @@ El método moverHaciaLaDerecha corrobora si es falso que Barbarianna está subie
 
 == Conclusiones
 
-Una de las principales dificultades que se han presentado durante el desarrollo de este videojuego fue 
-la coordinación para la distribución de tareas. Otra fue el tiempo personal que cada integrante podía dedicarle a este trabajo.
 
-El trabajar solamente con la rama principal hace más dificil trabajar en equipo. 
-
-No tener una metodología de desarrollo o alguien a quien se lo pueda considerar lider de equipo, conlleva a que surjan diferencias o 
-malentendidos entre programadores. 
-
-Las reuniones con el docente fueron de mucha ayuda para la refactorización del código fuente.
 
