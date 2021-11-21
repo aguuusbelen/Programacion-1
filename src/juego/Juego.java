@@ -182,6 +182,9 @@ public class Juego extends InterfaceJuego {
 		} else {
 			barbarianna.quietar();
 		}
+		if (entorno.estaPresionada('c')) {
+			barbarianna.cubrirse();
+		}
 		if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
 			barbarianna.subirDePiso(entorno, pisos);
 		}
