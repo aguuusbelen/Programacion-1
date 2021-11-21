@@ -18,6 +18,7 @@ public class Barbarianna {
 	private boolean estoyAgachada;
 	private boolean meEstoyCayendo;
 	private boolean tieneEscudo;
+	private boolean meEstoyCubriendo;
 
 	private int distanciaDelPisoCuandoSalta;
 	private int altoOriginal;
@@ -46,6 +47,7 @@ public class Barbarianna {
 		this.estoySubiendoUnPisoIzq = false;
 		this.estoySubiendoUnPisoDer = false;
 		this.meEstoyCayendo = false;
+		this.meEstoyCubriendo = false;
 	}
 
 	public void dibujar(Entorno e) {
@@ -89,10 +91,10 @@ public class Barbarianna {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha_escudo.png"), x, y, 0, 0.80);
 				} else if (meEstoyMoviendo == true && direccionDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda_escudo.png"), x, y, 0, 0.80);
-				} else if (direccionDerecha == true) {
+				} else if (meEstoyCubriendo == true && direccionDerecha == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha_escudo_cubierta.png"), x, y,
 							0, 0.80);
-				} else if (direccionDerecha == false) {
+				} else if (meEstoyCubriendo == true && direccionDerecha == false) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda_escudo_cubierta.png"), x, y,
 							0, 0.80);
 				} else {
@@ -106,8 +108,8 @@ public class Barbarianna {
 				} else if (direccionDerecha == true) {
 					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha_escudo.png"), x, y, 0, 0.80);
 				} else {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda_escudo.png"), x, y, 0, 0.80);
 				}
-				e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda_escudo.png"), x, y, 0, 0.80);
 			}
 		}
 	}
@@ -122,6 +124,7 @@ public class Barbarianna {
 			}
 			direccionDerecha = false;
 			meEstoyMoviendo = true;
+			meEstoyCubriendo = false;
 		}
 	}
 
@@ -136,11 +139,13 @@ public class Barbarianna {
 
 			direccionDerecha = true;
 			meEstoyMoviendo = true;
+			meEstoyCubriendo = false;
 		}
 	}
 
 	public void quietar() { // quietar()
 		meEstoyMoviendo = false;
+		meEstoyCubriendo = false;
 		if (estoyAgachada) {
 			levantar();
 		}
@@ -158,6 +163,7 @@ public class Barbarianna {
 			y = yAgachada + (altoOriginal - alturaAgachada) / 2;
 			alto = alturaAgachada;
 		}
+		meEstoyCubriendo = false;
 	}
 
 	public void saltar() {
@@ -179,6 +185,7 @@ public class Barbarianna {
 				estoyEnElAire = true;
 			}
 		}
+		meEstoyCubriendo = false;
 	}
 
 	public void caer(Entorno e, Piso[] pisos) {
@@ -253,6 +260,7 @@ public class Barbarianna {
 				}
 			}
 		}
+		meEstoyCubriendo = false;
 	}
 
 	public boolean estaSubiendoUnPiso() {
@@ -273,6 +281,7 @@ public class Barbarianna {
 	}
 
 	public boolean chocasteConAlgunRayo(Rayo[] rayoDeVelociraptors) {
+
 		for (Rayo r : rayoDeVelociraptors) {
 			if (r != null
 					&& ((x - ancho / 2 <= r.getX() && x + ancho / 2 >= r.getX())
@@ -308,6 +317,12 @@ public class Barbarianna {
 
 	public boolean tieneEscudo() {
 		return tieneEscudo;
+	}
+	
+	public void cubrirse() {
+		if(tieneEscudo) {
+		meEstoyCubriendo = true;
+		}
 	}
 
 	public boolean estoySaltando() {

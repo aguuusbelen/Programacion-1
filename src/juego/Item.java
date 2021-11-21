@@ -8,11 +8,10 @@ public class Item {
 
 	private double x;
 	private double y;
-	
+
 	public Item(double x, double y) {
 		this.x = x;
 		this.y = y;
-		
 	}
 
 	public void dibujar(Entorno e, Image imagen) {
