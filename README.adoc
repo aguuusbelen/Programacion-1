@@ -62,13 +62,14 @@ El método moverHaciaLaDerecha corrobora si es falso que Barbarianna está subie
 ​.El clásico primer programa en Java
 ​[source, java]
 ​----
-​public class Hello {
-
-  ​public static void main(String[] args) {
-    ​System.out.println("Hello, world!");
+​public Piso pisoEnElQueEstoyParado (Piso[] pisos) {
+	for (int p = 0; p < pisos.length; p++){
+		if (pisos[p].getY() - pisos[p].getAlto() / 2 == y + alto / 2) {
+			return pisos [p]
+		}
+	}
+	return null;
   ​}
-
-​}
 ​----
 
 
