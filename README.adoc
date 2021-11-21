@@ -18,7 +18,7 @@ v1, {docdate}.
 
 == Introducción
 
- Este trabajo práctico consistió en desarrollar un mini videojuego con la temática de Castlevania, en la cual el personaje principal y nuestra heroína, Barbarianna, debe detener los malvados planes de dominar el mundo del villano de este mini videojuego, El Doctor Gero, recuperando una computadora de hackeo del tiempo que el mismo Doctor le robo a un poderoso hacker, Hackerman, para poder llevar a cabo sus dichosos planes. 
+Este trabajo práctico consistió en desarrollar un mini videojuego con la temática de Castlevania, en la cual el personaje principal y nuestra heroína, Barbarianna, debe detener los malvados planes de dominar el mundo del villano de este mini videojuego, El Doctor Gero, recuperando una computadora de hackeo del tiempo que el mismo Doctor le robo a un poderoso hacker, Hackerman, para poder llevar a cabo sus dichosos planes. 
 
 Para recuperar la computadora y detener al Doctor Gero, Barbarianna debe subir los pisos de un castillo en donde el mismo Doctor se refugia y tratar de sobrevivir a los peligrosos velociraptors que evitan la entrada de cualquier intruso.
 
