@@ -23,11 +23,11 @@ public class Velociraptor {
 		this.ancho = 80;
 		this.alto = 60;
 		this.velocidad = velocidad;
+		this.velocidadDeCaida = 4;
 
 		this.direccionDerecha = false;
 		this.meEstoyCayendo = false;
 		this.llegueAlFinalDelCamino = false;
-//		this.estaVivo = true;
 	}
 
 	public void dibujar(Entorno e) {
@@ -75,7 +75,7 @@ public class Velociraptor {
 					&& pisoActualDeVelociraptor.getY() - pisoActualDeVelociraptor.getAlto() / 2 <= y + alto / 2) {
 				meEstoyCayendo = false;
 			} else {
-				y = y + 4;
+				y = y + velocidadDeCaida;
 			}
 		}
 	}
