@@ -59,6 +59,8 @@ El método moverHaciaLaDerecha corrobora si es falso que Barbarianna está subie
 
 == Implementación
 
+
+Dentro de la clase velociraptor, tenemos el siguiente método: 
 ​.El clásico primer programa en Java
 ​[source, java]
 ​----
@@ -71,7 +73,7 @@ El método moverHaciaLaDerecha corrobora si es falso que Barbarianna está subie
 	return null;
 }
 ​----
-
+El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
 
 == Conclusiones
 
