@@ -32,6 +32,7 @@ public class Juego extends InterfaceJuego {
 	private int kills;
 
 	private boolean gano;
+	private int tiempo; 
 	//private boolean tieneVidaExtra;
 	//private boolean tienePuntosExtra;
 
@@ -39,6 +40,7 @@ public class Juego extends InterfaceJuego {
 		this.entorno = new Entorno(this, "Castlevania", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo.png");
 		this.gano = false;
+		this.tiempo=60;
 
 		double x = entorno.ancho() / 2;
 		double y = entorno.alto() / 2;
@@ -65,9 +67,18 @@ public class Juego extends InterfaceJuego {
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
+	public void tiempo() {
+		while(tiempo<60) {
+			tick();
+			tiempo--;
+			if(tiempo==0) {
+				
+			}
+		}
+	}
 
 	public void tick() {
-
+		
 		// PERDIO
 		if (lives <= 0 && gano == false) {
 			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
