@@ -1,9 +1,15 @@
-= Programación I: Trabajo Práctico 1
+= Informe del Trabajo Practico Programacion I (COM 01)
 
 Integrantes
-Agustina Mendez <agustina.996@hotmail.com> ; Kevin Montenegro <kevinmontenegroac@gmail.com>; Gaston Sanchez <gaston.sanchez.gs@gmail.com> ; Martina Soria <marti3014soria@gmail.com>
+Agustina Mendez, 39707636/2014, <agustina.996@hotmail.com> 
+Kevin Montenegro, 39707593/2018, <kevinmontenegroac@gmail.com> 
+Gaston Sanchez, 39927254/2019, <gaston.sanchez.gs@gmail.com>  
+Martina Soria, 42934129/2020, <marti3014soria@gmail.com>
 
-v1, {docdate}. Docentes Leo y Lucifer (COM-01)
+Docentes
+Leonardo Waingarten <lwaingarten@campus.ungs.edu.ar>
+Hernan Rondelli <lucifer.unix.cabj@gmail.com>
+v1, {docdate}. 
 
 :title-page:
 :numbered:
@@ -12,23 +18,15 @@ v1, {docdate}. Docentes Leo y Lucifer (COM-01)
 
 == Introducción
 
-El malvado Doctor Gero robó la computadora Commodore 128kb de hackeo del tiempo de
-Hackerman, el hacker más poderoso de todos los tiempos.
+ Este trabajo práctico consistió en desarrollar un mini videojuego con la temática de Castlevania, en la cual el personaje principal y nuestra heroína, Barbarianna, debe detener los malvados planes de dominar el mundo del villano de este mini videojuego, El Doctor Gero, recuperando una computadora de hackeo del tiempo que el mismo Doctor le robo a un poderoso hacker, Hackerman, para poder llevar a cabo sus dichosos planes. 
 
-El Doctor Gero está obsesionado con dominar el mundo, por ese motivo viajó al pasado, a la
-segunda guerra mundial, y se refugió en un castillo alemán, su objetivo es reunir a los ejércitos
-más malvados de la historia y con ellos poder conquistar el mundo.
+Para recuperar la computadora y detener al Doctor Gero, Barbarianna debe subir los pisos de un castillo en donde el mismo Doctor se refugia y tratar de sobrevivir a los peligrosos velociraptors que evitan la entrada de cualquier intruso.
 
-Al enterarse de esto, Hackerman, construye una nueva Commodore 128kb de hackeo del
-tiempo, y viaja al pasado a la Era Vikinga, para pedirle ayuda a Barbarianna.
+Para poder jugar, el usuario debe moverse utilizando la tecla "D" para avanzar; “A" para retroceder y "S" para agacharse.
+Para saltar al siguiente piso, el usuario debe utilizar la tecla "U".
+Barbarianna puede defenderse de los velociraptors gracias al martillo que el Dios Thor le dio prestado. Para poder utilizarlo, el usuario debe apretar la tecla "BARRA ESPACIADORA".
 
-La heroína vikinga, Barbarianna, acepta ayudar a Hackerman, y viaja por el tiempo para
-enfrentar al Doctor Gero. El malvado Doctor se encuentra refugiado en un antiguo castillo
-alemán, repleto de velociraptors que él mismo llevó directamente desde la Era del Hielo.
-
-El objetivo de este trabajo práctico es desarrollar un videojuego en el cual Barbarianna vaya
-subiendo por los distintos pisos del antiguo castillo y pueda recuperar el dispositivo de hackeo
-del tiempo, sin perder la vida en manos de los peligrosísimos velociraptors.
+Si Barbarianna logra llegar al último piso y tocar la computadora, el usuario gana. Por otro lado, si Barbarianna es alcanzada por algún velociraptor, esta vuelve al punto de partida y pierde una de las tres vidas que tiene. Al perder todas las vidas, el usuario pierde el juego.
 
 == Descripción
 
