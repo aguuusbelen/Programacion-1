@@ -67,16 +67,7 @@ public class Juego extends InterfaceJuego {
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
-	public void tiempo() {
-		while(tiempo<60) {
-			tick();
-			tiempo--;
-			if(tiempo==0) {
-				
-			}
-		}
-	}
-
+	
 	public void tick() {
 		
 		// PERDIO
