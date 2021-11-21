@@ -314,15 +314,13 @@ public class Barbarianna {
 		}
 		return tieneEscudo;
 	}
-
-	public boolean tieneEscudo() {
-		return tieneEscudo;
-	}
 	
-	public void cubrirse() {
+	public boolean cubrirse() {
 		if(tieneEscudo) {
 		meEstoyCubriendo = true;
+		return true;
 		}
+		return false;
 	}
 
 	public boolean estoySaltando() {
