@@ -158,7 +158,7 @@ public class Barbarianna {
 	}
 
 	public void agachar() {
-		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
+		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false && meEstoyCayendo == false) {
 			estoyAgachada = true;
 			y = yAgachada + (altoOriginal - alturaAgachada) / 2;
 			alto = alturaAgachada;
