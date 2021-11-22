@@ -47,7 +47,7 @@ Contiene un método que dibuja el piso con las características deseadas y la ub
 
 == ---------------------------- ITEM ----------------------------------------
 
-La clase Ítem contiene solo dos variables que determinan su ubicación ("x", "y"), con un constructor que las inicializa. Contiene un método Dibujar que dibuja las características dependiendo del ítem ("escudo", "corazón", "estrella", "rayo"), las cuales se determinan en la clase "Juego". También posee unos getters que visibilizan los métodos que se encuentran en privado.
+La clase Ítem contiene solo dos variables que determinan su ubicación ("x", "y"), con un constructor que las inicializa. Contiene un método Dibujar que dibuja las características dependiendo del ítem ("escudo", "corazón", "estrella", "computadora"), las cuales se determinan en la clase "Juego". También posee unos getters que visibilizan los métodos que se encuentran en privado.
  
 == ------------------------- BARBARIANNA -------------------------------------
 
