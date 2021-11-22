@@ -22,9 +22,9 @@ Este trabajo práctico consistió en desarrollar un mini videojuego con la temá
 
 Para recuperar la computadora y detener al Doctor Gero, Barbarianna debe subir los pisos de un castillo en donde el mismo Doctor se refugia y tratar de sobrevivir a los peligrosos velociraptors que evitan la entrada de cualquier intruso.
 
-Para poder jugar, el usuario debe moverse utilizando la tecla "D" para avanzar; “A" para retroceder y "S" para agacharse.
+Para poder jugar, el usuario debe moverse utilizando la tecla "D" para avanzar; “A" para retroceder; "S" para agacharse y "W" para agacharse y esquivar los rayos enemigos.
 Para saltar al siguiente piso, el usuario debe utilizar la tecla "U".
-Si obtiene un escudo, podra usarlo para defenderse de los rayos enemigos aprentando la tecla 'c'.
+Si obtiene un escudo, podra usarlo para defenderse de los rayos enemigos aprentando la tecla 'C'.
 Barbarianna puede defenderse de los velociraptors gracias al martillo que el Dios Thor le dio prestado. Para poder utilizarlo, el usuario debe apretar la tecla "BARRA ESPACIADORA".
 
 Si Barbarianna logra llegar al último piso y tocar la computadora, el usuario gana. Por otro lado, si Barbarianna es alcanzada por algún velociraptor, esta vuelve al punto de partida y pierde una de las tres vidas que tiene. Al perderse todas las vidas, el usuario pierde el juego.
@@ -83,7 +83,7 @@ El método chocasteConAlgunRayo, por cada rayo que se crea del array de rayos, c
 
 El método dispararRayo corrobora primero si está apuntando a la dirección derecha y luego retorna un nuevo rayo apuntado hacia dicha dirección.
 
-El método estaTocandoItem corrobora que la figura de Barbarianna toque la figura de alguno de los ítems que se pueden encontrar en el juego ("escudo", "estrella", "corazón").
+El método estaTocandoItem corrobora que la figura de Barbarianna toque la figura de alguno de los ítems que se pueden encontrar en el juego ("escudo", "estrella", "corazón", "computadora").
 
 El método agarrarEscudo corrobora que la figura de Barbarianna toque la figura del escudo. De ser así, será verdadero y retornara que Barbarianna ahora tiene un escudo para defenderse.
 
@@ -94,8 +94,12 @@ El método estoySaltando retorna que, si es verdadero que Barbarianna está en e
 == 
 
 == Implementación
+
+El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
+
+
 Dentro de la clase velociraptor, tenemos el siguiente método: 
-​.El clásico primer programa en Java
+​.pisoEnElQueEstoyParado
 [source ,java]
 ​----
 ​public Piso pisoEnElQueEstoyParado (Piso[] pisos) {
@@ -109,6 +113,52 @@ Dentro de la clase velociraptor, tenemos el siguiente método:
 ----
 
 El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
+
+Dentro de la clase Barbarianna: 
+​.Método levantar()
+[source ,java]
+​----
+​public void levantar() {
+		estoyAgachada = false;
+		alto = altoOriginal;
+		y = yAgachada;
+
+} 
+----
+
+Para poder esquivar los rayos de los velociraptors modificamos la altura original de Barbarianna. Una vez que Barbarianna deja de estar agachada, se usa el método levantar para que vuelva a tener las medidas originales.
+
+.Método caer()
+[source ,java]
+----
+
+public void caer(Entorno e, Piso[] pisos) {
+		Piso pisoActualDeBarbarianna = pisoEnElQueEstoyParada(pisos);
+		if (meEstoyCayendo == false) {
+			if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
+					&& x > pisoActualDeBarbarianna.getX() + pisoActualDeBarbarianna.getAncho() / 2) {
+				meEstoyCayendo = true;
+				y = y + 4;
+			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
+					&& x < pisoActualDeBarbarianna.getX() - pisoActualDeBarbarianna.getAncho() / 2) {
+				meEstoyCayendo = true;
+				y = y + 4;
+			}
+		} else {
+			if (pisoActualDeBarbarianna != null
+					&& pisoActualDeBarbarianna.getY() - pisoActualDeBarbarianna.getAlto() / 2 <= y + alto / 2) {
+				meEstoyCayendo = false;
+				yAgachada = y;
+			} else {
+				y = y + 4;
+			}
+		}
+}
+
+----
+
+Obtiene el piso actual donde se encuentra Barbarianna con el método pisoEnElQueEstoyParada(pisos), que sigue la misma logica que el método pisoEnElQueEstoyParado(Piso[]] pisos) en Velociraptor. Luego verifica si está sobre un agujero, y en el caso de estarlo, cae al piso que esta debajo.
+
 
 == Conclusiones
 
