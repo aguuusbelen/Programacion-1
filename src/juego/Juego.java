@@ -149,7 +149,7 @@ public class Juego extends InterfaceJuego {
 				tiempoDeEsperaParaCrearRayo = random.nextInt(100);
 			}
 			if (barbarianna.chocasteConAlgunRayo(rayoDeVelociraptors)) {
-				if (barbarianna.tieneEscudo() == true && entorno.estaPresionada('c')) {
+				if (entorno.estaPresionada('c') && barbarianna.cubrirse()) {
 					rayoDeVelociraptors[r] = null;
 				} else {
 					rayoDeVelociraptors[r] = null;

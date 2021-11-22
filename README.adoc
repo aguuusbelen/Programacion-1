@@ -76,6 +76,22 @@ Si es verdad que Barbarianna está subiendo un piso izquierdo o derecho, su posi
 Por otro lado, si el piso actual de Barbarianna es distinto de null, su posición en el "y" bajará y será falso que este subiendo un piso izquierdo o derecho. Si es verdad que sube un piso izquierdo, su posición en el "x" disminuirá al contrario en el caso que suba a un piso derecho, ya que su "x" aumentará.
 
 == Implementación
+Dentro de la clase velociraptor, tenemos el siguiente método: 
+​.El clásico primer programa en Java
+[source,java]
+​----
+​public Piso pisoEnElQueEstoyParado (Piso[] pisos) {
+    for (int p = 0; p < pisos.length; p++){
+		if (pisos[p].getY() - pisos[p].getAlto() / 2 == y + alto / 2) {
+			return pisos [p]
+		}
+	}
+	return null; 
+} 
+----
+
+El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
+
 == Conclusiones
 
 
