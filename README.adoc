@@ -111,7 +111,18 @@ El metodo *meChocoElRayo* verifica si la figura del velociraptor colisiona contr
 
 Tambien contiene unos getters("x","y","Ancho","Alto") para poder hacer visibles estas variables debido a sus metodos privados.
 
-===
+=== ------------------------- RAYO --------------------------------------
+
+La clase del rayo contiene un "x" e "y" que determinan su ubicacion dentro del entorno, un ancho, un alto, una velocidad y una direccion en la que se va a mover y dirigir. Todas las variables se encuentran inicializadas 
+en el constructor con el mismo nombre.
+
+El metodo *mover* corrobora la direccion en la que se encuentra el rayo y se movilizara hacia esa direccion de manera automatica hasta colisionar contra otro objeto o entorno.
+
+El metodo *dibujar* ilustra la imagen del rayo dependiendo de, si se esta dirigiendo hacia cierta direccion o hacia la direccion contraria.
+
+El metodo *salioDeLosBordes* verifica si es verdadero o no que el rayo haya tocado los bordes del entorno.
+
+Tambien contiene unos getters("x","y","Ancho","Alto") para poder hacer visibles estas variables debido a sus metodos privados.
 
 == Implementación
 Dentro de la clase velociraptor, tenemos el siguiente método: 
