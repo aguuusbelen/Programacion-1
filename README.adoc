@@ -98,7 +98,8 @@ El método estoySaltando retorna que, si es verdadero que Barbarianna está en e
 El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
 
 
-Dentro de la clase velociraptor, tenemos el siguiente método: 
+Dentro de la clase velociraptor, tenemos el siguiente método:
+
 ​.pisoEnElQueEstoyParado
 [source ,java]
 ​----
@@ -115,16 +116,16 @@ Dentro de la clase velociraptor, tenemos el siguiente método:
 El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
 
 Dentro de la clase Barbarianna: 
-​.Método levantar()
-[source ,java]
-​----
-​public void levantar() {
-		estoyAgachada = false;
-		alto = altoOriginal;
-		y = yAgachada;
 
-} 
-----
+​	.Método levantar()
+	[source ,java]
+	​----
+​	public void levantar() {
+			estoyAgachada = false;
+			alto = altoOriginal;
+			y = yAgachada;
+	} 
+	----
 
 Para poder esquivar los rayos de los velociraptors modificamos la altura original de Barbarianna. Una vez que Barbarianna deja de estar agachada, se usa el método levantar para que vuelva a tener las medidas originales.
 
