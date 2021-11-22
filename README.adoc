@@ -57,22 +57,23 @@ El método moverHaciaLaDerecha corrobora si es falso que Barbarianna está subie
 
 
 
-== Implementación
+== Implementación ==
 
 
 Dentro de la clase velociraptor, tenemos el siguiente método: 
 ​.El clásico primer programa en Java
-​[source, java]
+[source,java]
 ​----
 ​public Piso pisoEnElQueEstoyParado (Piso[] pisos) {
-	for (int p = 0; p < pisos.length; p++){
+    for (int p = 0; p < pisos.length; p++){
 		if (pisos[p].getY() - pisos[p].getAlto() / 2 == y + alto / 2) {
 			return pisos [p]
 		}
 	}
-	return null;
-}
-​----
+	return null; 
+} 
+----
+
 El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
 
 == Conclusiones
