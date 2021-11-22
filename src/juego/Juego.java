@@ -29,7 +29,7 @@ public class Juego extends InterfaceJuego {
 
 	private int puntos;
 	private int vidas;
-	private int kills;
+	private int velociraptors_eliminados;
 	private int tiempo;
 
 	private boolean gano;
@@ -60,8 +60,8 @@ public class Juego extends InterfaceJuego {
 
 		this.puntos = 0;
 		this.vidas = 3;
-		this.kills = 0;
-		this.tiempo = 16000;
+		this.velociraptors_eliminados = 0;
+		this.tiempo = 15000;
 		
 		this.entorno.iniciar();
 	}
@@ -73,24 +73,24 @@ public class Juego extends InterfaceJuego {
 			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2,
 					0);
 			entorno.cambiarFont("algerian", 24, Color.RED);
-			entorno.escribirTexto("points: " + puntos, entorno.ancho() / 2 - 160, entorno.alto() / 2 + 150);
-			entorno.escribirTexto("kills: " + kills, entorno.ancho() - 300, entorno.alto() / 2 + 150);
+			entorno.escribirTexto("puntos: " + puntos, entorno.ancho() / 2 - 160, entorno.alto() / 2 + 150);
+			entorno.escribirTexto("eliminados: " + velociraptors_eliminados, entorno.ancho() - 300, entorno.alto() / 2 + 150);
 			return;
 		}
 
 		if (vidas > 0 && gano == true) {
 			entorno.dibujarImagen(Herramientas.cargarImagen("win.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
 			entorno.cambiarFont("algerian", 24, Color.GREEN);
-			entorno.escribirTexto("points: " + (puntos + 100), entorno.ancho() / 2 - 160, entorno.alto() / 2 + 150);
-			entorno.escribirTexto("kills: " + kills, entorno.ancho() - 300, entorno.alto() / 2 + 150);
+			entorno.escribirTexto("puntos: " + (puntos + 100), entorno.ancho() / 2 - 160, entorno.alto() / 2 + 150);
+			entorno.escribirTexto("eliminados: " + velociraptors_eliminados, entorno.ancho() - 300, entorno.alto() / 2 + 150);
 			return;
 		}
 
 		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
 		entorno.cambiarFont("algerian", 20, Color.WHITE);
-		entorno.escribirTexto("lives: " + vidas, 40, entorno.alto() - 20);
-		entorno.escribirTexto("points: " + puntos, entorno.ancho() / 2 - 40, entorno.alto() - 20);
-		entorno.escribirTexto("kills: " + kills, entorno.ancho() - 120, entorno.alto() - 20);
+		entorno.escribirTexto("vidas: " + vidas, 20, entorno.alto() - 20);
+		entorno.escribirTexto("puntos: " + puntos, entorno.ancho() / 2 - 90, entorno.alto() - 20);
+		entorno.escribirTexto("eliminados: " + velociraptors_eliminados, entorno.ancho() - 160, entorno.alto() - 20);
 
 		for (Piso p : pisos) {
 			p.dibujar(entorno);
@@ -127,7 +127,7 @@ public class Juego extends InterfaceJuego {
 				} else if (rayoDeBarbarianna != null && velociraptors[i].meChocoElRayo(rayoDeBarbarianna)) {
 					velociraptors[i] = null;
 					rayoDeBarbarianna = null;
-					kills++;
+					velociraptors_eliminados++;
 					puntos = puntos + 10;
 				}
 			}
