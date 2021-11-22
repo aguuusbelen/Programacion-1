@@ -158,7 +158,7 @@ public class Barbarianna {
 	}
 
 	public void agachar() {
-		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false && meEstoyCayendo == false) {
+		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
 			estoyAgachada = true;
 			y = yAgachada + (altoOriginal - alturaAgachada) / 2;
 			alto = alturaAgachada;
@@ -211,7 +211,7 @@ public class Barbarianna {
 		}
 	}
 
-	public Piso pisoEnElQueEstoyParada(Piso[] pisos) {
+	public Piso pisoEnElQueEstoyParada(Piso[] pisos) { 
 		for (Piso piso : pisos) {
 			if (piso.getY() - piso.getAlto() / 2 == y + alto / 2) {
 				return piso;
