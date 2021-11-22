@@ -9,7 +9,7 @@ Martina Soria, 42934129/2020, <marti3014soria@gmail.com>
 Docentes
 Leonardo Waingarten <lwaingarten@campus.ungs.edu.ar>
 Hernan Rondelli <lucifer.unix.cabj@gmail.com>
-v1, {docdate}. 
+v2, {docdate}. 
 
 :title-page:
 :numbered:
@@ -35,15 +35,15 @@ El desarrollo del juego consiste en 7 clases, cada una integra las característi
 
 === ---------------------------- JUEGO --------------------------------
 
-El juego comienza con las variables de instancias privadas del entorno del juego, la imagen de fondo, el array de pisos en donde sube nuestro personaje, los ítems que integran el juego(la computadora, un escudo, una estrella y un corazón), nuestro personaje Barbarianna, el rayo que utilizara Barbarianna para defenderse, el array de los velociraptors y los rayos con los cuales atacan, tres variables("tiempoDeEsperaParaCrearVelociraptor";"tiempoDeEsperaParaCrearRayo";"Random") las cuales crean un tiempo aleatorio para crear a los velociraptors y sus rayos, también se encuentran variables para contar los puntos, los velociraptors eliminados y descontar las vidas que pierda Barbarianna("puntos", "vidas", "velociraptors_eliminados" ). Por último, un booleano que determina si el usuario gano o perdió.
+El juego comienza con las variables de instancias privadas del entorno del juego, la imagen de fondo, el array de pisos en donde sube nuestro personaje, los ítems que integran el juego(la computadora, un escudo, una estrella y un corazón), nuestro personaje Barbarianna, el rayo que utilizara Barbarianna para defenderse, el array de los velociraptors y los rayos con los cuales atacan, tres variables("tiempoDeEsperaParaCrearVelociraptor";"tiempoDeEsperaParaCrearRayo";"Random") las cuales crean un tiempo aleatorio para crear a los velociraptors y sus rayos, también se encuentran variables para contar los puntos, los velociraptors eliminados y descontar las vidas que pierda Barbarianna ("puntos", "vidas", "velociraptors_eliminados" ). Por último, un booleano que determina si el usuario gano o perdió.
 Todas estas variables se encuentran inicializadas en el método Public Juego ().
 
-El método Public Tick () es uno de los métodos más importantes, pues aquí es donde se simula el paso del tiempo, actualizando constantemente, los objetos involucrados para el correcto funcionamiento de juego. Dentro de este, Se evalúa el accionar cuando el usuario gana o pierde, que tiene que hacer nuestra heroína cuando el usuario aprieta una tecla en específico, que le sucede a Barbarianna cuando choca contra uno de los enemigos, los velociraptors, o cuando toca uno de los ítems que se encuentran en el juego. También se dibujan las figuras, el fondo, y los contadores que van a ilustrar el entorno. En el caso de los velociraptors y sus rayos, y los pisos, al ser varios, los crea a través de un "ciclo for”. En el caso de los velociraptors se van dibujando en un rango de tiempo aleatorio.
+El método *Tick* es uno de los métodos más importantes, pues aquí es donde se simula el paso del tiempo, actualizando constantemente, los objetos involucrados para el correcto funcionamiento de juego. Dentro de este, Se evalúa el accionar cuando el usuario gana o pierde, que tiene que hacer nuestra heroína cuando el usuario aprieta una tecla en específico, que le sucede a Barbarianna cuando choca contra uno de los enemigos, los velociraptors, o cuando toca uno de los ítems que se encuentran en el juego. También se dibujan las figuras, el fondo, y los contadores que van a ilustrar el entorno. En el caso de los velociraptors y sus rayos, y los pisos, al ser varios, los crea a través de un "ciclo for”. En el caso de los velociraptors se van dibujando en un rango de tiempo aleatorio.
 
 === ---------------------------- PISO ---------------------------------------
 
 La clase Piso contiene las variables "x" e "y" que determinan en donde se va ubicar cada uno, el ancho y el alto de cada piso y una imagen que ilustra en el entorno. Estas variables se encuentran inicializadas en el constructor con el mismo nombre.
-Contiene un método que dibuja el piso con las características deseadas y la ubicación se determinan en la clase Juego. También contiene unos getters ("x", "y", "Ancho", "Alto") para poder hacer visibles estas variables debido a sus métodos privados.
+Contiene un método *dibujar* el cual, ilustra en el entorno, el piso con las características deseadas y la ubicación se determinan en la clase Juego. También contiene unos getters ("x", "y", "Ancho", "Alto") para poder hacer visibles estas variables debido a sus métodos privados.
 
 === ---------------------------- ITEM ----------------------------------------
 
@@ -53,54 +53,69 @@ La clase Ítem contiene solo dos variables que determinan su ubicación ("x", "y
 
 La clase Barbarianna contiene un "x" y un "y" que determinan su ubicación, un “yAgachada” que determina la posición de Barbarianna cuando esta agachada, un alto, un ancho y la velocidad con la que se va a mover en el juego. Otra variable que determina la distancia del piso cuando salta, una altura cuando esta agachada y un alto original cuando debe ponerse de pie después de agacharse. También contiene varias variables booleanas que determinan si es cierto o no que Barbarianna se está moviendo ya sea para el lado izquierdo o derecho, si está saltando en el aire, si esta agachada, si se cae, si tiene un escudo y si se está cubriendo con él, y si está subiendo un piso izquierdo o derecho. Todas estas variables están inicializadas en un constructor del mismo nombre.
 
-El método "dibujar" ilustra a Barbarianna dependiendo de las acciones que el usuario le haga realizar; si usa el escudo o no, si se mueve para el lado izquierdo o derecho, si se agacha para esquivar un rayo de un velociraptor o salta para subir al siguiente piso.
+El método *dibujar* ilustra a Barbarianna dependiendo de las acciones que el usuario le haga realizar; si usa el escudo o no, si se mueve para el lado izquierdo o derecho, si se agacha para esquivar un rayo de un velociraptor o salta para subir al siguiente piso.
 
-El método "moverHaciaLaIzquierda" corrobora si es falso que Barbarianna sube un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la izquierda por el piso y será verdadero que se está moviendo, pero será falso que sea a la dirección derecha y que se cubra con el escudo.
+El método *moverHaciaLaIzquierda* corrobora si es falso que Barbarianna sube un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la izquierda por el piso y será verdadero que se está moviendo, pero será falso que sea a la dirección derecha y que se cubra con el escudo.
 
-El método "moverHaciaLaDerecha" corrobora si es falso que Barbarianna está subiendo a un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la derecha por el piso y será verdadero que se está moviendo y que sea a la dirección derecha, pero será falso que se este cubriendo con el escudo.
+El método *moverHaciaLaDerecha* corrobora si es falso que Barbarianna está subiendo a un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la derecha por el piso y será verdadero que se está moviendo y que sea a la dirección derecha, pero será falso que se este cubriendo con el escudo.
 
-El método "quietar" corrobora que Barbarianna no se esté moviendo para ningún lado y que no se esté cubriendo con el escudo.
+El método *quietar* corrobora que Barbarianna no se esté moviendo para ningún lado y que no se esté cubriendo con el escudo.
 
-El método "levantar" corrobora que estoyAgachada sea falsa y recupere el alto original haciendo que se levante del suelo.
+El método *levantar* corrobora que estoyAgachada sea falsa y recupere el alto original haciendo que se levante del suelo.
 
-El método "agachar" corrobora que, si Barbarianna no está en el aire y si no está subiendo algún piso que sea verdadero que esta agachada y se reduzca su altura y la posición del "y" en el que está.
+El método *agachar* corrobora que, si Barbarianna no está en el aire y si no está subiendo algún piso que sea verdadero que esta agachada y se reduzca su altura y la posición del "y" en el que está.
 
-El método "saltar" verifica que Barbarianna no este cayendo y no este subiendo un piso. Si es así, y si es verdad que Barbarianna está en el aire y la distancia del piso cuando salta es menor igual a la altura de Barbarianna, se producirá el salto y volverá a su posición inicial en el piso cuando su distancia con el piso sea mayor al alto de Barbarianna.
+El método *saltar* verifica que Barbarianna no este cayendo y no este subiendo un piso. Si es así, y si es verdad que Barbarianna está en el aire y la distancia del piso cuando salta es menor igual a la altura de Barbarianna, se producirá el salto y volverá a su posición inicial en el piso cuando su distancia con el piso sea mayor al alto de Barbarianna.
 
-El método "caer" corrobora si donde esta parada actualmente Barbarianna hay un piso. Si el piso actual de Barbarianna es nulo, es decir, si hay un vacío, y es menor o mayor al ancho y alto del entorno, Barbarianna caerá al piso anterior al que se encontraba.
+El método *caer* corrobora si donde esta parada actualmente Barbarianna hay un piso. Si el piso actual de Barbarianna es nulo, es decir, si hay un vacío, y es menor o mayor al ancho y alto del entorno, Barbarianna caerá al piso anterior al que se encontraba.
 
-El método "pisoEnElQueEstoyParada" corrobora que Barbarianna esté en un piso. De no ser así y si está saltando o cayendo, retorna null.
+El método *pisoEnElQueEstoyParada* corrobora que Barbarianna esté en un piso. De no ser así y si está saltando o cayendo, retorna null.
 
-El método "subirDePiso" condiciona que, si el "x" del piso actual en el que se encuentra Barbarianna es igual al ancho del entorno, subirá al siguiente piso desde la base. Si el "x" del piso actual en el que se encuentra Barbarianna es menor al ancho del entorno, subirá al siguiente piso con el agujero a la derecha. Si el "x" del piso actual en el que se encuentra Barbarianna es mayor al ancho del entorno, subirá al siguiente piso con el agujero a la izquierda.
+El método *subirDePiso* condiciona que, si el "x" del piso actual en el que se encuentra Barbarianna es igual al ancho del entorno, subirá al siguiente piso desde la base. Si el "x" del piso actual en el que se encuentra Barbarianna es menor al ancho del entorno, subirá al siguiente piso con el agujero a la derecha. Si el "x" del piso actual en el que se encuentra Barbarianna es mayor al ancho del entorno, subirá al siguiente piso con el agujero a la izquierda.
 Si es verdad que Barbarianna está subiendo un piso izquierdo o derecho, su posición en la coordenada "y" ira para arriba. También se parará en el piso si es verdad que esta agachada.
 Por otro lado, si el piso actual de Barbarianna es distinto de null, su posición en el "y" bajará y será falso que este subiendo un piso izquierdo o derecho. Si es verdad que sube un piso izquierdo, su posición en el "x" disminuirá al contrario en el caso que suba a un piso derecho, ya que su "x" aumentará.
 
-El método estaSubiendoUnPiso retorna si es verdadero si se está subiendo un piso derecho o izquierdo.
+El método *estaSubiendoUnPiso* retorna si es verdadero si se está subiendo un piso derecho o izquierdo.
 
-El método chocasteConAlgunvelociraptor, por cada velociraptor que se crea del array de velociraptors, corrobora si es cierto o no que la figura del mismo colisiona contra la figura de Barbarianna.
+El método *chocasteConAlgunvelociraptor*, por cada velociraptor que se crea del array de velociraptors, corrobora si es cierto o no que la figura del mismo colisiona contra la figura de Barbarianna.
 
-El método chocasteConAlgunRayo, por cada rayo que se crea del array de rayos, corrobora si es cierto o no que la figura del mismo colisiona contra la figura de Barbarianna.
+El método *chocasteConAlgunRayo*, por cada rayo que se crea del array de rayos, corrobora si es cierto o no que la figura del mismo colisiona contra la figura de Barbarianna.
 
-El método dispararRayo corrobora primero si está apuntando a la dirección derecha y luego retorna un nuevo rayo apuntado hacia dicha dirección.
+El método *dispararRayo* corrobora primero si está apuntando a la dirección derecha y luego retorna un nuevo rayo apuntado hacia dicha dirección.
 
-El método estaTocandoItem corrobora que la figura de Barbarianna toque la figura de alguno de los ítems que se pueden encontrar en el juego ("escudo", "estrella", "corazón", "computadora").
+El método *estaTocandoItem* corrobora que la figura de Barbarianna toque la figura de alguno de los ítems que se pueden encontrar en el juego ("escudo", "estrella", "corazón").
 
-El método agarrarEscudo corrobora que la figura de Barbarianna toque la figura del escudo. De ser así, será verdadero y retornara que Barbarianna ahora tiene un escudo para defenderse.
+El método *agarrarEscudo* corrobora que la figura de Barbarianna toque la figura del escudo. De ser así, será verdadero y retornara que Barbarianna ahora tiene un escudo para defenderse.
 
-El método cubrirse corrobora que, si es verdadero que Barbarianna tiene el escudo, será verdadero que, cuando el usuario apriete la tecla correspondiente, Barbarianna se esté protegiendo con él.
+El método *cubrirse* corrobora que, si es verdadero que Barbarianna tiene el escudo, será verdadero que, cuando el usuario apriete la tecla correspondiente, Barbarianna se esté protegiendo con él.
 
-El método estoySaltando retorna que, si es verdadero que Barbarianna está en el aire, significa que está saltando.
+El método *estoySaltando* retorna que, si es verdadero que Barbarianna está en el aire, significa que está saltando.
 
-=== 
+===  ------------------------- VELOCIRAPTOR --------------------------------
+
+La clase del velociraptor contiene un "x" y un "y" que determinan su ubicacion dentro del entorno, su ancho y altura, la velocidad a la que se mueve y a la que cae al siguiente piso y tres clases de tipo booleana que determinan si se dirige a la direccion derecha, si se estan cayendo y si llegaron al final del juego (es decir, al piso base). Todo esto se encuentra inicializado en el constructor del mismo nombre.
+
+El metodo *dibujar* ilustra la imagen del velociraptor dependiendo si se dirige hacia la derecha o si se dirige para el lado contrario.
+
+El metodo *mover* corrobora si es verdadero que el velociraptor se mueve hacia la direccion derecha. De ser asi, el velociraptor se movera en esa direccion de manera automatica. De lo contrario, se movera para el lado izquierdo de manera automatica.
+
+El metodo *caer* corrobora si hay un piso donde actualmente esta parado el velociraptor. Si el "x" del piso actual es menor o mayor que el ancho del entorno, sera verdadero que el velociraptor caiga al siguiente piso. Si el piso actual donde esta el velociraptor es igual al entorno, el velociraptor habra llegado al final del camino y por lo tanto se eliminara.
+
+El metodo *pisoEnElQueEstoyParado* actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
+
+El metodo *llegueAlfinalDelCamino* verifica si el velociraptor llego al piso base donde termina el entorno. De ser asi, el velociraptor se elimina.
+
+El metodo *dispararRayo* corrobora primero si está apuntando a la dirección derecha y luego retorna un nuevo rayo apuntado hacia dicha dirección.
+
+El metodo *meChocoElRayo* verifica si la figura del velociraptor colisiona contra la figura del rayo de Barbarianna.
+
+Tambien contiene unos getters("x","y","Ancho","Alto") para poder hacer visibles estas variables debido a sus metodos privados.
+
+===
 
 == Implementación
-
-El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
-
-
-Dentro de la clase velociraptor, tenemos el siguiente método:
-
-​.pisoEnElQueEstoyParado
+Dentro de la clase velociraptor, tenemos el siguiente método: 
+​.El clásico primer programa en Java
 [source ,java]
 ​----
 ​public Piso pisoEnElQueEstoyParado (Piso[] pisos) {
@@ -159,6 +174,7 @@ public void caer(Entorno e, Piso[] pisos) {
 ----
 
 Obtiene el piso actual donde se encuentra Barbarianna con el método pisoEnElQueEstoyParada(pisos), que sigue la misma logica que el método pisoEnElQueEstoyParado(Piso[]] pisos) en Velociraptor. Luego verifica si está sobre un agujero, y en el caso de estarlo, cae al piso que esta debajo.
+
 
 
 == Conclusiones
