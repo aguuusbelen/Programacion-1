@@ -75,10 +75,28 @@ El método "subirDePiso" condiciona que, si el "x" del piso actual en el que se 
 Si es verdad que Barbarianna está subiendo un piso izquierdo o derecho, su posición en la coordenada "y" ira para arriba. También se parará en el piso si es verdad que esta agachada.
 Por otro lado, si el piso actual de Barbarianna es distinto de null, su posición en el "y" bajará y será falso que este subiendo un piso izquierdo o derecho. Si es verdad que sube un piso izquierdo, su posición en el "x" disminuirá al contrario en el caso que suba a un piso derecho, ya que su "x" aumentará.
 
+El método estaSubiendoUnPiso retorna si es verdadero si se está subiendo un piso derecho o izquierdo.
+
+El método chocasteConAlgunvelociraptor, por cada velociraptor que se crea del array de velociraptors, corrobora si es cierto o no que la figura del mismo colisiona contra la figura de Barbarianna.
+
+El método chocasteConAlgunRayo, por cada rayo que se crea del array de rayos, corrobora si es cierto o no que la figura del mismo colisiona contra la figura de Barbarianna.
+
+El método dispararRayo corrobora primero si está apuntando a la dirección derecha y luego retorna un nuevo rayo apuntado hacia dicha dirección.
+
+El método estaTocandoItem corrobora que la figura de Barbarianna toque la figura de alguno de los ítems que se pueden encontrar en el juego ("escudo", "estrella", "corazón").
+
+El método agarrarEscudo corrobora que la figura de Barbarianna toque la figura del escudo. De ser así, será verdadero y retornara que Barbarianna ahora tiene un escudo para defenderse.
+
+El método cubrirse corrobora que, si es verdadero que Barbarianna tiene el escudo, será verdadero que, cuando el usuario apriete la tecla correspondiente, Barbarianna se esté protegiendo con él.
+
+El método estoySaltando retorna que, si es verdadero que Barbarianna está en el aire, significa que está saltando.
+
+== 
+
 == Implementación
 Dentro de la clase velociraptor, tenemos el siguiente método: 
 ​.El clásico primer programa en Java
-[source,java]
+[source ,java]
 ​----
 ​public Piso pisoEnElQueEstoyParado (Piso[] pisos) {
     for (int p = 0; p < pisos.length; p++){

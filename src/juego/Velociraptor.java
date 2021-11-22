@@ -12,10 +12,9 @@ public class Velociraptor {
 	private double velocidad;
 	private double velocidadDeCaida;
 
-	private boolean direccionDerecha; // direccion
+	private boolean direccionDerecha; 
 	private boolean meEstoyCayendo;
 	private boolean llegueAlFinalDelCamino;
-//	private boolean estaVivo;
 
 	public Velociraptor(double x, double y, double velocidad) {
 		this.x = x;
@@ -86,7 +85,7 @@ public class Velociraptor {
 				return pisos[p];
 			}
 		}
-		return null; // explicar en el informe
+		return null; 
 	}
 
 	public boolean llegueAlFinalDelCamino() {
@@ -103,10 +102,6 @@ public class Velociraptor {
 				&& x - ancho / 2 <= rayo.getX() + rayo.getAncho() / 2)
 				&& (y + alto >= rayo.getY() - rayo.getAlto() / 2 && y - alto <= rayo.getY() + rayo.getAlto() / 2);
 	}
-
-//	public boolean getEstaVivo() {
-//		return estaVivo;
-//	}
 
 	public double getX() {
 		return x;

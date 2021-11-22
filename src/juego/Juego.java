@@ -164,7 +164,7 @@ public class Juego extends InterfaceJuego {
 		barbarianna.dibujar(entorno);
 
 		barbarianna.caer(entorno, pisos);
-		if (barbarianna.agarraEscudo(escudo)) {
+		if (barbarianna.agarrarEscudo(escudo)) {
 			escudo = null;
 		}
 		;
@@ -197,16 +197,16 @@ public class Juego extends InterfaceJuego {
 			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
 		}
 
-		if (barbarianna.estaTocando(computadora)) {
+		if (barbarianna.estaTocandoItem(computadora)) {
 			gano = true;
 		}
 
-		if (barbarianna.estaTocando(corazon)) {
+		if (barbarianna.estaTocandoItem(corazon)) {
 			vidas++;
 			corazon = null;
 		}
 
-		if (barbarianna.estaTocando(estrella)) {
+		if (barbarianna.estaTocandoItem(estrella)) {
 			puntos += 10;
 			estrella = null;
 		}

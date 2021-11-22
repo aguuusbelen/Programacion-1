@@ -7,12 +7,12 @@ public class Barbarianna {
 
 	private double x;
 	private double y;
-	private double yAgachada; // yAgachada
+	private double yAgachada; 
 	private double ancho;
 	private double alto;
 	private double velocidad;
 
-	private boolean direccionDerecha; // direccion
+	private boolean direccionDerecha; 
 	private boolean meEstoyMoviendo;
 	private boolean estoyEnElAire;
 	private boolean estoyAgachada;
@@ -31,8 +31,8 @@ public class Barbarianna {
 		this.x = x;
 		this.y = y;
 		this.yAgachada = y;
-		this.ancho = 30; // 30
-		this.alto = 48; // 48
+		this.ancho = 30; 
+		this.alto = 48; 
 		this.altoOriginal = 48;
 		this.alturaAgachada = 30;
 		this.velocidad = 2.5;
@@ -143,7 +143,7 @@ public class Barbarianna {
 		}
 	}
 
-	public void quietar() { // quietar()
+	public void quietar() { 
 		meEstoyMoviendo = false;
 		meEstoyCubriendo = false;
 		if (estoyAgachada) {
@@ -267,7 +267,7 @@ public class Barbarianna {
 		return estoySubiendoUnPisoDer || estoySubiendoUnPisoIzq;
 	}
 
-	public boolean chocasteConAlgunVelociraptor(Velociraptor[] velociraptors) { // ...conAlgúnVelociraptor...
+	public boolean chocasteConAlgunVelociraptor(Velociraptor[] velociraptors) { 
 		for (Velociraptor v : velociraptors) {
 			if (v != null
 					&& ((x + ancho / 2 >= v.getX() - v.getAncho() / 2 && x - ancho / 2 <= v.getX() - v.getAncho() / 2)
@@ -298,14 +298,14 @@ public class Barbarianna {
 		return new Rayo(x, y, direccionDeDisparo);
 	}
 
-	public boolean estaTocando(Item item) {
+	public boolean estaTocandoItem(Item item) {
 		return (item != null)
 				&& ((x - ancho / 2 <= item.getX() && x + ancho / 2 >= item.getX())
 						|| (x - ancho / 2 >= item.getX() && x + ancho / 2 <= item.getX()))
 				&& (y - alto / 2 < item.getY() && y + alto / 2 > item.getY());
 	}
 
-	public boolean agarraEscudo(Item escudo) {
+	public boolean agarrarEscudo(Item escudo) {
 		if ((escudo != null)
 				&& ((x - ancho / 2 <= escudo.getX() && x + ancho / 2 >= escudo.getX())
 						|| (x - ancho / 2 >= escudo.getX() && x + ancho / 2 <= escudo.getX()))
