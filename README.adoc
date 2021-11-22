@@ -27,39 +27,55 @@ Para saltar al siguiente piso, el usuario debe utilizar la tecla "U".
 Si obtiene un escudo, podra usarlo para defenderse de los rayos enemigos aprentando la tecla 'c'.
 Barbarianna puede defenderse de los velociraptors gracias al martillo que el Dios Thor le dio prestado. Para poder utilizarlo, el usuario debe apretar la tecla "BARRA ESPACIADORA".
 
-Si Barbarianna logra llegar al último piso y tocar la computadora, el usuario gana. Por otro lado, si Barbarianna es alcanzada por algún velociraptor, esta vuelve al punto de partida y pierde una de las tres vidas que tiene. Al perder todas las vidas, el usuario pierde el juego.
+Si Barbarianna logra llegar al último piso y tocar la computadora, el usuario gana. Por otro lado, si Barbarianna es alcanzada por algún velociraptor, esta vuelve al punto de partida y pierde una de las tres vidas que tiene. Al perderse todas las vidas, el usuario pierde el juego.
 
 == Descripción
 
 El desarrollo del juego consiste en 7 clases, cada una integra las características y los comportamientos de los objetos que integran el juego como por ejemplo su posición o los movimientos a realizar.
 
 == ---------------------------- JUEGO --------------------------------
+
 El juego comienza con las variables de instancias privadas del entorno del juego, la imagen de fondo, el array de pisos en donde sube nuestro personaje, los ítems que integran el juego(la computadora, un escudo, una estrella y un corazón), nuestro personaje Barbarianna, el rayo que utilizara Barbarianna para defenderse, el array de los velociraptors y los rayos con los cuales atacan, tres variables("tiempoDeEsperaParaCrearVelociraptor";"tiempoDeEsperaParaCrearRayo";"Random") las cuales crean un tiempo aleatorio para crear a los velociraptors y sus rayos, también se encuentran variables para contar los puntos, los velociraptors eliminados y descontar las vidas que pierda Barbarianna("points", "lives", "kills" ). Por último, un booleano que determina si el usuario gano o perdió.
 Todas estas variables se encuentran inicializadas en el método Public Juego ().
 
 El método Public Tick () es uno de los métodos más importantes, pues aquí es donde se simula el paso del tiempo, actualizando constantemente, los objetos involucrados para el correcto funcionamiento de juego. Dentro de este, Se evalúa el accionar cuando el usuario gana o pierde, que tiene que hacer nuestra heroína cuando el usuario aprieta una tecla en específico, que le sucede a Barbarianna cuando choca contra uno de los enemigos, los velociraptors, o cuando toca uno de los ítems que se encuentran en el juego. También se dibujan las figuras, el fondo, y los contadores que van a ilustrar el entorno. En el caso de los velociraptors y sus rayos, y los pisos, al ser varios, los crea a través de un "ciclo for”. En el caso de los velociraptors se van dibujando en un rango de tiempo aleatorio.
 
 == ---------------------------- PISO ---------------------------------------
+
 La clase Piso contiene las variables "x" e "y" que determinan en donde se va ubicar cada uno, el ancho y el alto de cada piso y una imagen que ilustra en el entorno. Estas variables se encuentran inicializadas en el constructor con el mismo nombre.
 Contiene un método que dibuja el piso con las características deseadas y la ubicación se determinan en la clase Juego. También contiene unos getters ("x", "y", "Ancho", "Alto") para poder hacer visibles estas variables debido a sus métodos privados.
 
 == ---------------------------- ITEM ----------------------------------------
+
 La clase Ítem contiene solo dos variables que determinan su ubicación ("x", "y"), con un constructor que las inicializa. Contiene un método Dibujar que dibuja las características dependiendo del ítem ("escudo", "corazón", "estrella", "rayo"), las cuales se determinan en la clase "Juego". También posee unos getters que visibilizan los métodos que se encuentran en privado.
  
 == ------------------------- BARBARIANNA -------------------------------------
+
 La clase Barbarianna contiene un "x" y un "y" que determinan su ubicación, un “yAgachada” que determina la posición de Barbarianna cuando esta agachada, un alto, un ancho y la velocidad con la que se va a mover en el juego. Otra variable que determina la distancia del piso cuando salta, una altura cuando esta agachada y un alto original cuando debe ponerse de pie después de agacharse. También contiene varias variables booleanas que determinan si es cierto o no que Barbarianna se está moviendo ya sea para el lado izquierdo o derecho, si está saltando en el aire, si esta agachada, si se cae, si tiene un escudo y si se está cubriendo con él, y si está subiendo un piso izquierdo o derecho. Todas estas variables están inicializadas en un constructor del mismo nombre.
 
 El método "dibujar" ilustra a Barbarianna dependiendo de las acciones que el usuario le haga realizar; si usa el escudo o no, si se mueve para el lado izquierdo o derecho, si se agacha para esquivar un rayo de un velociraptor o salta para subir al siguiente piso.
 
-El método moverHaciaLaIzquierda corrobora si es falso que Barbarianna sube un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la izquierda por el piso y será verdadero que se está moviendo, pero será falso que sea a la dirección derecha y que se cubra con el escudo.
+El método "moverHaciaLaIzquierda" corrobora si es falso que Barbarianna sube un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la izquierda por el piso y será verdadero que se está moviendo, pero será falso que sea a la dirección derecha y que se cubra con el escudo.
 
-El método moverHaciaLaDerecha corrobora si es falso que Barbarianna está subiendo a un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la derecha por el piso y será verdadero que se está moviendo y que sea a la dirección derecha, pero será falso que se este cubriendo con el escudo.
+El método "moverHaciaLaDerecha" corrobora si es falso que Barbarianna está subiendo a un piso derecho e izquierdo. De ser así, Barbarianna se moverá a la derecha por el piso y será verdadero que se está moviendo y que sea a la dirección derecha, pero será falso que se este cubriendo con el escudo.
 
+El método "quietar" corrobora que Barbarianna no se esté moviendo para ningún lado y que no se esté cubriendo con el escudo.
 
+El método "levantar" corrobora que estoyAgachada sea falsa y recupere el alto original haciendo que se levante del suelo.
+
+El método "agachar" corrobora que, si Barbarianna no está en el aire y si no está subiendo algún piso que sea verdadero que esta agachada y se reduzca su altura y la posición del "y" en el que está.
+
+El método "saltar" verifica que Barbarianna no este cayendo y no este subiendo un piso. Si es así, y si es verdad que Barbarianna está en el aire y la distancia del piso cuando salta es menor igual a la altura de Barbarianna, se producirá el salto y volverá a su posición inicial en el piso cuando su distancia con el piso sea mayor al alto de Barbarianna.
+
+El método "caer" corrobora si donde esta parada actualmente Barbarianna hay un piso. Si el piso actual de Barbarianna es nulo, es decir, si hay un vacío, y es menor o mayor al ancho y alto del entorno, Barbarianna caerá al piso anterior al que se encontraba.
+
+El método "pisoEnElQueEstoyParada" corrobora que Barbarianna esté en un piso. De no ser así y si está saltando o cayendo, retorna null.
+
+El método "subirDePiso" condiciona que, si el "x" del piso actual en el que se encuentra Barbarianna es igual al ancho del entorno, subirá al siguiente piso desde la base. Si el "x" del piso actual en el que se encuentra Barbarianna es menor al ancho del entorno, subirá al siguiente piso con el agujero a la derecha. Si el "x" del piso actual en el que se encuentra Barbarianna es mayor al ancho del entorno, subirá al siguiente piso con el agujero a la izquierda.
+Si es verdad que Barbarianna está subiendo un piso izquierdo o derecho, su posición en la coordenada "y" ira para arriba. También se parará en el piso si es verdad que esta agachada.
+Por otro lado, si el piso actual de Barbarianna es distinto de null, su posición en el "y" bajará y será falso que este subiendo un piso izquierdo o derecho. Si es verdad que sube un piso izquierdo, su posición en el "x" disminuirá al contrario en el caso que suba a un piso derecho, ya que su "x" aumentará.
 
 == Implementación
-
-
 == Conclusiones
 
 
