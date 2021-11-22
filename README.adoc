@@ -27,7 +27,7 @@ Para saltar al siguiente piso, el usuario debe utilizar la tecla "U".
 Si obtiene un escudo, podra usarlo para defenderse de los rayos enemigos aprentando la tecla 'C'.
 Barbarianna puede defenderse de los velociraptors gracias al martillo que el Dios Thor le dio prestado. Para poder utilizarlo, el usuario debe apretar la tecla "BARRA ESPACIADORA".
 
-Si Barbarianna logra llegar al último piso y tocar la computadora, el usuario gana. Por otro lado, si Barbarianna es alcanzada por algún velociraptor, esta vuelve al punto de partida y pierde una de las tres vidas que tiene. Al perderse todas las vidas, el usuario pierde el juego.
+Si Barbarianna logra llegar al último piso y tocar la computadora, se gana el juego. Por otro lado, si Barbarianna es alcanzada por algún velociraptor, esta vuelve al punto de partida y pierde una de las tres vidas que tiene. Al perderse todas las vidas, el usuario pierde el juego.
 
 == Descripción
 
@@ -158,7 +158,52 @@ public void caer(Entorno e, Piso[] pisos) {
 
 ----
 
-Obtiene el piso actual donde se encuentra Barbarianna con el método pisoEnElQueEstoyParada(pisos), que sigue la misma logica que el método pisoEnElQueEstoyParado(Piso[]] pisos) en Velociraptor. Luego verifica si está sobre un agujero, y en el caso de estarlo, cae al piso que esta debajo.
+Obtiene el piso actual donde se encuentra Barbarianna con el método pisoEnElQueEstoyParada(pisos), que sigue la misma logica que el método pisoEnElQueEstoyParado(Piso[] pisos) en Velociraptor. Luego verifica si está sobre un agujero, y en el caso de estarlo, cae al piso que esta debajo.
+
+.Método subirDePiso
+[source ,java]
+public void subirDePiso(Entorno e, Piso[] pisos) {
+		if (meEstoyCayendo == false) {
+			Piso pisoActualDeBarbarianna = pisoEnElQueEstoyParada(pisos);
+			if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() == e.ancho() / 2
+					&& (x > e.ancho() - 164 && x < e.ancho())) {
+				estoySubiendoUnPisoIzq = true;
+				direccionDerecha = false;
+				pisoActualDeBarbarianna = null;
+			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
+					&& (x < 164 && x > 0)) {
+				estoySubiendoUnPisoDer = true;
+				direccionDerecha = true;
+				pisoActualDeBarbarianna = null;
+			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
+					&& (x > e.ancho() - 164 && x < e.ancho())) {
+				estoySubiendoUnPisoIzq = true;
+				direccionDerecha = false;
+				pisoActualDeBarbarianna = null;
+			}
+			if (estoySubiendoUnPisoDer == true || estoySubiendoUnPisoIzq == true) {
+				y = y - 2;
+				if (estoyAgachada == true) {
+					levantar();
+				}
+				if (pisoActualDeBarbarianna != null) {
+					y = y + 2;
+					estoySubiendoUnPisoIzq = false;
+					estoySubiendoUnPisoDer = false;
+					yAgachada = y;
+				}
+				if (estoySubiendoUnPisoIzq == true) {
+					x = x - 2;
+				} else if (estoySubiendoUnPisoDer == true) {
+					x = x + 2;
+				}
+			}
+		}
+		meEstoyCubriendo = false;
+	}
+	----
+
+	Obtiene el piso actual de Barbarianna. Verifica si Barbarianna esta posicionada debajo de un agujero, en el caso de estarlo le permite subir de piso. 
 
 
 == Conclusiones
