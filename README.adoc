@@ -38,7 +38,7 @@ El desarrollo del juego consiste en 7 clases, cada una integra las característi
 El juego comienza con las variables de instancias privadas del entorno del juego, la imagen de fondo, el array de pisos en donde sube nuestro personaje, los ítems que integran el juego(la computadora, un escudo, una estrella y un corazón), nuestro personaje Barbarianna, el rayo que utilizara Barbarianna para defenderse, el array de los velociraptors y los rayos con los cuales atacan, tres variables("tiempoDeEsperaParaCrearVelociraptor";"tiempoDeEsperaParaCrearRayo";"Random") las cuales crean un tiempo aleatorio para crear a los velociraptors y sus rayos, también se encuentran variables para contar los puntos, los velociraptors eliminados y descontar las vidas que pierda Barbarianna ("puntos", "vidas", "velociraptors_eliminados" ). Por último, un booleano que determina si el usuario gano o perdió.
 Todas estas variables se encuentran inicializadas en el método Public Juego ().
 
-El método *Tick* es uno de los métodos más importantes, pues aquí es donde se simula el paso del tiempo, actualizando constantemente, los objetos involucrados para el correcto funcionamiento de juego. Dentro de este, Se evalúa el accionar cuando el usuario gana o pierde, que tiene que hacer nuestra heroína cuando el usuario aprieta una tecla en específico, que le sucede a Barbarianna cuando choca contra uno de los enemigos, los velociraptors, o cuando toca uno de los ítems que se encuentran en el juego. También se dibujan las figuras, el fondo, y los contadores que van a ilustrar el entorno. En el caso de los velociraptors y sus rayos, y los pisos, al ser varios, los crea a través de un ciclo for. En el caso de los velociraptors se van dibujando en un rango de tiempo aleatorio.
+El método *Tick* es uno de los métodos más importantes, pues aquí es donde se simula el paso del tiempo, actualizando constantemente, los objetos involucrados para el correcto funcionamiento de juego. Dentro de este, Se evalúa el accionar cuando el usuario gana o pierde, que tiene que hacer nuestra heroína cuando el usuario aprieta una tecla en específico, que le sucede a Barbarianna cuando choca contra uno de los enemigos, los velociraptors, o cuando toca uno de los ítems que se encuentran en el juego. También se dibujan las figuras, el fondo, y los contadores que van a ilustrar el entorno. En el caso de los velociraptors y sus rayos, y los pisos, al ser varios, los crea a través de un "ciclo for”. En el caso de los velociraptors se van dibujando en un rango de tiempo aleatorio.
 
 === ---------------------------- PISO ---------------------------------------
 
@@ -93,7 +93,7 @@ El método *estoySaltando* retorna que, si es verdadero que Barbarianna está en
 
 Una de las principales dificultades de la clase Barbarianna fue evitar el uso excesivo de getters. Los métodos caer y subirDePiso fueron los más dificultosos al momento de evitar el uso de getters.
 
-== 
+===  ------------------------- VELOCIRAPTOR --------------------------------
 
 La clase del velociraptor contiene un "x" y un "y" que determinan su ubicacion dentro del entorno, su ancho y altura, la velocidad a la que se mueve y a la que cae al siguiente piso y tres clases de tipo booleana que determinan si se dirige a la direccion derecha, si se estan cayendo y si llegaron al final del juego (es decir, al piso base). Todo esto se encuentra inicializado en el constructor del mismo nombre.
 
@@ -127,27 +127,600 @@ El metodo *salioDeLosBordes* verifica si es verdadero o no que el rayo haya toca
 Tambien contiene unos getters("x","y","Ancho","Alto") para poder hacer visibles estas variables debido a sus metodos privados.
 
 == Implementación
+Codigo del juego
+[source, java]
+-----
+package juego;
+
+import java.util.Random;
+import java.awt.Color;
+import java.awt.Image;
+import entorno.Entorno;
+import entorno.Herramientas;
+import entorno.InterfaceJuego;
+
+public class Juego extends InterfaceJuego {
+	private Image fondo;
+	private Entorno entorno;
+
+	private Piso[] pisos;
+
+	private Item corazon;
+	private Item estrella;
+	private Item computadora;
+	private Item escudo;
+
+	private Barbarianna barbarianna;
+	private Rayo rayoDeBarbarianna;
+
+	private Velociraptor[] velociraptors;
+	private Rayo[] rayoDeVelociraptors;
+	private double tiempoDeEsperaParaCrearVelociraptor; // para que aparezcan de manera aleatoria
+	private double tiempoDeEsperaParaCrearRayo;
+	private Random random;
+
+	private int puntos;
+	private int vidas;
+	private int velociraptors_eliminados;
+	private int tiempo;
+
+	private boolean gano;
+
+	public Juego() {
+		this.entorno = new Entorno(this, "Castlevania", 800, 600);
+		this.fondo = Herramientas.cargarImagen("fondo.png");
+		this.gano = false;
+
+		double x = entorno.ancho() / 2;
+		double y = entorno.alto() / 2;
+		this.pisos = new Piso[5];
+		pisos[0] = new Piso(x, y + 240);
+		pisos[1] = new Piso(x - 164, y + 140);
+		pisos[2] = new Piso(x + 164, y + 40);
+		pisos[3] = new Piso(x - 164, y - 60);
+		pisos[4] = new Piso(x + 164, y - 160);
+
+		this.computadora = new Item(entorno.ancho() / 2 + 15, entorno.alto() - 490);
+		this.corazon = new Item(entorno.ancho() - 60, entorno.alto() - 400);
+		this.estrella = new Item(entorno.ancho() - 714, entorno.alto() - 310);
+		this.escudo = new Item(entorno.ancho() - 350, entorno.alto() - 285);
+		this.barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
+
+		this.velociraptors = new Velociraptor[6];
+		this.rayoDeVelociraptors = new Rayo[6];
+		random = new Random();
+
+		this.puntos = 0;
+		this.vidas = 3;
+		this.velociraptors_eliminados = 0;
+		this.tiempo = 15000;
+		
+		this.entorno.iniciar();
+	}
+
+	public void tick() {
+
+
+		if (vidas <= 0 && gano == false || tiempo == 0) {
+			entorno.dibujarImagen(Herramientas.cargarImagen("gameOver.jpg"), entorno.ancho() / 2, entorno.alto() / 2,
+					0);
+			entorno.cambiarFont("algerian", 24, Color.RED);
+			entorno.escribirTexto("puntos: " + puntos, entorno.ancho() / 2 - 160, entorno.alto() / 2 + 150);
+			entorno.escribirTexto("eliminados: " + velociraptors_eliminados, entorno.ancho() - 300, entorno.alto() / 2 + 150);
+			return;
+		}
+
+		if (vidas > 0 && gano == true) {
+			entorno.dibujarImagen(Herramientas.cargarImagen("win.jpg"), entorno.ancho() / 2, entorno.alto() / 2, 0);
+			entorno.cambiarFont("algerian", 24, Color.GREEN);
+			entorno.escribirTexto("puntos: " + (puntos + 100), entorno.ancho() / 2 - 160, entorno.alto() / 2 + 150);
+			entorno.escribirTexto("eliminados: " + velociraptors_eliminados, entorno.ancho() - 300, entorno.alto() / 2 + 150);
+			return;
+		}
+
+		entorno.dibujarImagen(fondo, entorno.ancho() / 2, entorno.alto() / 2, 0);
+		entorno.cambiarFont("algerian", 20, Color.WHITE);
+		entorno.escribirTexto("vidas: " + vidas, 20, entorno.alto() - 20);
+		entorno.escribirTexto("puntos: " + puntos, entorno.ancho() / 2 - 90, entorno.alto() - 20);
+		entorno.escribirTexto("eliminados: " + velociraptors_eliminados, entorno.ancho() - 160, entorno.alto() - 20);
+
+		for (Piso p : pisos) {
+			p.dibujar(entorno);
+		}
+
+		computadora.dibujar(entorno, Herramientas.cargarImagen("computadora.png"));
+
+		if (escudo != null) {
+			escudo.dibujar(entorno, Herramientas.cargarImagen("escudo_frente.png"));
+		}
+
+		if (corazon != null && vidas <= 2) {
+			corazon.dibujar(entorno, Herramientas.cargarImagen("corazon.png"));
+		}
+		if (estrella != null) {
+			estrella.dibujar(entorno, Herramientas.cargarImagen("estrella_arcoiris.png"));
+		}
+
+		if (tiempoDeEsperaParaCrearVelociraptor > 0) {
+			tiempoDeEsperaParaCrearVelociraptor--;
+		}
+
+		if (tiempoDeEsperaParaCrearRayo > 0) {
+			tiempoDeEsperaParaCrearRayo--;
+		}
+
+		for (int i = 0; i < velociraptors.length; i++) {
+			if (velociraptors[i] != null) {
+				velociraptors[i].dibujar(entorno);
+				velociraptors[i].mover(entorno);
+				velociraptors[i].caer(entorno, pisos);
+				if (velociraptors[i].llegueAlFinalDelCamino() == true) {
+					velociraptors[i] = null;
+				} else if (rayoDeBarbarianna != null && velociraptors[i].meChocoElRayo(rayoDeBarbarianna)) {
+					velociraptors[i] = null;
+					rayoDeBarbarianna = null;
+					velociraptors_eliminados++;
+					puntos = puntos + 10;
+				}
+			}
+			if (velociraptors[i] == null && tiempoDeEsperaParaCrearVelociraptor == 0) {
+				velociraptors[i] = new Velociraptor(entorno.ancho() + 100, entorno.alto() - 502, 1.5);
+				tiempoDeEsperaParaCrearVelociraptor = random.nextInt(150) + 200;
+			}
+		}
+
+		for (int r = 0; r < rayoDeVelociraptors.length; r++) {
+			if (rayoDeVelociraptors[r] != null) {
+				rayoDeVelociraptors[r].dibujar(entorno);
+				rayoDeVelociraptors[r].mover();
+				if (rayoDeVelociraptors[r].salioDeLosBordes(entorno)) {
+					rayoDeVelociraptors[r] = null;
+				}
+			} else if (rayoDeVelociraptors[r] == null && velociraptors[r] != null && tiempoDeEsperaParaCrearRayo == 0) {
+				rayoDeVelociraptors[r] = velociraptors[r].dispararRayo();
+				tiempoDeEsperaParaCrearRayo = random.nextInt(100);
+			}
+			if (barbarianna.chocasteConAlgunRayo(rayoDeVelociraptors)) {
+				if (entorno.estaPresionada('c') && barbarianna.cubrirse()) {
+					rayoDeVelociraptors[r] = null;
+				} else {
+					rayoDeVelociraptors[r] = null;
+					barbarianna = null;
+					vidas--;
+					barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
+				}
+
+			}
+		}
+
+		barbarianna.dibujar(entorno);
+
+		barbarianna.caer(entorno, pisos);
+		if (barbarianna.agarrarEscudo(escudo)) {
+			escudo = null;
+		}
+		;
+
+		if (entorno.estaPresionada('w') || barbarianna.estoySaltando()) {
+			barbarianna.saltar();
+		}
+		if (entorno.estaPresionada(entorno.TECLA_ESPACIO) && rayoDeBarbarianna == null) {
+			rayoDeBarbarianna = barbarianna.dispararRayo();
+		}
+
+		if (entorno.estaPresionada('a')) {
+			barbarianna.moverHaciaIzquierda(entorno);
+		} else if (entorno.estaPresionada('d')) {
+			barbarianna.moverHaciaDerecha(entorno);
+		} else if (entorno.estaPresionada('s')) {
+			barbarianna.agachar();
+		} else {
+			barbarianna.quietar();
+		}
+		if (entorno.estaPresionada('c')) {
+			barbarianna.cubrirse();
+		}
+		if (entorno.estaPresionada('u') || barbarianna.estaSubiendoUnPiso()) {
+			barbarianna.subirDePiso(entorno, pisos);
+		}
+		if (barbarianna.chocasteConAlgunVelociraptor(velociraptors)) {
+			barbarianna = null;
+			vidas--;
+			barbarianna = new Barbarianna(entorno.ancho() - 775, entorno.alto() - 96);
+		}
+
+		if (barbarianna.estaTocandoItem(computadora)) {
+			gano = true;
+		}
+
+		if (barbarianna.estaTocandoItem(corazon)) {
+			vidas++;
+			corazon = null;
+		}
+
+		if (barbarianna.estaTocandoItem(estrella)) {
+			puntos += 10;
+			estrella = null;
+		}
+
+		if (rayoDeBarbarianna != null) {
+			rayoDeBarbarianna.dibujar(entorno);
+			rayoDeBarbarianna.mover();
+			if (rayoDeBarbarianna.salioDeLosBordes(entorno)) {
+				rayoDeBarbarianna = null;
+			}
+		}
+
+		if (tiempo != 0) {
+			entorno.cambiarFont("sans", 20, Color.WHITE);
+			entorno.escribirTexto("Tiempo: " + tiempo/100, entorno.ancho() - 150, entorno.alto() - 560);
+			tiempo = tiempo - 1;
+
+		}
+	}
+
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
+		Juego juego = new Juego();
+	}
+}
+----
+
+Codigo del Piso
+[source, java]
+----
+package juego;
+import java.awt.Image;
+import entorno.Entorno;
+import entorno.Herramientas;
+
+public class Piso {
+	
+	private double x;
+	private double y;
+	private int ancho;
+	private int alto;
+
+	private Image img;
+
+	public Piso(double x, double y) {
+		this.x = x;
+		this.y = y;
+		this.alto = 24;
+		this.ancho = 800;
+		this.img = Herramientas.cargarImagen("piso_superior.png");
+	}
+
+	public void dibujar(Entorno e) {
+		e.dibujarImagen(img, x, y, 0, 1.26);
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public int getAncho() {
+		return ancho;
+	}
+
+	public int getAlto() {
+		return alto;
+	}
+
+}
+----
+codigo de los Items
+[source, java]
+----
+package juego;
+
+import java.awt.Image;
+
+import entorno.Entorno;
+
+public class Item {
+
+	private double x;
+	private double y;
+
+	public Item(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public void dibujar(Entorno e, Image imagen) {
+		e.dibujarImagen(imagen, x, y, 0, 0.8);
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+	
+}
+----
+
 Dentro de la clase velociraptor, tenemos el siguiente método: 
-​.El clásico primer programa en Java
-[source ,java]
+​
+[source, java]
 ​----
+package juego;
+
+import entorno.Entorno;
+import entorno.Herramientas;
+
+public class Velociraptor {
+
+	private double x;
+	private double y;
+	private double ancho;
+	private double alto;
+	private double velocidad;
+	private double velocidadDeCaida;
+
+	private boolean direccionDerecha; 
+	private boolean meEstoyCayendo;
+	private boolean llegueAlFinalDelCamino;
+
+	public Velociraptor(double x, double y, double velocidad) {
+		this.x = x;
+		this.y = y;
+		this.ancho = 80;
+		this.alto = 60;
+		this.velocidad = velocidad;
+		this.velocidadDeCaida = 4;
+
+		this.direccionDerecha = false;
+		this.meEstoyCayendo = false;
+		this.llegueAlFinalDelCamino = false;
+	}
+
+	public void dibujar(Entorno e) {
+		if (direccionDerecha) {
+			e.dibujarImagen(Herramientas.cargarImagen("velociraptor_derecha.png"), x, y - 5, 0, 0.60);
+		} else {
+			e.dibujarImagen(Herramientas.cargarImagen("velociraptor_izquierda.png"), x, y - 5, 0, 0.60);
+		}
+	}
+
+	public void mover(Entorno e) {
+		if (direccionDerecha) {
+			if (x < e.ancho() - ancho / 2) {
+				x += velocidad;
+			} else {
+				direccionDerecha = !direccionDerecha;
+			}
+		} else {
+			if (x > ancho / 2) {
+				x -= velocidad;
+			} else {
+				direccionDerecha = !direccionDerecha;
+			}
+
+		}
+	}
+
+	public void caer(Entorno e, Piso[] pisos) {
+		Piso pisoActualDeVelociraptor = pisoEnElQueEstoyParado(pisos);
+		if (meEstoyCayendo == false) {
+			if (pisoActualDeVelociraptor != null && pisoActualDeVelociraptor.getX() < e.ancho() / 2
+					&& x > pisoActualDeVelociraptor.getX() + pisoActualDeVelociraptor.getAncho() / 2) {
+				meEstoyCayendo = true;
+				y = y + 4;
+			} else if (pisoActualDeVelociraptor != null && pisoActualDeVelociraptor.getX() > e.ancho() / 2
+					&& x < pisoActualDeVelociraptor.getX() - pisoActualDeVelociraptor.getAncho() / 2) {
+				meEstoyCayendo = true;
+				y = y + 4;
+			} else if (pisoActualDeVelociraptor != null && pisoActualDeVelociraptor.getX() == e.ancho() / 2
+					&& x < ancho / 2) {
+				llegueAlFinalDelCamino = true;
+			}
+		} else {
+			if (pisoActualDeVelociraptor != null
+					&& pisoActualDeVelociraptor.getY() - pisoActualDeVelociraptor.getAlto() / 2 <= y + alto / 2) {
+				meEstoyCayendo = false;
+			} else {
+				y = y + velocidadDeCaida;
+			}
+		}
+	}
 ​public Piso pisoEnElQueEstoyParado (Piso[] pisos) {
     for (int p = 0; p < pisos.length; p++){
 		if (pisos[p].getY() - pisos[p].getAlto() / 2 == y + alto / 2) {
 			return pisos [p]
 		}
 	}
-	return null; 
+	return null; //El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
+
 } 
+public boolean llegueAlFinalDelCamino() {
+		return llegueAlFinalDelCamino;
+	}
+
+	public Rayo dispararRayo() {
+		boolean direccion = direccionDerecha;
+		return new Rayo(x, y, direccion);
+	}
+
+	public boolean meChocoElRayo(Rayo rayo) {
+		return (x + ancho / 2 >= rayo.getX() - rayo.getAncho() / 2
+				&& x - ancho / 2 <= rayo.getX() + rayo.getAncho() / 2)
+				&& (y + alto >= rayo.getY() - rayo.getAlto() / 2 && y - alto <= rayo.getY() + rayo.getAlto() / 2);
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getAncho() {
+		return ancho;
+	}
+
+	public double getAlto() {
+		return alto;
+	}
+
+}
 ----
-
-El método actualiza el piso de cada velociraptor y nos devuelve el piso actual. En el caso de que el velociraptor este cayendo de piso, el método nos va a devolver que el piso es nulo.
-
 Dentro de la clase Barbarianna: 
 
-​.Método levantar()
-[source ,java]
+[source, java]
 ​----
+package juego;
+
+import entorno.Entorno;
+import entorno.Herramientas;
+
+public class Barbarianna {
+
+	private double x;
+	private double y;
+	private double yAgachada; 
+	private double ancho;
+	private double alto;
+	private double velocidad;
+
+	private boolean direccionDerecha; 
+	private boolean meEstoyMoviendo;
+	private boolean estoyEnElAire;
+	private boolean estoyAgachada;
+	private boolean meEstoyCayendo;
+	private boolean tieneEscudo;
+	private boolean meEstoyCubriendo;
+
+	private int distanciaDelPisoCuandoSalta;
+	private int altoOriginal;
+	private int alturaAgachada;
+
+	private boolean estoySubiendoUnPisoIzq;
+	private boolean estoySubiendoUnPisoDer;
+
+	public Barbarianna(double x, double y) {
+		this.x = x;
+		this.y = y;
+		this.yAgachada = y;
+		this.ancho = 30; 
+		this.alto = 48; 
+		this.altoOriginal = 48;
+		this.alturaAgachada = 30;
+		this.velocidad = 2.5;
+
+		this.direccionDerecha = true;
+		this.meEstoyMoviendo = false;
+		this.estoyEnElAire = false;
+		this.estoyAgachada = false;
+		this.distanciaDelPisoCuandoSalta = 0;
+		this.tieneEscudo = false;
+
+		this.estoySubiendoUnPisoIzq = false;
+		this.estoySubiendoUnPisoDer = false;
+		this.meEstoyCayendo = false;
+		this.meEstoyCubriendo = false;
+	}
+
+	public void dibujar(Entorno e) {
+		if (tieneEscudo == false) {
+			if (!estoyEnElAire && !estoySubiendoUnPisoDer && !estoySubiendoUnPisoIzq) {
+				if (estoyAgachada == true) {
+					if (direccionDerecha == true) {
+						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_derecha.png"), x, y, 0, 0.80); // antes
+																													// 0.65
+					} else {
+						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_izquierda.png"), x, y, 0, 0.80);
+					}
+				} else if (meEstoyMoviendo == true && direccionDerecha == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha.png"), x, y, 0, 0.80);
+				} else if (meEstoyMoviendo == true && direccionDerecha == false) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda.png"), x, y, 0, 0.80);
+				} else {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_quieta.png"), x, y, 0, 0.80);
+				}
+			} else {
+				if (estoySubiendoUnPisoDer == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_derecha.png"), x, y, 0, 0.80);
+				} else if (estoySubiendoUnPisoIzq == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_izquierda.png"), x, y, 0, 0.80);
+				} else if (direccionDerecha == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha.png"), x, y, 0, 0.80);
+				} else {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda.png"), x, y, 0, 0.80);
+				}
+			}
+		} else {
+			if (!estoyEnElAire && !estoySubiendoUnPisoDer && !estoySubiendoUnPisoIzq) {
+				if (estoyAgachada == true) {
+					if (direccionDerecha == true) {
+						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_derecha.png"), x, y, 0, 0.80); // antes
+																													// 0.65
+					} else {
+						e.dibujarImagen(Herramientas.cargarImagen("barbarianna_abajo_izquierda.png"), x, y, 0, 0.80);
+					}
+				} else if (meEstoyMoviendo == true && direccionDerecha == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha_escudo.png"), x, y, 0, 0.80);
+				} else if (meEstoyMoviendo == true && direccionDerecha == false) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda_escudo.png"), x, y, 0, 0.80);
+				} else if (meEstoyCubriendo == true && direccionDerecha == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_derecha_escudo_cubierta.png"), x, y,
+							0, 0.80);
+				} else if (meEstoyCubriendo == true && direccionDerecha == false) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_izquierda_escudo_cubierta.png"), x, y,
+							0, 0.80);
+				} else {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_quieta_escudo.png"), x, y, 0, 0.80);
+				}
+			} else {
+				if (estoySubiendoUnPisoDer == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_derecha.png"), x, y, 0, 0.80);
+				} else if (estoySubiendoUnPisoIzq == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_salto_izquierda.png"), x, y, 0, 0.80);
+				} else if (direccionDerecha == true) {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_derecha_escudo.png"), x, y, 0, 0.80);
+				} else {
+					e.dibujarImagen(Herramientas.cargarImagen("barbarianna_arriba_izquierda_escudo.png"), x, y, 0, 0.80);
+				}
+			}
+		}
+	}
+
+	public void moverHaciaIzquierda(Entorno e) {
+		if (estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
+			if (estoyAgachada) {
+				levantar();
+			}
+			if (x > ancho / 2) {
+				x -= velocidad;
+			}
+			direccionDerecha = false;
+			meEstoyMoviendo = true;
+			meEstoyCubriendo = false;
+		}
+	}
+
+	public void moverHaciaDerecha(Entorno e) {
+		if (estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
+			if (estoyAgachada) {
+				levantar();
+			}
+			if (x < e.ancho() - ancho / 2) {
+				x += velocidad;
+			}
+
+			direccionDerecha = true;
+			meEstoyMoviendo = true;
+			meEstoyCubriendo = false;
+		}
+	}
 ​public void levantar() {
 		estoyAgachada = false;
 		alto = altoOriginal;
@@ -157,8 +730,8 @@ Dentro de la clase Barbarianna:
 
 Para poder esquivar los rayos de los velociraptors modificamos la altura original de Barbarianna. Una vez que Barbarianna deja de estar agachada, se usa el método levantar para que vuelva a tener las medidas originales.
 
-.Método caer()
-[source ,java]
+
+[source, java]
 ----
 
 public void caer(Entorno e, Piso[] pisos) {
@@ -189,7 +762,7 @@ public void caer(Entorno e, Piso[] pisos) {
 Obtiene el piso actual donde se encuentra Barbarianna con el método pisoEnElQueEstoyParada(pisos), que sigue la misma logica que el método pisoEnElQueEstoyParado(Piso[] pisos) en Velociraptor. Luego verifica si está sobre un agujero, y en el caso de estarlo, cae al piso que esta debajo.
 
 .Método subirDePiso
-[source ,java]
+[source, java]
 public void subirDePiso(Entorno e, Piso[] pisos) {
 		if (meEstoyCayendo == false) {
 			Piso pisoActualDeBarbarianna = pisoEnElQueEstoyParada(pisos);
@@ -233,12 +806,228 @@ public void subirDePiso(Entorno e, Piso[] pisos) {
 
 	Obtiene el piso actual de Barbarianna. Verifica si Barbarianna esta posicionada debajo de un agujero, en el caso de estarlo le permite subir de piso. 
 
+public void quietar() { 
+		meEstoyMoviendo = false;
+		meEstoyCubriendo = false;
+		if (estoyAgachada) {
+			levantar();
+		}
+	}
+public void agachar() {
+		if (estoyEnElAire == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false && meEstoyCayendo == false) {
+			estoyAgachada = true;
+			y = yAgachada + (altoOriginal - alturaAgachada) / 2;
+			alto = alturaAgachada;
+		}
+		meEstoyCubriendo = false;
+	}
 
+public void saltar() {
+	if (meEstoyCayendo == false && estoySubiendoUnPisoDer == false && estoySubiendoUnPisoIzq == false) {
+		if (estoyEnElAire == true && distanciaDelPisoCuandoSalta <= alto / 2) {
+			y = y - 2;
+			distanciaDelPisoCuandoSalta++;
+		} else if (estoyEnElAire == true && distanciaDelPisoCuandoSalta > alto / 2) {
+			y = y + 2;
+			distanciaDelPisoCuandoSalta++;
+			if (distanciaDelPisoCuandoSalta == alto + 2) {
+				estoyEnElAire = false;
+				distanciaDelPisoCuandoSalta = 0;
+			}
+		} else {
+			if (estoyAgachada) {
+				levantar();
+			}
+			estoyEnElAire = true;
+		}
+	}
+	meEstoyCubriendo = false;
+}
+public Piso pisoEnElQueEstoyParada(Piso[] pisos) { 
+		for (Piso piso : pisos) {
+			if (piso.getY() - piso.getAlto() / 2 == y + alto / 2) {
+				return piso;
+			}
+		}
+		return null;
+	}
+
+	public void subirDePiso(Entorno e, Piso[] pisos) {
+		if (meEstoyCayendo == false) {
+			Piso pisoActualDeBarbarianna = pisoEnElQueEstoyParada(pisos);
+			if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() == e.ancho() / 2
+					&& (x > e.ancho() - 164 && x < e.ancho())) {
+				estoySubiendoUnPisoIzq = true;
+				direccionDerecha = false;
+				pisoActualDeBarbarianna = null;
+			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() < e.ancho() / 2
+					&& (x < 164 && x > 0)) {
+				estoySubiendoUnPisoDer = true;
+				direccionDerecha = true;
+				pisoActualDeBarbarianna = null;
+			} else if (pisoActualDeBarbarianna != null && pisoActualDeBarbarianna.getX() > e.ancho() / 2
+					&& (x > e.ancho() - 164 && x < e.ancho())) {
+				estoySubiendoUnPisoIzq = true;
+				direccionDerecha = false;
+				pisoActualDeBarbarianna = null;
+			}
+			if (estoySubiendoUnPisoDer == true || estoySubiendoUnPisoIzq == true) {
+				y = y - 2;
+				if (estoyAgachada == true) {
+					levantar();
+				}
+				if (pisoActualDeBarbarianna != null) {
+					y = y + 2;
+					estoySubiendoUnPisoIzq = false;
+					estoySubiendoUnPisoDer = false;
+					yAgachada = y;
+				}
+				if (estoySubiendoUnPisoIzq == true) {
+					x = x - 2;
+				} else if (estoySubiendoUnPisoDer == true) {
+					x = x + 2;
+				}
+			}
+		}
+		meEstoyCubriendo = false;
+	}
+
+	public boolean estaSubiendoUnPiso() {
+		return estoySubiendoUnPisoDer || estoySubiendoUnPisoIzq;
+	}
+
+	public boolean chocasteConAlgunVelociraptor(Velociraptor[] velociraptors) { 
+		for (Velociraptor v : velociraptors) {
+			if (v != null
+					&& ((x + ancho / 2 >= v.getX() - v.getAncho() / 2 && x - ancho / 2 <= v.getX() - v.getAncho() / 2)
+							|| (x - ancho / 2 <= v.getX() + v.getAncho() / 2
+									&& x + ancho / 2 >= v.getX() + v.getAncho() / 2))
+					&& (y - alto / 2 < v.getY() + 15 && y + alto / 2 > v.getY() + 15)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean chocasteConAlgunRayo(Rayo[] rayoDeVelociraptors) {
+
+		for (Rayo r : rayoDeVelociraptors) {
+			if (r != null
+					&& ((x - ancho / 2 <= r.getX() && x + ancho / 2 >= r.getX())
+							|| (x - ancho / 2 >= r.getX() && x + ancho / 2 <= r.getX()))
+					&& (y - alto / 2 < r.getY() && y + alto / 2 > r.getY())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Rayo dispararRayo() {
+		boolean direccionDeDisparo = direccionDerecha;
+		return new Rayo(x, y, direccionDeDisparo);
+	}
+
+	public boolean estaTocandoItem(Item item) {
+		return (item != null)
+				&& ((x - ancho / 2 <= item.getX() && x + ancho / 2 >= item.getX())
+						|| (x - ancho / 2 >= item.getX() && x + ancho / 2 <= item.getX()))
+				&& (y - alto / 2 < item.getY() && y + alto / 2 > item.getY());
+	}
+
+	public boolean agarrarEscudo(Item escudo) {
+		if ((escudo != null)
+				&& ((x - ancho / 2 <= escudo.getX() && x + ancho / 2 >= escudo.getX())
+						|| (x - ancho / 2 >= escudo.getX() && x + ancho / 2 <= escudo.getX()))
+				&& (y - alto / 2 < escudo.getY() && y + alto / 2 > escudo.getY())) {
+			tieneEscudo = true;
+		}
+		return tieneEscudo;
+	}
+	
+	public boolean cubrirse() {
+		if(tieneEscudo) {
+		meEstoyCubriendo = true;
+		return true;
+		}
+		return false;
+	}
+
+	public boolean estoySaltando() {
+		return estoyEnElAire;
+	}
+
+}
+----
+codigo del rayo
+[source, java]
+----
+package juego;
+
+import entorno.Entorno;
+import entorno.Herramientas;
+
+public class Rayo {
+	private double x;
+	private double y;
+	private double ancho;
+	private double alto;
+	private double velocidad;
+	private boolean direccion;
+
+	public Rayo(double x, double y, boolean direccion) {
+		this.x = x;
+		this.y = y;
+		this.ancho = 40;
+		this.alto = 10;
+		this.velocidad = 4;
+		this.direccion = direccion;
+	}
+
+	public void mover() {
+		if (direccion) {
+			x += velocidad;
+		} else {
+			x -= velocidad;
+		}
+	}
+
+	public void dibujar(Entorno e) {
+		if (direccion) {
+			e.dibujarImagen(Herramientas.cargarImagen("rayo_der.png"), x, y, 0, 0.85);
+		} else {
+			e.dibujarImagen(Herramientas.cargarImagen("rayo_izq.png"), x, y, 0, 0.85);
+		}
+	}
+
+	public boolean salioDeLosBordes(Entorno e) {
+		if (this.x > e.ancho() || this.x < 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getAncho() {
+		return ancho;
+	}
+
+	public double getAlto() {
+		return alto;
+	}
+}
+----
 
 == Conclusiones
-
 Este trabajo nos ayudo a aplicar nuestros primeros conocimientos sobre Java. Aprendimos nociones basicas sobre el manejo de objetos.
 Ademas, tuvimos la posibilidad de aprender el uso de repositorios en gitlab que nos serán utiles a lo largo de la carrera y en nuestra vida laboral.
 La buena comunicación del equipo, nos permitio resolver de mejor manera los problemas que iban surgiendo a medida que implementabamos los diferentes métodos.
+
 
 
